@@ -1,0 +1,32 @@
+﻿<Window x:Class="OTK.Views.SettingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:OTK.ViewModels"
+        xmlns:fa="http://schemas.fontawesome.com/icons/"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:sview="clr-namespace:OTK.Views.Setting"
+        xmlns:local="clr-namespace:OTK.Views"
+        mc:Ignorable="d"
+        Title="Настройки" Height="700" Width="800" WindowStartupLocation="CenterScreen">
+    <Window.DataContext>
+        <vm:SettingWindowViewModel/>
+    </Window.DataContext>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding ClosingCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Grid>
+        <TabControl>
+
+            <TabItem Header="Пользователи" >
+                <sview:UsersControl DataContext="{Binding UserViewModel}" Margin="8" />
+                <!--<local:RouteControl DataContext="{Binding RouteViewModel}" Margin="8"/>-->
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+</Window>
