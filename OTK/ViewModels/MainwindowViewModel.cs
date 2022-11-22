@@ -23,7 +23,7 @@ namespace OTK.ViewModels
 
         public InControlViewModel vmInControl { get; set; }
 
-
+        public TabItem SelectedTab { get; set; }
 
 
         #region Команды
@@ -181,19 +181,8 @@ namespace OTK.ViewModels
         private bool CanCreateCommand(object p) => true;
         private void OnCreateCommandExecuted(object p)
         {
-            //timer.Stop();
-
-            //CreateOrderWindow orderWindow = new CreateOrderWindow();
-            //if (orderWindow.ShowDialog() == true)
-            //{
-            //    Order order = (orderWindow.DataContext as CreateOrderWindowViewModel).Order;
-
-            //    repo.Save();
-
-            //    OnFilterCommandExecuted(null);
-
-            //}
-            //timer.Start();
+            SelectedTab.DataContext = new InControlViewModel();
+            (SelectedTab.DataContext as InControlViewModel).CreateForm();
         }
 
 

@@ -83,7 +83,7 @@
                 <DropShadowEffect Color="#FFBDBDBD" ShadowDepth="0" BlurRadius="20"/>
             </Border.Effect>
 
-            <TabControl>
+            <TabControl SelectedItem="{Binding SelectedTab}">
                 <TabItem Header="Входной контроль" DataContext="{Binding vmInControl}">
                     <DataGrid ItemsSource="{Binding ListJobs}" IsReadOnly="True"  SelectedItem="{Binding SelectedJob}" 
                           Style="{StaticResource DataGridStyle}" Margin="2" FontSize="12" FontWeight="Normal">
@@ -107,10 +107,10 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                            <Image Margin="6, 0" Height="18" Width="18" Source="{Binding JobStatus, Converter={StaticResource StatusToIconConverter}}">
-                                            <Image.Effect>
-                                                <DropShadowEffect ShadowDepth="0" BlurRadius="2" Color="#FF999999"/>
-                                            </Image.Effect>
+                                        <Image Margin="6,0" Height="18" Width="18" Source="{Binding JobStatus, Converter={StaticResource StatusToIconConverter}}">
+                                        <Image.Effect>
+                                            <DropShadowEffect ShadowDepth="0" BlurRadius="2" Color="#FF999999"/>
+                                        </Image.Effect>
                                         </Image>
                                         <!--<TextBlock Text="{Binding RouteStatus.sr_name}"/>-->
                                     </StackPanel>
