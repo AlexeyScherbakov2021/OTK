@@ -1,12 +1,13 @@
 namespace OTK.Models
 {
+    using OTK.Infrastructure;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class Jobs
+    public partial class Jobs : IEntity
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Jobs()
@@ -15,7 +16,8 @@ namespace OTK.Models
         }
 
         [Key]
-        public int JobId { get; set; }
+        [Column("JobId")]
+        public int id { get; set; }
 
         public int? JobType { get; set; }
 
@@ -48,7 +50,7 @@ namespace OTK.Models
 
         public string JobSolution { get; set; }
 
-        public int? JobStatus { get; set; }
+        public EnumStatus JobStatus { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Action> Action { get; set; }

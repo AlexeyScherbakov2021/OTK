@@ -3,10 +3,137 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:cmd="clr-namespace:OTK.Commands"
+        xmlns:conv="clr-namespace:OTK.Converters"
+        xmlns:fa="http://schemas.fontawesome.com/icons/"
+        xmlns:vm="clr-namespace:OTK.ViewModels"
         xmlns:local="clr-namespace:OTK"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="{Binding Title}" Height="800" Width="1000" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <conv:StatusToIconConverter x:Key="StatusToIconConverter"/>
+    </Window.Resources>
+    <Window.DataContext>
+        <vm:MainwindowViewModel/>
+    </Window.DataContext>
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="179*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="44"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+        <ToolBarPanel Orientation="Horizontal" Grid.Row="0" >
+            <Button Margin="5" Command="{Binding CreateCommand}" >
+                <DockPanel Margin="4,0">
+                    <fa:ImageAwesome Icon="Solid_FileContract" Foreground="Blue" Stretch="Uniform" Width="20" Margin="0,0,10,0" 
+                                     HorizontalAlignment="Left" Height="20" DockPanel.Dock="Left" >
+                    </fa:ImageAwesome>
+                    <TextBlock Text="Создать" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14"/>
+                </DockPanel>
+            </Button>
+            <Button Margin="5" Command="{Binding DeleteCommand}" >
+                <DockPanel Margin="4,0">
+                    <fa:ImageAwesome Icon="Solid_Trash" Foreground="Blue" Stretch="Uniform" Width="20" Margin="0,0,10,0" 
+                                     HorizontalAlignment="Left" Height="20" DockPanel.Dock="Left" >
+                    </fa:ImageAwesome>
+                    <TextBlock Text="Удалить" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14"/>
+                </DockPanel>
+            </Button>
+            <!--<Button Margin="5" Command="{Binding ReportCommand}" >
+                <DockPanel Margin="4,0">
+                    <fa:ImageAwesome Foreground="Blue" Stretch="Uniform" Width="20" Margin="0,0,10,0" 
+                                     HorizontalAlignment="Left" Height="20" DockPanel.Dock="Left" Icon="Solid_FileInvoice" />
+                    <TextBlock Text="Отчет по заказам" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14"/>
+                </DockPanel>
+            </Button>-->
+            <Button Margin="5" Command="{Binding ReportCommand}" Visibility="Collapsed">
+                <DockPanel Margin="4,0">
+                    <fa:ImageAwesome Icon="Solid_AddressCard" Foreground="Blue" Stretch="Uniform" Width="20" Margin="0,0,10,0" 
+                                     HorizontalAlignment="Left" Height="20" DockPanel.Dock="Left" >
+                    </fa:ImageAwesome>
+                    <TextBlock Text="Отчет" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14"/>
+                </DockPanel>
+            </Button>
+            <Button Margin="5"  
+                    CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}">
+                <Button.Command>
+                    <cmd:CloseWindowCommand/>
+                </Button.Command>
+                <DockPanel Margin="4,0">
+                    <fa:ImageAwesome Icon="Solid_DoorClosed" Foreground="Blue" Stretch="Uniform" Width="20" Margin="0,0,10,0" 
+                                     HorizontalAlignment="Left" Height="20" DockPanel.Dock="Left" />
+                    <TextBlock Text="Выход" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14"/>
+                </DockPanel>
+            </Button>
+        </ToolBarPanel>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch" Margin="0,0" Grid.Row="1" Background="#FFE6E6E6" >
+            <!--<RadioButton Content="Созданные здесь" IsChecked="{Binding CheckCreated, Mode=TwoWay}" Margin="15,0" Command="{Binding FilterCommand}" VerticalContentAlignment="Top" VerticalAlignment="Center" FontWeight="Bold" />-->
+            <RadioButton Content="Требующие рассмотрения" IsChecked="{Binding CheckCoordinated, Mode=TwoWay}" Margin="5,0" Command="{Binding FilterCommand}" VerticalAlignment="Center" FontWeight="Bold" />
+            <RadioButton Content="В работе" Margin="5,0" IsChecked="{Binding CheckWork, Mode=TwoWay}" Command="{Binding FilterCommand}" VerticalAlignment="Center" FontWeight="Bold" />
+            <RadioButton Content="Закрытые" Margin="5,0" IsChecked="{Binding CheckClosed, Mode=TwoWay}" Command="{Binding FilterCommand}" VerticalAlignment="Center" FontWeight="Bold" />
+            <!--<RadioButton Content="Все" Margin="5,0" IsChecked="{Binding CheckAll, Mode=TwoWay}" Command="{Binding FilterCommand}" VerticalAlignment="Center" FontWeight="Bold" />-->
+        </StackPanel>
+
+        <Border Grid.Row="2" Margin="10,10,10,10" Background="#FFEDEDED">
+            <Border.Effect>
+                <DropShadowEffect Color="#FFBDBDBD" ShadowDepth="0" BlurRadius="20"/>
+            </Border.Effect>
+
+            <TabControl>
+                <TabItem Header="Входной контроль" DataContext="{Binding vmInControl}">
+                    <DataGrid ItemsSource="{Binding ListJobs}" IsReadOnly="True"  SelectedItem="{Binding SelectedJob}" 
+                          Style="{StaticResource DataGridStyle}" Margin="2" FontSize="12" FontWeight="Normal">
+                    <DataGrid.ColumnHeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="FontWeight" Value="Bold"/>
+                        </Style>
+                    </DataGrid.ColumnHeaderStyle>
+
+                    <DataGrid.InputBindings>
+                        <MouseBinding Gesture="LeftDoubleClick" Command="{Binding DblClickCommand}" />
+                    </DataGrid.InputBindings>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Дата" Binding="{Binding JobDate, StringFormat=dd.MM.yyyy HH:mm:ss}" Width="90"/>
+                        <DataGridTextColumn Header="Наименование" Binding="{Binding JobNameProduct}" Width="250"/>
+                            <DataGridTextColumn Header="№ акта" Binding="{Binding JobKD}" Width="250"/>
+                            <DataGridTextColumn Header="Срок выполнения" Binding="{Binding JobDate, StringFormat=dd.MM.yyyy HH:mm:ss}" Width="250"/>
+                            <DataGridTextColumn Header="Выявлено" Binding="{Binding JobDescript}" Width="250"/>
+                        
+                        <DataGridTemplateColumn Width="160" Header="Статус" >
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                            <Image Margin="6, 0" Height="18" Width="18" Source="{Binding JobStatus, Converter={StaticResource StatusToIconConverter}}">
+                                            <Image.Effect>
+                                                <DropShadowEffect ShadowDepth="0" BlurRadius="2" Color="#FF999999"/>
+                                            </Image.Effect>
+                                        </Image>
+                                        <!--<TextBlock Text="{Binding RouteStatus.sr_name}"/>-->
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+
+                </TabItem>
+                <TabItem Header="Операционный контроль">
+                </TabItem>
+                <TabItem Header="Приёмо-сдаточные испытания">
+                </TabItem>
+                <TabItem Header="Реестр несоответствий">
+                </TabItem>
+                
+            </TabControl>
+        </Border>
+        <StatusBar Grid.Row="3" Margin="3,3,3,3" Background="#FFE8E8E8" BorderBrush="#FF777777" BorderThickness="1,1,1,1">
+            <StatusBarItem Margin="10,0" Content="Пользователь:  "/>
+            <StatusBarItem Content="{Binding CurrentUser.u_name}"/>
+        </StatusBar>
     </Grid>
 </Window>
