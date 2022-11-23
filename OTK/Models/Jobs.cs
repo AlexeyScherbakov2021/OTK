@@ -3,6 +3,7 @@ namespace OTK.Models
     using OTK.Infrastructure;
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
@@ -12,11 +13,11 @@ namespace OTK.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Jobs()
         {
-            Action = new HashSet<Action>();
+            Action = new ObservableCollection<ActionUser>();
         }
 
         [Key]
-        [Column("JobId")]
+        //[Column("JobId")]
         public int id { get; set; }
 
         public int? JobType { get; set; }
@@ -53,7 +54,7 @@ namespace OTK.Models
         public EnumStatus JobStatus { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Action> Action { get; set; }
+        public virtual ObservableCollection<ActionUser> Action { get; set; }
 
         public virtual RnO RnO { get; set; }
     }

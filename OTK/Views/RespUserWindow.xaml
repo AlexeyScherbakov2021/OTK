@@ -1,0 +1,52 @@
+﻿<Window x:Class="OTK.Views.RespUserWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:cmd="clr-namespace:OTK.Commands"
+        xmlns:local="clr-namespace:OTK.Views"
+        mc:Ignorable="d"
+        Title="RespUserWindow" Height="280" Width="510" WindowStartupLocation="CenterScreen">
+    <DockPanel>
+        <UniformGrid DockPanel.Dock="Bottom" Margin="30,0,30,8" Columns="2">
+            <Button Content="ОК" Margin="8, 4" CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:RespUserWindow}}}">
+                <Button.Command>
+                    <cmd:CloseDialogCommand DialogResult="True" />
+                </Button.Command>
+            </Button>
+            <Button Content="Отменить" Margin="8,4" CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:RespUserWindow}}}">
+                <Button.Command>
+                    <cmd:CloseDialogCommand/>
+                </Button.Command>
+            </Button>
+        </UniformGrid>
+
+
+        <Grid Background="Gainsboro" Margin="10,10,10,10">
+            <Grid.Effect>
+                <DropShadowEffect ShadowDepth="0" BlurRadius="15" Opacity="0.3" />
+            </Grid.Effect>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="86"/>
+                <RowDefinition Height="38"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="110"/>
+                <ColumnDefinition Width="180"/>
+                <ColumnDefinition Width="621*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="Корр. действия" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            <TextBlock Text="Ответственный" HorizontalAlignment="Right" Grid.Row="1" VerticalAlignment="Center"/>
+            <TextBlock Text="Срок выполнения" HorizontalAlignment="Right" Grid.Row="2" VerticalAlignment="Center"/>
+
+            <TextBox Text="{Binding NewAction.ActionName}" TextWrapping="Wrap" AcceptsReturn="True" Grid.Column="1" Margin="4,1" Grid.ColumnSpan="2"/>
+            <ComboBox ItemsSource="{Binding ListUsers}" Grid.Row="1" DisplayMemberPath="UserName"
+                      SelectedItem="{Binding NewAction.User}"
+                      Grid.Column="1" Margin="4,1" VerticalAlignment="Center"/>
+            <DatePicker SelectedDate="{Binding NewAction.ActionDateEnd}" Grid.Row="2" Grid.Column="1" Margin="4,1" VerticalAlignment="Center"/>
+
+        </Grid>
+    </DockPanel>
+</Window>

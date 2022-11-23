@@ -1,5 +1,6 @@
 namespace OTK.Models
 {
+    using OTK.Infrastructure;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -7,10 +8,9 @@ namespace OTK.Models
     using System.Data.Entity.Spatial;
 
     [Table("Action")]
-    public partial class Action
+    public partial class ActionUser : IEntity
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int ActionID { get; set; }
+        public int id { get; set; }
 
         public int? ActionJobID { get; set; }
 
@@ -22,7 +22,7 @@ namespace OTK.Models
 
         public DateTime? ActionDateReal { get; set; }
 
-        public int? ActionStatus { get; set; }
+        public EnumStatus ActionStatus { get; set; }
 
         public virtual Jobs Jobs { get; set; }
 

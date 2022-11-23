@@ -12,16 +12,24 @@ namespace OTK.Models
         {
         }
 
-        public virtual DbSet<Action> Action { get; set; }
+        public static ModelOTK BaseDB = null;
+        public static ModelOTK CreateDB()
+        {
+            if (BaseDB != null)
+                return BaseDB;
+
+            return BaseDB = new ModelOTK();
+        }
+
+
+        public virtual DbSet<ActionUser> Action { get; set; }
         public virtual DbSet<Jobs> Jobs { get; set; }
         public virtual DbSet<RnO> RnO { get; set; }
         public virtual DbSet<Users> Users { get; set; }
 
-        //public virtual DbSet<Worker> Worker { get; set; }
-
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Action>()
+            modelBuilder.Entity<ActionUser>()
                 .Property(e => e.ActionName)
                 .IsUnicode(false);
 
@@ -60,6 +68,7 @@ namespace OTK.Models
             modelBuilder.Entity<Jobs>()
                 .HasMany(e => e.Action)
                 .WithOptional(e => e.Jobs)
+                .HasForeignKey(e => e.ActionJobID)
                 .WillCascadeOnDelete();
 
             modelBuilder.Entity<RnO>()
@@ -95,9 +104,9 @@ namespace OTK.Models
                 .Property(e => e.UserName)
                 .IsUnicode(false);
 
-            //modelBuilder.Entity<Worker>()
-            //    .Property(e => e.WorkerName)
-            //    .IsUnicode(false);
+            modelBuilder.Entity<Users>()
+                .Property(e => e.UserPass)
+                .IsUnicode(false);
 
             modelBuilder.Entity<Users>()
                 .Property(e => e.UserOtdel)

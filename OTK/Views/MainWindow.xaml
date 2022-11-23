@@ -70,11 +70,11 @@
                 </DockPanel>
             </Button>
         </ToolBarPanel>
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch" Margin="0,0" Grid.Row="1" Background="#FFE6E6E6" >
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch" Margin="10,0" Grid.Row="1" Background="Gainsboro" >
             <!--<RadioButton Content="Созданные здесь" IsChecked="{Binding CheckCreated, Mode=TwoWay}" Margin="15,0" Command="{Binding FilterCommand}" VerticalContentAlignment="Top" VerticalAlignment="Center" FontWeight="Bold" />-->
-            <RadioButton Content="Требующие рассмотрения" IsChecked="{Binding CheckCoordinated, Mode=TwoWay}" Margin="5,0" Command="{Binding FilterCommand}" VerticalAlignment="Center" FontWeight="Bold" />
-            <RadioButton Content="В работе" Margin="5,0" IsChecked="{Binding CheckWork, Mode=TwoWay}" Command="{Binding FilterCommand}" VerticalAlignment="Center" FontWeight="Bold" />
-            <RadioButton Content="Закрытые" Margin="5,0" IsChecked="{Binding CheckClosed, Mode=TwoWay}" Command="{Binding FilterCommand}" VerticalAlignment="Center" FontWeight="Bold" />
+            <RadioButton Content="Требующие рассмотрения" IsChecked="" Margin="5,0" Command="{Binding FilterCommand}" VerticalAlignment="Center" FontWeight="Bold" />
+            <RadioButton Content="В работе" Margin="5,0" IsChecked="" Command="{Binding FilterCommand}" VerticalAlignment="Center" FontWeight="Bold" />
+            <RadioButton Content="Закрытые" Margin="5,0" IsChecked="" Command="{Binding FilterCommand}" VerticalAlignment="Center" FontWeight="Bold" />
             <!--<RadioButton Content="Все" Margin="5,0" IsChecked="{Binding CheckAll, Mode=TwoWay}" Command="{Binding FilterCommand}" VerticalAlignment="Center" FontWeight="Bold" />-->
         </StackPanel>
 
@@ -97,10 +97,10 @@
                         <MouseBinding Gesture="LeftDoubleClick" Command="{Binding DblClickCommand}" />
                     </DataGrid.InputBindings>
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Дата" Binding="{Binding JobDate, StringFormat=dd.MM.yyyy HH:mm:ss}" Width="90"/>
+                        <DataGridTextColumn Header="Дата" Binding="{Binding JobDate, StringFormat=d}" Width="90"/>
                         <DataGridTextColumn Header="Наименование" Binding="{Binding JobNameProduct}" Width="250"/>
                             <DataGridTextColumn Header="№ акта" Binding="{Binding JobKD}" Width="250"/>
-                            <DataGridTextColumn Header="Срок выполнения" Binding="{Binding JobDate, StringFormat=dd.MM.yyyy HH:mm:ss}" Width="250"/>
+                            <DataGridTextColumn Header="Срок выполнения" Binding="{Binding JobDate, StringFormat=d}" Width="250"/>
                             <DataGridTextColumn Header="Выявлено" Binding="{Binding JobDescript}" Width="250"/>
                         
                         <DataGridTemplateColumn Width="160" Header="Статус" >
@@ -133,7 +133,7 @@
         </Border>
         <StatusBar Grid.Row="3" Margin="3,3,3,3" Background="#FFE8E8E8" BorderBrush="#FF777777" BorderThickness="1,1,1,1">
             <StatusBarItem Margin="10,0" Content="Пользователь:  "/>
-            <StatusBarItem Content="{Binding CurrentUser.u_name}"/>
+            <StatusBarItem Content=""/>
         </StatusBar>
     </Grid>
 </Window>

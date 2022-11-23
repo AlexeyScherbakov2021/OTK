@@ -7,7 +7,7 @@ namespace OTK.Models
     using System.Data.Entity.Spatial;
 
     [Table("RnO")]
-    public partial class RnO
+    public partial class RnO : IEntity
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public RnO()
@@ -15,8 +15,10 @@ namespace OTK.Models
             Jobs = new HashSet<Jobs>();
         }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int RnoID { get; set; }
+        //[DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [Key]
+        //[Column("RnoID")]
+        public int id { get; set; }
 
         public DateTime? RnoDate { get; set; }
 

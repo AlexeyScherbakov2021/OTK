@@ -10,6 +10,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows;
 using OTK.ViewModels.Forms;
+using OTK.Models;
+using OTK.Repository;
 
 namespace OTK.ViewModels
 {
@@ -21,9 +23,16 @@ namespace OTK.ViewModels
         public string Title { get; set; } = "Список задач";
 #endif
 
+
         public InControlViewModel vmInControl { get; set; }
 
         public TabItem SelectedTab { get; set; }
+
+
+        public MainwindowViewModel()
+        {
+            vmInControl = new InControlViewModel();
+        }
 
 
         #region Команды
@@ -183,6 +192,7 @@ namespace OTK.ViewModels
         {
             SelectedTab.DataContext = new InControlViewModel();
             (SelectedTab.DataContext as InControlViewModel).CreateForm();
+
         }
 
 

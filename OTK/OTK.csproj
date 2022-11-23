@@ -79,7 +79,7 @@
     <Compile Include="Converters\StatusToIconConverter.cs" />
     <Compile Include="Infrastructure\Enums.cs" />
     <Compile Include="Infrastructure\Observable.cs" />
-    <Compile Include="Models\Action.cs" />
+    <Compile Include="Models\ActionUser.cs" />
     <Compile Include="Models\IEntity.cs" />
     <Compile Include="Models\Jobs.cs" />
     <Compile Include="Models\ModelOTK.cs" />
@@ -98,6 +98,9 @@
     </Compile>
     <Compile Include="Views\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RespUserWindow.xaml.cs">
+      <DependentUpon>RespUserWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingWindow.xaml.cs">
       <DependentUpon>SettingWindow.xaml</DependentUpon>
@@ -150,6 +153,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\LoginWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RespUserWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

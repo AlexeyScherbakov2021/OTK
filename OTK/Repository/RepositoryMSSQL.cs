@@ -11,7 +11,7 @@ namespace OTK.Repository
     internal class RepositoryMSSQL<T> : IRepository<T> where T : class, IEntity, new()
 
     {
-        public static readonly ModelOTK db = new ModelOTK();
+        public static readonly ModelOTK db = ModelOTK.CreateDB();
         protected readonly DbSet<T> _Set;
         public virtual IQueryable<T> Items => _Set;
 
