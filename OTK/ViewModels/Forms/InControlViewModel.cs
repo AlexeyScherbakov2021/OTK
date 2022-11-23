@@ -59,7 +59,34 @@ namespace OTK.ViewModels.Forms
         }
 
 
+        //--------------------------------------------------------------------------------
+        // Открытие формы
+        //--------------------------------------------------------------------------------
+        public void OpenForm()
+        {
+            InControlDetailWindow win = new InControlDetailWindow();
+            win.DataContext = new InControlDetailWindowViewModel(_repo, SelectedJob);
+            if (win.ShowDialog() == true)
+            {
+                //_repo.Save();
+            }
+
+        }
+
+
         #region Команды
+
+        //--------------------------------------------------------------------------------
+        // Команда Двойной щелчок
+        //--------------------------------------------------------------------------------
+        private readonly ICommand _DblClickCommand = null;
+        public ICommand DblClickCommand => _DblClickCommand ?? new LambdaCommand(OnDblClickCommandExecuted, CanDblClickCommand);
+        private bool CanDblClickCommand(object p) => true;
+        private void OnDblClickCommandExecuted(object p)
+        {
+            OpenForm();
+        }
+
 
         //--------------------------------------------------------------------------------
         // Команда Создать

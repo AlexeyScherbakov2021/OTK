@@ -97,13 +97,13 @@
                         <MouseBinding Gesture="LeftDoubleClick" Command="{Binding DblClickCommand}" />
                     </DataGrid.InputBindings>
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Дата" Binding="{Binding JobDate, StringFormat=d}" Width="90"/>
-                        <DataGridTextColumn Header="Наименование" Binding="{Binding JobNameProduct}" Width="250"/>
-                            <DataGridTextColumn Header="№ акта" Binding="{Binding JobKD}" Width="250"/>
-                            <DataGridTextColumn Header="Срок выполнения" Binding="{Binding JobDate, StringFormat=d}" Width="250"/>
-                            <DataGridTextColumn Header="Выявлено" Binding="{Binding JobDescript}" Width="250"/>
+                        <DataGridTextColumn Header="Дата" Binding="{Binding JobDate, StringFormat=d}"/>
+                        <DataGridTextColumn Header="Наименование" Binding="{Binding JobNameProduct}"/>
+                            <DataGridTextColumn Header="№ акта" Binding="{Binding JobKD}"/>
+                            <DataGridTextColumn Header="Срок выполнения" Binding="{Binding JobDate, StringFormat=d}"/>
+                            <DataGridTextColumn Header="Выявлено" Binding="{Binding JobDescript}" />
                         
-                        <DataGridTemplateColumn Width="160" Header="Статус" >
+                        <DataGridTemplateColumn  Header="Статус" >
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">

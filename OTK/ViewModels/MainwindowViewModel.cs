@@ -23,7 +23,6 @@ namespace OTK.ViewModels
         public string Title { get; set; } = "Список задач";
 #endif
 
-
         public InControlViewModel vmInControl { get; set; }
 
         public TabItem SelectedTab { get; set; }
@@ -166,20 +165,8 @@ namespace OTK.ViewModels
         private bool CanDblClickCommand(object p) => true;
         private void OnDblClickCommandExecuted(object p)
         {
-            //timer.Stop();
-
-            ////repo.LoadRouteOrders(SelectedOrder);
-
-            //OrderWindowViewModel vm = new OrderWindowViewModel(SelectedOrder);
-            //OrderWindow orderWindow = new OrderWindow();
-            //orderWindow.DataContext = vm;
-            ////(orderWindow.DataContext as OrderWindowViewModel).order = SelectedOrder;
-            //if (orderWindow.ShowDialog() == true)
-            //{
-            //    repo.Save();
-            //    OnFilterCommandExecuted(null);
-            //}
-            //timer.Start();
+            SelectedTab.DataContext = new InControlViewModel();
+            (SelectedTab.DataContext as InControlViewModel).OpenForm();
         }
 
         //--------------------------------------------------------------------------------
