@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace OTK.ViewModels.Forms
@@ -21,16 +22,13 @@ namespace OTK.ViewModels.Forms
         //public ObservableCollection<Jobs> ListJobs { get; set; }
         //public Jobs SelectedJob { get; set; }
 
-
-
         //--------------------------------------------------------------------------------
         // Конструктор
         //--------------------------------------------------------------------------------
         public InControlViewModel() : base()
         {
             FormType = EnumFormType.VK;
-            //_repo = new RepositoryMSSQL<Jobs>();
-            //LoadJobs(EnumStatusJob.ReqConfirm);
+            LoadJobs(EnumStatusJob.ReqConfirm);
         }
 
 
@@ -55,8 +53,8 @@ namespace OTK.ViewModels.Forms
             win.DataContext = new InControlDetailWindowViewModel(_repo, job);
             if(win.ShowDialog() == true)
             {
-                _repo.Add(job);
-                _repo.Save();
+                _repo.Add(job, true);
+                //_repo.Save();
                 ListJobs.Add(job);
             }
         }
@@ -67,28 +65,25 @@ namespace OTK.ViewModels.Forms
         //--------------------------------------------------------------------------------
         public override void OpenForm()
         {
-            InControlDetailWindow win = new InControlDetailWindow();
-            win.DataContext = new InControlDetailWindowViewModel(_repo, SelectedJob);
+            Window win = new InControlDetailWindow();
+            if (User.UserRole == EnumRoles.Пользователь)
+            {
+                win = new InControlUserWindow();
+                win.DataContext = new InControlUserWindowViewModel(_repo, SelectedJob);
+            }
+            else
+            {
+                win = new InControlDetailWindow();
+                win.DataContext = new InControlDetailWindowViewModel(_repo, SelectedJob);
+            }
             if (win.ShowDialog() == true)
             {
                 //_repo.Save();
             }
-
         }
 
 
         #region Команды
-
-        //--------------------------------------------------------------------------------
-        // Команда Двойной щелчок
-        //--------------------------------------------------------------------------------
-        //private readonly ICommand _DblClickCommand = null;
-        //public ICommand DblClickCommand => _DblClickCommand ?? new LambdaCommand(OnDblClickCommandExecuted, CanDblClickCommand);
-        //private bool CanDblClickCommand(object p) => true;
-        //private void OnDblClickCommandExecuted(object p)
-        //{
-        //    OpenForm();
-        //}
 
 
         //--------------------------------------------------------------------------------

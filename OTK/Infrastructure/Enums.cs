@@ -1,5 +1,7 @@
 ﻿using System.Windows.Markup;
 using System;
+using System.Windows.Documents;
+using System.Collections.Generic;
 
 namespace OTK.Infrastructure
 {
@@ -14,12 +16,23 @@ namespace OTK.Infrastructure
         Closed          // в архиве (закрыт)
     };
 
+
     public enum EnumStatus : int { 
         CheckedProcess = 0,     // в ожидании выполнения
         Checked,                // предварительно выполнен
         Finish,                 // подтверждено выполнение
         CheckedNone             // не выполнен в срок
     };
+
+    public static class ClassStatus
+    {
+        public static List<string> NameStatus { get; } = new List<string>()
+        {
+            "В работе", "На проверке", "Выполнен", "Не выполнен"
+        };
+    }
+
+
 
     public enum EnumRoles : int { Пользователь = 0, Управление, Admin };
 

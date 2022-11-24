@@ -77,8 +77,10 @@
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\LambdaCommand.cs" />
     <Compile Include="Converters\StatusToIconConverter.cs" />
+    <Compile Include="Converters\StatusToStringConverter.cs" />
     <Compile Include="Infrastructure\Enums.cs" />
     <Compile Include="Infrastructure\Observable.cs" />
+    <Compile Include="Infrastructure\SenderToEmail.cs" />
     <Compile Include="Models\ActionUser.cs" />
     <Compile Include="Models\IEntity.cs" />
     <Compile Include="Models\Jobs.cs" />
@@ -213,7 +215,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resource\" />
+    <Resource Include="Resource\проверка.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\выполнен.png" />
+    <Resource Include="Resource\закрыт.png" />
+    <Resource Include="Resource\не выполнен.png" />
+    <Resource Include="Resource\рассмотр.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

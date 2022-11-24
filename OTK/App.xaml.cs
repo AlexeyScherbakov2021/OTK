@@ -21,6 +21,9 @@ namespace OTK
 
         public App()
         {
+            this.ShutdownMode = ShutdownMode.OnMainWindowClose;
+
+
             FrameworkElement.LanguageProperty.OverrideMetadata(
                             typeof(FrameworkElement),
                             new FrameworkPropertyMetadata(

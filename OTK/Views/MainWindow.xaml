@@ -135,8 +135,8 @@
             </TabControl>
         </Border>
         <StatusBar Grid.Row="3" Margin="3,3,3,3" Background="#FFE8E8E8" BorderBrush="#FF777777" BorderThickness="1,1,1,1">
-            <StatusBarItem Margin="10,0" Content="Пользователь:  "/>
-            <StatusBarItem Content=""/>
+            <StatusBarItem Margin="10,0" Content="Пользователь:"/>
+            <StatusBarItem Content="{Binding User.UserName}"/>
         </StatusBar>
     </Grid>
 </Window>

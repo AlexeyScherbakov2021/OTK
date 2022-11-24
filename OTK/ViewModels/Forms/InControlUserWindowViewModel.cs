@@ -14,8 +14,11 @@ namespace OTK.ViewModels.Forms
     internal class InControlUserWindowViewModel : Observable
     {
         private readonly RepositoryMSSQL<Jobs> _repoJob;
+        public Users User => App.CurrentUser;
 
         public Jobs CurrentJob { get; set; }
+
+        public ActionUser CurrentActor { get; set; }
 
         //--------------------------------------------------------------------------------
         // Конструктор
@@ -24,6 +27,12 @@ namespace OTK.ViewModels.Forms
         {
             _repoJob= repo;
             CurrentJob= job;
+            CurrentActor = job.Action.FirstOrDefault(it => it.User.id == User.id);
+        }
+
+        public InControlUserWindowViewModel()
+        {
+
         }
 
 
@@ -36,7 +45,9 @@ namespace OTK.ViewModels.Forms
         private bool CanCommitCommand(object p) => true;
         private void OnCommitCommandExecuted(object p)
         {
-
+            CurrentActor.ActionStatus = EnumStatus.Checked;
+            CurrentActor.Jobs.JobStatus = EnumStatusJob.ReqConfirm;
+            _repoJob.Save();
         }
 
         #endregion

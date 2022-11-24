@@ -23,6 +23,8 @@ namespace OTK.ViewModels
         public string Title { get; set; } = "Список задач";
 #endif
 
+        public Users User => App.CurrentUser;
+
         public InControlViewModel vmInControl { get; set; }
 
         public TabItem SelectedTab { get; set; }
@@ -30,8 +32,37 @@ namespace OTK.ViewModels
 
         public MainwindowViewModel()
         {
+            CheckDateEnd();
+
             vmInControl = new InControlViewModel();
         }
+
+
+        //--------------------------------------------------------------------------------
+        // Проверка сроков ответов
+        //--------------------------------------------------------------------------------
+        private void CheckDateEnd()
+        {
+            DateTime NowDate = DateTime.Now;
+            RepositoryMSSQL<Jobs> repoJobs = new RepositoryMSSQL<Jobs>();
+            List<Jobs> ListJobs = repoJobs.Items.ToList();
+
+            foreach(Jobs job in ListJobs)
+            {
+                foreach(var item in job.Action)
+                {
+                    if(item.ActionStatus == EnumStatus.CheckedProcess)
+                    {
+                        if(NowDate > item.ActionDateEnd )
+                        {
+                            item.ActionStatus = EnumStatus.CheckedNone;
+                        }
+                    }
+                }
+            }
+            repoJobs.Save();
+        }
+
 
 
         #region Команды
@@ -97,14 +128,14 @@ namespace OTK.ViewModels
         //--------------------------------------------------------------------------------
         // Команда Двойной щелчок
         //--------------------------------------------------------------------------------
-        private readonly ICommand _DblClickCommand = null;
-        public ICommand DblClickCommand => _DblClickCommand ?? new LambdaCommand(OnDblClickCommandExecuted, CanDblClickCommand);
-        private bool CanDblClickCommand(object p) => true;
-        private void OnDblClickCommandExecuted(object p)
-        {
-            //SelectedTab.DataContext = new InControlViewModel();
-            (SelectedTab.DataContext as InControlViewModel).OpenForm();
-        }
+        //private readonly ICommand _DblClickCommand = null;
+        //public ICommand DblClickCommand => _DblClickCommand ?? new LambdaCommand(OnDblClickCommandExecuted, CanDblClickCommand);
+        //private bool CanDblClickCommand(object p) => true;
+        //private void OnDblClickCommandExecuted(object p)
+        //{
+        //    //SelectedTab.DataContext = new InControlViewModel();
+        //    (SelectedTab.DataContext as InControlViewModel).OpenForm();
+        //}
 
         //--------------------------------------------------------------------------------
         // Команда Создать
@@ -114,8 +145,7 @@ namespace OTK.ViewModels
         private bool CanCreateCommand(object p) => true;
         private void OnCreateCommandExecuted(object p)
         {
-            //SelectedTab.DataContext = new InControlViewModel();
-            (SelectedTab.DataContext as InControlViewModel).CreateForm();
+            (SelectedTab.DataContext as FormAbstract).CreateForm();
         }
 
 

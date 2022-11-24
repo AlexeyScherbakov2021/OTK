@@ -30,9 +30,12 @@ namespace OTK.Converters
                         break;
 
                     case EnumStatus.Checked:
-                        Source = new BitmapImage(new Uri("/OTK;component/Resource/выполнен.png", UriKind.Relative));
+                        Source = new BitmapImage(new Uri("/OTK;component/Resource/проверка.png", UriKind.Relative));
                         break;
 
+                    case EnumStatus.Finish:
+                        Source = new BitmapImage(new Uri("/OTK;component/Resource/выполнен.png", UriKind.Relative));
+                        break;
 
                     default:
                         Source = null;

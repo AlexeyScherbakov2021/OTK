@@ -18,11 +18,14 @@ namespace OTK.ViewModels.Forms
     {
         private readonly RepositoryMSSQL<Jobs> _repo;
         private readonly RepositoryMSSQL<Users> _repoUsers;
+        public Users User => App.CurrentUser;
         //private RespUserWindow win;
 
         public string Title { get; set; } = "форма Входной контроль";
 
-        public List<Users> ListUsers { get; set; }  
+        public List<Users> ListUsers { get; set; }
+
+        public List<string> Status => ClassStatus.NameStatus;
 
         public Jobs CurrentJob { get; set; }
         public ActionUser SelectedAction { get; set; }
@@ -45,7 +48,7 @@ namespace OTK.ViewModels.Forms
         //--------------------------------------------------------------------------------
         public InControlDetailWindowViewModel(RepositoryMSSQL<Jobs> repo, Jobs job )
         {
-            _repo= repo;
+            _repo = repo;
             _repoUsers = new RepositoryMSSQL<Users>();
             ListUsers = _repoUsers.Items.OrderBy(o => o.UserName).ToList();
 
@@ -56,8 +59,28 @@ namespace OTK.ViewModels.Forms
                 IsCreateVisible= Visibility.Visible;
             }
 
-            CurrentJob= job;
+            CurrentJob = job;
+
         }
+
+
+        //--------------------------------------------------------------------------------
+        // установка статуса формы
+        //--------------------------------------------------------------------------------
+        private void SetStatusActionToJob()
+        {
+
+            // если есть на проверке 
+            if (CurrentJob.Action.Any(it => it.ActionStatus == EnumStatus.Checked))
+                CurrentJob.JobStatus = EnumStatusJob.ReqConfirm;
+
+            // если все выполнены
+            if (CurrentJob.Action.All(it => it.ActionStatus == EnumStatus.Finish))
+                CurrentJob.JobStatus = EnumStatusJob.Complete;
+
+
+        }
+
 
 
         #region Команды
@@ -95,28 +118,65 @@ namespace OTK.ViewModels.Forms
 
 
         //--------------------------------------------------------------------------------
-        // Команда ОК в диалоговом окне ответственного
+        // Команда Отправить
         //--------------------------------------------------------------------------------
-        //public ICommand DialogOKCommand => new LambdaCommand(OnDialogOKCommandExecuted, CanDialogOKCommand);
-        //private bool CanDialogOKCommand(object p) => true;
-        //private void OnDialogOKCommandExecuted(object p)
-        //{
-        //    win.Close();
-        //    CurrentJob.Action.Add(NewAction);
-        //}
+        public ICommand SendCommand => new LambdaCommand(OnSendCommandExecuted, CanSendCommand);
+        private bool CanSendCommand(object p) => true;
+        private void OnSendCommandExecuted(object p)
+        {
+            DateTime CurrentTime = DateTime.Now;
+
+            foreach(var item in CurrentJob.Action)
+            {
+                // прошло часов после последней отправки
+                var times = CurrentTime - item.ActionTimeSend;
+
+                // осталось часов до выполнения
+                var left = item.ActionDateEnd - CurrentTime;
+                bool IsSend = left.Value.TotalHours < 24 && times.Value.TotalHours > 24;
+
+                // если оповещения еще не было или было более суток назад 
+                if (item.ActionTimeSend is null || IsSend )
+                {
+                    SenderToEmail senderEmail = new SenderToEmail(item.User);
+                    senderEmail.SendMail("Сообщение");
+                    // сохраняем время отправки
+                    item.ActionTimeSend = CurrentTime;
+                    _repo.Save();
+                }
+            }
+
+        }
 
         //--------------------------------------------------------------------------------
-        // Команда Отмена в диалоговом окне ответственного
+        // Команда Проверене
         //--------------------------------------------------------------------------------
-        //public ICommand DialogCancelCommand => new LambdaCommand(OnDialogCancelCommandExecuted, CanDialogCancelCommand);
-        //private bool CanDialogCancelCommand(object p) => true;
-        //private void OnDialogCancelCommandExecuted(object p)
-        //{
-        //    win.Close();
-        //}
+        public ICommand AcceptCommand => new LambdaCommand(OnAcceptCommandExecuted, CanAcceptCommand);
+        private bool CanAcceptCommand(object p) => SelectedAction?.ActionStatus == EnumStatus.Checked;
+        private void OnAcceptCommandExecuted(object p)
+        {
+            SelectedAction.ActionStatus = EnumStatus.Finish;
+            SetStatusActionToJob();
+            _repo.Save();
+        }
+
+        //--------------------------------------------------------------------------------
+        // Команда Отказать
+        //--------------------------------------------------------------------------------
+        public ICommand RejectCommand => new LambdaCommand(OnRejectCommandExecuted, CanRejectCommand);
+        private bool CanRejectCommand(object p) => SelectedAction?.ActionStatus == EnumStatus.Checked;
+        private void OnRejectCommandExecuted(object p)
+        {
+            SelectedAction.ActionStatus = EnumStatus.CheckedProcess;
+            SetStatusActionToJob();
+            _repo.Save();
+            SenderToEmail senderEmail = new SenderToEmail(SelectedAction.User);
+            senderEmail.SendMail("Не принято.");
+        }
 
 
         #endregion
+
 
     }
 }

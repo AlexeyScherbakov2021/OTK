@@ -24,6 +24,8 @@ namespace OTK.Models
 
         public EnumStatus ActionStatus { get; set; }
 
+        public DateTime? ActionTimeSend { get; set; }
+
         public virtual Jobs Jobs { get; set; }
 
         public virtual Users User { get; set; }

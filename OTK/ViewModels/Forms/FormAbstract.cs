@@ -15,30 +15,51 @@ namespace OTK.ViewModels.Forms
     internal abstract class FormAbstract : Observable
     {
         public Users User { get; set; }
-        public readonly RepositoryMSSQL<Jobs> _repo;
+        protected readonly RepositoryMSSQL<Jobs> _repo;
         public ObservableCollection<Jobs> ListJobs { get; set; }
         public Jobs SelectedJob { get; set; }
         public EnumFormType FormType = EnumFormType.Fail;
 
 
+        //--------------------------------------------------------------------------------
+        // Конструктор
+        //--------------------------------------------------------------------------------
         public FormAbstract()
         {
             User = App.CurrentUser;
             _repo = new RepositoryMSSQL<Jobs>();
-            LoadJobs(EnumStatusJob.ReqConfirm);
+            //LoadJobs(EnumStatusJob.ReqConfirm);
         }
 
 
+        //--------------------------------------------------------------------------------
+        // Загрузка работ
+        //--------------------------------------------------------------------------------
         public void LoadJobs(EnumStatusJob status)
         {
+#if DEBUG
+            if (FormType == EnumFormType.Fail)
+                throw new ArgumentOutOfRangeException(nameof(FormType));
+#endif
+
             ListJobs = new ObservableCollection<Jobs>(_repo.Items.Where(it => it.JobStatus == status && it.JobType == FormType));
             OnPropertyChanged(nameof(ListJobs));
         }
 
+        //--------------------------------------------------------------------------------
+        // Создание формы
+        //--------------------------------------------------------------------------------
         public abstract void CreateForm();
+
+        //--------------------------------------------------------------------------------
+        // Открытие формы
+        //--------------------------------------------------------------------------------
         public abstract void OpenForm();
 
 
+        //--------------------------------------------------------------------------------
+        // Команда Двойной щелчок
+        //--------------------------------------------------------------------------------
         private readonly ICommand _DblClickCommand = null;
         public ICommand DblClickCommand => _DblClickCommand ?? new LambdaCommand(OnDblClickCommandExecuted, CanDblClickCommand);
         private bool CanDblClickCommand(object p) => true;
@@ -46,7 +67,6 @@ namespace OTK.ViewModels.Forms
         {
             OpenForm();
         }
-
 
     }
 

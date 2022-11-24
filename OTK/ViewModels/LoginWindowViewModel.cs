@@ -51,7 +51,7 @@ namespace OTK.ViewModels
 
         #region Команды
         //--------------------------------------------------------------------------------
-        // Команда Сохранить дефлятор
+        // Команда 
         //--------------------------------------------------------------------------------
         //private readonly ICommand _OkCommand = null;
         public ICommand OkCommand => new LambdaCommand(OnOkCommandExecuted, CanOkCommand);

@@ -9,17 +9,22 @@
         mc:Ignorable="d"
         Title="InControlUserWindow" Height="580" Width="900" WindowStartupLocation="CenterScreen">
     <Window.DataContext>
-        <vm:InControlDetailWindowViewModel/>
+        <vm:InControlUserWindowViewModel/>
     </Window.DataContext>
-
     <DockPanel>
         <ToolBarPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="4">
-            <Button Content="Выполнено" Margin="3,0" Visibility="{Binding IsEditVisible}"/>
-            <Button Content="Закрыть"  Margin="3,0" Visibility="{Binding IsEditVisible}"/>
+            <Button Content="Выполнено" Margin="3,0" Command="{Binding CommitCommand}"/>
+            <Button Content="Закрыть"  Margin="3,0" 
+                    CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:InControlUserWindow}}}">
+                <Button.Command>
+                    <cmd:CloseDialogCommand/>
+                </Button.Command>
+            </Button>
         </ToolBarPanel>
 
         <StatusBar DockPanel.Dock="Bottom">
-            <StatusBarItem Content="Пользоватлель"/>
+            <StatusBarItem Content="Пользователь:" Margin="10,0" />
+            <StatusBarItem Content="{Binding User.UserName}"/>
         </StatusBar>
 
         <Grid Background="Gainsboro" Margin="8" >
@@ -47,13 +52,12 @@
                 </Grid.RowDefinitions>
 
                 <TextBlock Text="Корректирующее действие" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right"/>
-                <TextBlock Text="Срок выполнения" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right"/>
-                <TextBlock Text="Прикрепиленные файлы" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right"/>
+                <TextBlock Text="Срок выполнения" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                <TextBlock Text="Прикрепленные файлы" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right"/>
 
-                <TextBox Text="" Grid.Column="2" Grid.Row="0" Margin="10,0,0,0"/>
-                <TextBox Text="" Grid.Column="2" Grid.Row="1" Margin="10,0,0,0"/>
+                <TextBox Text="{Binding CurrentActor.ActionName}" Grid.Column="2" Grid.Row="0" Margin="10,0,0,0" IsReadOnly="True" TextWrapping="Wrap"/>
+                <TextBox Text="{Binding CurrentActor.ActionDateEnd, StringFormat=d}" Grid.Column="2" Grid.Row="1" Margin="10,0,0,0" IsReadOnly="True"/>
                 <TextBox Text="" Grid.Column="2" Grid.Row="2" Margin="10,0,0,0"/>
-
             </Grid>
 
         </Grid>
