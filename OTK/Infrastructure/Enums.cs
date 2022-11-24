@@ -5,10 +5,24 @@ namespace OTK.Infrastructure
 {
     //public enum EnumStatus : int { Created = 1, CoordinateWork, Coordinated, ApprovWork,  Approved, Return, Refused, Closed, Waiting, None };
     //public enum EnumTypesStep : int { Coordinate = 1,  Approve, Review, Notify, Created };
-    //public enum EnumAction : int { Send, Return, Refuse, Close};
-    public enum EnumStatus : int { CheckedProcess = 0, Checked, CheckedNone };
+    public enum EnumFormType : int { VK = 0, OK, PSI, RN, Fail = -1 };
+
+    public enum EnumStatusJob : int { 
+        InWork,         // в работе
+        ReqConfirm,     // требующий рассмотрения
+        Complete,       // выполнен
+        Closed          // в архиве (закрыт)
+    };
+
+    public enum EnumStatus : int { 
+        CheckedProcess = 0,     // в ожидании выполнения
+        Checked,                // предварительно выполнен
+        Finish,                 // подтверждено выполнение
+        CheckedNone             // не выполнен в срок
+    };
 
     public enum EnumRoles : int { Пользователь = 0, Управление, Admin };
+
     public class UserRolesBinding : MarkupExtension
     {
         public Type EnumType { get; private set; }

@@ -7,6 +7,7 @@
         xmlns:conv="clr-namespace:OTK.Converters"
         xmlns:fa="http://schemas.fontawesome.com/icons/"
         xmlns:vm="clr-namespace:OTK.ViewModels"
+        xmlns:fvm="clr-namespace:OTK.ViewModels.Forms"
         xmlns:local="clr-namespace:OTK"
         mc:Ignorable="d"
         Title="{Binding Title}" Height="800" Width="1000" WindowStartupLocation="CenterScreen">
@@ -72,10 +73,9 @@
         </ToolBarPanel>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch" Margin="10,0" Grid.Row="1" Background="Gainsboro" >
             <!--<RadioButton Content="Созданные здесь" IsChecked="{Binding CheckCreated, Mode=TwoWay}" Margin="15,0" Command="{Binding FilterCommand}" VerticalContentAlignment="Top" VerticalAlignment="Center" FontWeight="Bold" />-->
-            <RadioButton Content="Требующие рассмотрения" IsChecked="" Margin="5,0" Command="{Binding FilterCommand}" VerticalAlignment="Center" FontWeight="Bold" />
-            <RadioButton Content="В работе" Margin="5,0" IsChecked="" Command="{Binding FilterCommand}" VerticalAlignment="Center" FontWeight="Bold" />
-            <RadioButton Content="Закрытые" Margin="5,0" IsChecked="" Command="{Binding FilterCommand}" VerticalAlignment="Center" FontWeight="Bold" />
-            <!--<RadioButton Content="Все" Margin="5,0" IsChecked="{Binding CheckAll, Mode=TwoWay}" Command="{Binding FilterCommand}" VerticalAlignment="Center" FontWeight="Bold" />-->
+            <RadioButton Content="Требующие рассмотрения" Margin="5,0" Command="{Binding FilterNeedCommand}" IsChecked="True" VerticalAlignment="Center" FontWeight="Bold" />
+            <RadioButton Content="В работе" Margin="5,0" Command="{Binding FilterWorkCommand}" VerticalAlignment="Center" FontWeight="Bold" />
+            <RadioButton Content="Закрытые" Margin="5,0" Command="{Binding FilterClosedCommand}" VerticalAlignment="Center" FontWeight="Bold" />
         </StackPanel>
 
         <Border Grid.Row="2" Margin="10,10,10,10" Background="#FFEDEDED">
@@ -84,7 +84,10 @@
             </Border.Effect>
 
             <TabControl SelectedItem="{Binding SelectedTab}">
-                <TabItem Header="Входной контроль" DataContext="{Binding vmInControl}">
+                <TabItem Header="Входной контроль">
+                    <TabItem.DataContext>
+                        <fvm:InControlViewModel/>
+                    </TabItem.DataContext>
                     <DataGrid ItemsSource="{Binding ListJobs}" IsReadOnly="True"  SelectedItem="{Binding SelectedJob}" 
                           Style="{StaticResource DataGridStyle}" Margin="2" FontSize="12" FontWeight="Normal">
                     <DataGrid.ColumnHeaderStyle>

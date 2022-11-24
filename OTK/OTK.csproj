@@ -87,14 +87,22 @@
     <Compile Include="Models\Users.cs" />
     <Compile Include="Repository\IRepository.cs" />
     <Compile Include="Repository\RepositoryMSSQL.cs" />
+    <Compile Include="ViewModels\Forms\FormAbstract.cs" />
     <Compile Include="ViewModels\Forms\InControlDetailWindowViewModel.cs" />
+    <Compile Include="ViewModels\Forms\InControlUserWindowViewModel.cs" />
     <Compile Include="ViewModels\Forms\InControlViewModel.cs" />
     <Compile Include="ViewModels\LoginWindowViewModel.cs" />
     <Compile Include="ViewModels\MainwindowViewModel.cs" />
     <Compile Include="ViewModels\SettingWindowViewModel.cs" />
     <Compile Include="ViewModels\Setting\UsersControlViewModel.cs" />
-    <Compile Include="Views\InControlDetailWindow.xaml.cs">
+    <Compile Include="Views\Forms\InControlUC.xaml.cs">
+      <DependentUpon>InControlUC.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Forms\InControlDetailWindow.xaml.cs">
       <DependentUpon>InControlDetailWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Forms\InControlUserWindow.xaml.cs">
+      <DependentUpon>InControlUserWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
@@ -108,7 +116,15 @@
     <Compile Include="Views\Setting\UsersControl.xaml.cs">
       <DependentUpon>UsersControl.xaml</DependentUpon>
     </Compile>
-    <Page Include="Views\InControlDetailWindow.xaml">
+    <Page Include="Views\Forms\InControlUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Forms\InControlDetailWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Forms\InControlUserWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

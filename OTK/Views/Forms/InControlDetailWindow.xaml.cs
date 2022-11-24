@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace OTK.Views
+namespace OTK.Views.Forms
 {
     /// <summary>
     /// Логика взаимодействия для InControlDetailWindow.xaml

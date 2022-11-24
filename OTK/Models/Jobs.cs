@@ -20,7 +20,7 @@ namespace OTK.Models
         //[Column("JobId")]
         public int id { get; set; }
 
-        public int? JobType { get; set; }
+        public EnumFormType JobType { get; set; }
 
         public DateTime? JobDate { get; set; }
 
@@ -51,7 +51,7 @@ namespace OTK.Models
 
         public string JobSolution { get; set; }
 
-        public EnumStatus JobStatus { get; set; }
+        public EnumStatusJob JobStatus { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ObservableCollection<ActionUser> Action { get; set; }

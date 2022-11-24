@@ -37,124 +37,61 @@ namespace OTK.ViewModels
         #region Команды
 
         //--------------------------------------------------------------------------------
-        // Команда Фильтровать заказы
+        // Команда Фильтровать Требующие рассмотрения
         //--------------------------------------------------------------------------------
-        private readonly ICommand _FilterCommand = null;
-        public ICommand FilterCommand => _FilterCommand ?? new LambdaCommand(OnFilterCommandExecuted, CanFilterCommand);
-        private bool CanFilterCommand(object p) => true;
-        private void OnFilterCommandExecuted(object p)
+        public ICommand FilterNeedCommand => new LambdaCommand(OnFilterNeedCommandExecuted, CanFilterNeedCommand);
+        private bool CanFilterNeedCommand(object p) => true;
+        private void OnFilterNeedCommandExecuted(object p)
         {
-            //int select = int.Parse(p.ToString());
-            //timer.Stop();
+            if (SelectedTab.DataContext != null)
+                (SelectedTab.DataContext as FormAbstract).LoadJobs(EnumStatusJob.ReqConfirm);
 
-            //// подготовка к обновлению всех записей
-            //repo.Refresh();
+        }
 
+        //--------------------------------------------------------------------------------
+        // Команда Фильтровать Закрытые
+        //--------------------------------------------------------------------------------
+        public ICommand FilterClosedCommand => new LambdaCommand(OnFilterClosedCommandExecuted, CanFilterClosedCommand);
+        private bool CanFilterClosedCommand(object p) => true;
+        private void OnFilterClosedCommandExecuted(object p)
+        {
+            if (SelectedTab.DataContext != null)
+                (SelectedTab.DataContext as FormAbstract).LoadJobs(EnumStatusJob.Closed);
 
-            //if (CheckCreated)
-            //{
-            //    // созданные мной заказы
-            //    ListOrders = new ObservableCollection<Order>(repo.Orders
-            //    .Where(it => it.o_statusId < EnumStatus.Closed && it.RouteOrders.Where(i => i.ro_step == 0
-            //    && i.ro_userId == App.CurrentUser.id).Any())
-            //    //.Include(it => it.RouteOrders)
-            //    );
+        }
 
-            //}
-            //else if (CheckCoordinated)
-            //{
-            //    // Требующие рассмотрения
-            //    ListOrders = new ObservableCollection<Order>(repo.Orders
-            //        .Where(it => it.RouteOrders
-            //                .Where(r => r.ro_userId == App.CurrentUser.id
-            //                    && r.ro_check == EnumCheckedStatus.CheckedProcess)
-            //                .Any())
-            //    //.Include(it => it.RouteOrders)
-            //       );
-            //}
-
-            //else if (CheckClosed)
-            //{
-            //    // Закрытые заказы
-            //    ListOrders = new ObservableCollection<Order>(repo.Orders
-            //        .Where(it => it.o_statusId == EnumStatus.Closed && it.RouteOrders.Where(r =>
-            //        r.ro_userId == App.CurrentUser.id).Any())
-            //    //.Include(it => it.RouteOrders)
-            //    );
-            //}
-            //else if (CheckWork)
-            //{
-            //    // В работе
-            //    ListOrders = /*_IsViewAllOrders
-            //        ? ListOrders = new ObservableCollection<Order>(repo.Orders.Where(it => it.o_statusId < EnumStatus.Closed ))
-            //        :*/ ListOrders = new ObservableCollection<Order>(repo.Orders
-            //            .Where(it => it.o_statusId < EnumStatus.Closed && it.RouteOrders.Where(r => r.ro_userId == App.CurrentUser.id).Any()));
-
-
-
-            //}
-            //else if (CheckAll)
-            //{
-            //    // все заказы
-            //    ListOrders = _IsViewAllOrders
-            //        ? new ObservableCollection<Order>(repo.Orders)
-            //        : new ObservableCollection<Order>(repo.Orders
-            //            .Where(it => it.RouteOrders.Where(r => r.ro_userId == App.CurrentUser.id).Any())
-            //            //.Include(it => it.RouteOrders)
-            //            );
-            //}
-
-            //// сортировка этапов для всех заказов
-            //foreach (var item in ListOrders)
-            //{
-            //    item.RouteOrders = SortStepRoute(item.RouteOrders);
-            //}
-
-            //// установка пользователей в работе для каждого заказа
-            //foreach (var item in ListOrders)
-            //{
-            //    //item.WorkUser = item.RouteOrders.FirstOrDefault(it => it.ro_check == EnumCheckedStatus.CheckedProcess)?.User;
-            //    item.WorkUser = MainWindowViewModel.repo.RouteOrders.FirstOrDefault(it => it.ro_orderId == item.id
-            //        && it.ro_check == EnumCheckedStatus.CheckedProcess)?.User;
-            //}
-
-            //OnPropertyChanged(nameof(ListOrders));
-
-            //timer.Start();
+        //--------------------------------------------------------------------------------
+        // Команда Фильтровать В работе
+        //--------------------------------------------------------------------------------
+        public ICommand FilterWorkCommand => new LambdaCommand(OnFilterWorkCommandExecuted, CanFilterWorkCommand);
+        private bool CanFilterWorkCommand(object p) => true;
+        private void OnFilterWorkCommandExecuted(object p)
+        {
+            if (SelectedTab.DataContext != null)
+                (SelectedTab.DataContext as FormAbstract).LoadJobs(EnumStatusJob.InWork);
         }
 
 
         //--------------------------------------------------------------------------------
         // Команда Удалить заказ
         //--------------------------------------------------------------------------------
-        private readonly ICommand _DeleteCommand = null;
-        public ICommand DeleteCommand => _DeleteCommand ?? new LambdaCommand(OnDeleteCommandExecuted, CanDeleteCommand);
-        private bool CanDeleteCommand(object p) => true;
-        private void OnDeleteCommandExecuted(object p)
-        {
+        //private readonly ICommand _DeleteCommand = null;
+        //public ICommand DeleteCommand => _DeleteCommand ?? new LambdaCommand(OnDeleteCommandExecuted, CanDeleteCommand);
+        //private bool CanDeleteCommand(object p) => true;
+        //private void OnDeleteCommandExecuted(object p)
+        //{
 
-            //if (MessageBox.Show($"Удалить заказ {SelectedOrder.o_name}", "Предупреждение", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-            //{
-            //    RepositoryFiles repoFiles = new RepositoryFiles();
-            //    repoFiles.DeleteFiles(SelectedOrder);
-            //    repo.Delete(SelectedOrder, true);
-            //    ListOrders.Remove(SelectedOrder);
-            //}
-        }
+        //}
 
         //--------------------------------------------------------------------------------
         // Команда Отчет
         //--------------------------------------------------------------------------------
-        private readonly ICommand _ReportCommand = null;
-        public ICommand ReportCommand => _ReportCommand ?? new LambdaCommand(OnReportCommandExecuted, CaReportCommand);
-        private bool CaReportCommand(object p) => true;
-        private void OnReportCommandExecuted(object p)
-        {
-            //timer.Stop();
-            //ReportRoutesWindow reportWindow = new ReportRoutesWindow();
-            //reportWindow.ShowDialog();
-            //timer.Start();
-        }
+        //private readonly ICommand _ReportCommand = null;
+        //public ICommand ReportCommand => _ReportCommand ?? new LambdaCommand(OnReportCommandExecuted, CaReportCommand);
+        //private bool CaReportCommand(object p) => true;
+        //private void OnReportCommandExecuted(object p)
+        //{
+        //}
 
 
         //--------------------------------------------------------------------------------
@@ -165,7 +102,7 @@ namespace OTK.ViewModels
         private bool CanDblClickCommand(object p) => true;
         private void OnDblClickCommandExecuted(object p)
         {
-            SelectedTab.DataContext = new InControlViewModel();
+            //SelectedTab.DataContext = new InControlViewModel();
             (SelectedTab.DataContext as InControlViewModel).OpenForm();
         }
 
@@ -177,9 +114,8 @@ namespace OTK.ViewModels
         private bool CanCreateCommand(object p) => true;
         private void OnCreateCommandExecuted(object p)
         {
-            SelectedTab.DataContext = new InControlViewModel();
+            //SelectedTab.DataContext = new InControlViewModel();
             (SelectedTab.DataContext as InControlViewModel).CreateForm();
-
         }
 
 
