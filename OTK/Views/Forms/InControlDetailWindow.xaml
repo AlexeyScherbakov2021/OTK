@@ -20,8 +20,8 @@
     <DockPanel>
         <ToolBarPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="4">
             <Button Content="Оповестить" Margin="3,0" Visibility="{Binding IsEditVisible}" Command="{Binding SendCommand}"/>
-            <Button Content="В архив"  Margin="3,0" Visibility="{Binding IsEditVisible}"/>
-            <Button Content="Закрыть"  Margin="3,0" Visibility="{Binding IsEditVisible}"
+            <Button Content="В архив"  Margin="3,0" Visibility="{Binding IsEditVisible}" Command="{Binding ArchiveCommand}"/>
+            <Button Content="Закрыть"  Margin="3,0" Visibility="{Binding IsCloseVisible}"
                     CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:InControlDetailWindow}}}">
                 <Button.Command>
                     <cmd:CloseDialogCommand/>
@@ -61,10 +61,10 @@
             
             <DockPanel Margin="10,10,10,10" Grid.Row="1">
                 <StackPanel DockPanel.Dock="Top" Background="Silver" Orientation="Horizontal">
-                    <Button Content="Добавить" Margin="3" Command="{Binding AddCommand}"/>
-                    <Button Content="Удалить" Margin="3" Command="{Binding DelCommand}"/>
-                    <Button Content="Проверено" Margin="3" Command="{Binding AcceptCommand}"/>
-                    <Button Content="Отказать" Margin="3" Command="{Binding RejectCommand}"/>
+                    <Button Content="Добавить" Margin="3" Command="{Binding AddCommand}" Visibility="{Binding IsCreateVisible}"/>
+                    <Button Content="Удалить" Margin="3" Command="{Binding DelCommand}" Visibility="{Binding IsCreateVisible}"/>
+                    <Button Content="Проверено" Margin="3" Command="{Binding AcceptCommand}"  Visibility="{Binding IsEditVisible}"/>
+                    <Button Content="Отказать" Margin="3" Command="{Binding RejectCommand}"  Visibility="{Binding IsEditVisible}"/>
                 </StackPanel>
 
                 <DataGrid ItemsSource="{Binding CurrentJob.Action}" Style="{DynamicResource DataGridStyle}" IsReadOnly="True" SelectedItem="{Binding SelectedAction}">
@@ -79,7 +79,11 @@
                                     <DockPanel>
                                         <Image Source="{Binding ActionStatus, Converter={StaticResource StatusToIconConverter}}" 
                                                DockPanel.Dock="Left" Width="16" Height="16" Margin="3,1" VerticalAlignment="Top"
-                                               />
+                                               >
+                                            <Image.Effect>
+                                                <DropShadowEffect ShadowDepth="0" BlurRadius="2" Color="#FF999999"/>
+                                            </Image.Effect>
+                                        </Image>
                                         <TextBlock Margin="2,0" Text="{Binding ActionStatus, Converter={StaticResource StatusToStringConverter}}"/>
                                     </DockPanel>
                                 </DataTemplate>

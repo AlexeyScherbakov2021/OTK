@@ -76,6 +76,8 @@
     <Compile Include="Commands\CloseWindowCommand.cs" />
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\LambdaCommand.cs" />
+    <Compile Include="Converters\StatusJobToIconConverter.cs" />
+    <Compile Include="Converters\StatusJobToStringConverter.cs" />
     <Compile Include="Converters\StatusToIconConverter.cs" />
     <Compile Include="Converters\StatusToStringConverter.cs" />
     <Compile Include="Infrastructure\Enums.cs" />

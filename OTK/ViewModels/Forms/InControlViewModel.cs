@@ -28,16 +28,36 @@ namespace OTK.ViewModels.Forms
         public InControlViewModel() : base()
         {
             FormType = EnumFormType.VK;
-            LoadJobs(EnumStatusJob.ReqConfirm);
+            LoadListJobs(EnumFilter.Require);
         }
 
 
         //--------------------------------------------------------------------------------
         // Загрузка работ
         //--------------------------------------------------------------------------------
-        //public override void LoadJobs(EnumStatusJob status)
+        //public override void LoadJobs(EnumFilter filter)
         //{
-        //    ListJobs = new ObservableCollection<Jobs>(_repo.Items.Where(it => it.JobStatus == status && it.JobType == FormType));
+        //    switch (filter)
+        //    {
+        //        case EnumFilter.Require:
+        //            ListJobs = new ObservableCollection<Jobs>(_repo.Items.Where(it => it.JobStatus == EnumStatusJob.ReqConfirm && it.JobType == FormType));
+        //            break;
+
+        //        case EnumFilter.Works:
+        //            ListJobs = new ObservableCollection<Jobs>(_repo.Items.Where(it =>
+        //                (it.JobStatus == EnumStatusJob.InWork
+        //                || it.JobStatus == EnumStatusJob.Complete
+        //                || it.JobStatus == EnumStatusJob.ReqConfirm)
+        //                && it.JobType == FormType));
+        //            break;
+
+        //        case EnumFilter.Closed:
+        //            ListJobs = new ObservableCollection<Jobs>(_repo.Items.Where(it => it.JobStatus != EnumStatusJob.Closed
+        //                && it.JobType == FormType));
+        //            break;
+
+        //    }
+
         //    OnPropertyChanged(nameof(ListJobs));
         //}
 
@@ -56,6 +76,13 @@ namespace OTK.ViewModels.Forms
                 _repo.Add(job, true);
                 //_repo.Save();
                 ListJobs.Add(job);
+
+                // отправить оповещения для всех
+                foreach (var item in job.Action)
+                {
+                    SenderToEmail senderEmail = new SenderToEmail(item.User);
+                    senderEmail.SendMail("Создана форма.");
+                }
             }
         }
 

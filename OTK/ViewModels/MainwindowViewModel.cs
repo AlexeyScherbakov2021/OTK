@@ -22,12 +22,22 @@ namespace OTK.ViewModels
 #else
         public string Title { get; set; } = "Список задач";
 #endif
+        private EnumFilter _CurrentFilter;
 
         public Users User => App.CurrentUser;
 
         public InControlViewModel vmInControl { get; set; }
 
-        public TabItem SelectedTab { get; set; }
+        private TabItem _SelectedTab;
+        public TabItem SelectedTab 
+        { 
+            get => _SelectedTab;
+            set 
+            { 
+                if(Set(ref _SelectedTab, value))
+                    LoadListJobs();
+            } 
+        }
 
 
         public MainwindowViewModel()
@@ -64,6 +74,16 @@ namespace OTK.ViewModels
         }
 
 
+        //--------------------------------------------------------------------------------
+        // Загрузка списка работ для текущей вкладки и фильтра
+        //--------------------------------------------------------------------------------
+        private void LoadListJobs()
+        {
+            if (SelectedTab.DataContext is FormAbstract form)
+                form.LoadListJobs(_CurrentFilter);
+
+        }
+
 
         #region Команды
 
@@ -74,8 +94,14 @@ namespace OTK.ViewModels
         private bool CanFilterNeedCommand(object p) => true;
         private void OnFilterNeedCommandExecuted(object p)
         {
-            if (SelectedTab.DataContext != null)
-                (SelectedTab.DataContext as FormAbstract).LoadJobs(EnumStatusJob.ReqConfirm);
+            _CurrentFilter = EnumFilter.Require;
+            LoadListJobs();
+
+            //if (SelectedTab.DataContext is FormAbstract form)
+            //    form.LoadJobs(_CurrentFilter);
+
+            //if (SelectedTab.DataContext != null)
+            //    (SelectedTab.DataContext as FormAbstract).LoadJobs(EnumStatusJob.ReqConfirm);
 
         }
 
@@ -86,8 +112,13 @@ namespace OTK.ViewModels
         private bool CanFilterClosedCommand(object p) => true;
         private void OnFilterClosedCommandExecuted(object p)
         {
-            if (SelectedTab.DataContext != null)
-                (SelectedTab.DataContext as FormAbstract).LoadJobs(EnumStatusJob.Closed);
+            _CurrentFilter = EnumFilter.Closed;
+            LoadListJobs();
+            //if (SelectedTab.DataContext is FormAbstract form)
+            //    form.LoadJobs(_CurrentFilter);
+
+            //if (SelectedTab.DataContext != null)
+            //    (SelectedTab.DataContext as FormAbstract).LoadJobs(EnumStatusJob.Closed);
 
         }
 
@@ -98,8 +129,11 @@ namespace OTK.ViewModels
         private bool CanFilterWorkCommand(object p) => true;
         private void OnFilterWorkCommandExecuted(object p)
         {
-            if (SelectedTab.DataContext != null)
-                (SelectedTab.DataContext as FormAbstract).LoadJobs(EnumStatusJob.InWork);
+            _CurrentFilter = EnumFilter.Works;
+            LoadListJobs();
+
+            //if ( SelectedTab.DataContext is FormAbstract form)
+            //    form.LoadJobs(_CurrentFilter);
         }
 
 

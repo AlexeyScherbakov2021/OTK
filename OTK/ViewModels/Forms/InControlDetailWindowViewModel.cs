@@ -19,7 +19,6 @@ namespace OTK.ViewModels.Forms
         private readonly RepositoryMSSQL<Jobs> _repo;
         private readonly RepositoryMSSQL<Users> _repoUsers;
         public Users User => App.CurrentUser;
-        //private RespUserWindow win;
 
         public string Title { get; set; } = "форма Входной контроль";
 
@@ -32,8 +31,11 @@ namespace OTK.ViewModels.Forms
 
         public ActionUser NewAction { get; set; }
 
-        public Visibility IsCreateVisible { get; set; } = Visibility.Collapsed;
-        public Visibility IsEditVisible { get; set; } = Visibility.Visible;
+        public Visibility IsCreateVisible { get; set; } 
+        public Visibility IsEditVisible { get; set; } 
+        public Visibility IsCloseVisible { get; set; }
+
+        public bool IsReadOnlyField { get; set; }
 
         //--------------------------------------------------------------------------------
         // конструктор для этапа разработки
@@ -52,15 +54,26 @@ namespace OTK.ViewModels.Forms
             _repoUsers = new RepositoryMSSQL<Users>();
             ListUsers = _repoUsers.Items.OrderBy(o => o.UserName).ToList();
 
-            if (job.id == 0)
+            if (job.id == 0)    // если это было создание
             {
                 Title = "Создание формы Входной контроль";
                 IsEditVisible = Visibility.Collapsed;
-                IsCreateVisible= Visibility.Visible;
+                IsCreateVisible = Visibility.Visible;
+                IsCloseVisible = Visibility.Collapsed;
+                IsReadOnlyField = false;
+            }
+            else
+            {
+                IsReadOnlyField = true;
+                IsCloseVisible = Visibility.Visible;
+                IsCreateVisible = Visibility.Collapsed;
+
+                IsEditVisible = job.JobStatus == EnumStatusJob.Closed 
+                    ? IsEditVisible = Visibility.Collapsed 
+                    : IsEditVisible = Visibility.Visible;
             }
 
             CurrentJob = job;
-
         }
 
 
@@ -75,12 +88,12 @@ namespace OTK.ViewModels.Forms
                 CurrentJob.JobStatus = EnumStatusJob.ReqConfirm;
 
             // если все выполнены
-            if (CurrentJob.Action.All(it => it.ActionStatus == EnumStatus.Finish))
+            else if (CurrentJob.Action.All(it => it.ActionStatus == EnumStatus.Finish))
                 CurrentJob.JobStatus = EnumStatusJob.Complete;
 
-
+            else
+                CurrentJob.JobStatus = EnumStatusJob.InWork;
         }
-
 
 
         #region Команды
@@ -133,23 +146,25 @@ namespace OTK.ViewModels.Forms
 
                 // осталось часов до выполнения
                 var left = item.ActionDateEnd - CurrentTime;
-                bool IsSend = left.Value.TotalHours < 24 && times.Value.TotalHours > 24;
+
+                bool IsSend = (left.Value.TotalHours < 24 && times.Value.TotalHours > 24);
 
                 // если оповещения еще не было или было более суток назад 
                 if (item.ActionTimeSend is null || IsSend )
                 {
                     SenderToEmail senderEmail = new SenderToEmail(item.User);
                     senderEmail.SendMail("Сообщение");
+                    
+                    // если отправка была успешна
                     // сохраняем время отправки
                     item.ActionTimeSend = CurrentTime;
                     _repo.Save();
                 }
             }
-
         }
 
         //--------------------------------------------------------------------------------
-        // Команда Проверене
+        // Команда Проверено
         //--------------------------------------------------------------------------------
         public ICommand AcceptCommand => new LambdaCommand(OnAcceptCommandExecuted, CanAcceptCommand);
         private bool CanAcceptCommand(object p) => SelectedAction?.ActionStatus == EnumStatus.Checked;
@@ -172,6 +187,20 @@ namespace OTK.ViewModels.Forms
             _repo.Save();
             SenderToEmail senderEmail = new SenderToEmail(SelectedAction.User);
             senderEmail.SendMail("Не принято.");
+        }
+
+        //--------------------------------------------------------------------------------
+        // Команда В архив
+        //--------------------------------------------------------------------------------
+        public ICommand ArchiveCommand => new LambdaCommand(OnArchiveCommandExecuted, CanArchiveCommand);
+        private bool CanArchiveCommand(object p) => CurrentJob?.JobStatus == EnumStatusJob.Complete;
+        private void OnArchiveCommandExecuted(object p)
+        {
+            if (MessageBox.Show($"Перевести форму в архив?", "Предупреждение", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            {
+                CurrentJob.JobStatus = EnumStatusJob.Closed;
+                _repo.Save();
+            }
         }
 
 

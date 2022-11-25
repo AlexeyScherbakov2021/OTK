@@ -6,7 +6,10 @@ using System.Collections.Generic;
 namespace OTK.Infrastructure
 {
     //public enum EnumStatus : int { Created = 1, CoordinateWork, Coordinated, ApprovWork,  Approved, Return, Refused, Closed, Waiting, None };
-    //public enum EnumTypesStep : int { Coordinate = 1,  Approve, Review, Notify, Created };
+    
+    public enum EnumFilter : int { Require, Works, Closed };
+
+
     public enum EnumFormType : int { VK = 0, OK, PSI, RN, Fail = -1 };
 
     public enum EnumStatusJob : int { 
@@ -15,6 +18,15 @@ namespace OTK.Infrastructure
         Complete,       // выполнен
         Closed          // в архиве (закрыт)
     };
+
+    public static class ClassStatusJob
+    {
+        public static List<string> NameStatus { get; } = new List<string>()
+        {
+            "в работе", "проверка", "выполнен", "архив"
+        };
+    }
+
 
 
     public enum EnumStatus : int { 
