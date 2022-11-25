@@ -22,7 +22,7 @@ namespace OTK.Models
 
         public EnumFormType JobType { get; set; }
 
-        public DateTime? JobDate { get; set; }
+        public DateTime JobDate { get; set; }
 
         public string JobNameProduct { get; set; }
 

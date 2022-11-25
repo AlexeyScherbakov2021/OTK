@@ -10,6 +10,11 @@ namespace OTK.Models
     [Table("Action")]
     public partial class ActionUser : IEntity
     {
+        public ActionUser()
+        {
+            ActionFiles = new HashSet<ActionFiles>();
+        }
+
         public int id { get; set; }
 
         public int? ActionJobID { get; set; }
@@ -29,5 +34,8 @@ namespace OTK.Models
         public virtual Jobs Jobs { get; set; }
 
         public virtual Users User { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ActionFiles> ActionFiles { get; set; }
     }
 }

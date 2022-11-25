@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Configuration;
 using System.Data.Entity;
 using System.Linq;
 
@@ -7,8 +8,8 @@ namespace OTK.Models
 {
     public partial class ModelOTK : DbContext
     {
-        public ModelOTK()
-            : base("name=ModelOTK")
+        public ModelOTK(string cs)
+            : base(cs)
         {
         }
 
@@ -18,7 +19,18 @@ namespace OTK.Models
             if (BaseDB != null)
                 return BaseDB;
 
-            return BaseDB = new ModelOTK();
+            string ConnectString;
+
+#if DEBUG
+            ConnectString = ConfigurationManager.ConnectionStrings["ModelOTK"].ConnectionString;
+            ConnectString += ";user id=fpLoginName;password=ctcnhjt,s";
+#else
+            ConnectString = ConfigurationManager.ConnectionStrings["ModelOTK"].ConnectionString;
+            ConnectString += ";user id=fpLoginName;password=ctcnhjt,s";
+#endif
+            BaseDB = new ModelOTK(ConnectString);
+
+            return BaseDB/* = new ModelOTK()*/;
         }
 
 
@@ -26,12 +38,18 @@ namespace OTK.Models
         public virtual DbSet<Jobs> Jobs { get; set; }
         public virtual DbSet<RnO> RnO { get; set; }
         public virtual DbSet<Users> Users { get; set; }
+        public virtual DbSet<ActionFiles> ActionFiles { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ActionUser>()
                 .Property(e => e.ActionName)
                 .IsUnicode(false);
+
+            modelBuilder.Entity<ActionUser>()
+                .HasMany(e => e.ActionFiles)
+                .WithOptional(e => e.ActionUser)
+                .HasForeignKey(e => e.af_ActionId);
 
             modelBuilder.Entity<Jobs>()
                 .Property(e => e.JobNameProduct)

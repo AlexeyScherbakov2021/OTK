@@ -17,10 +17,6 @@ namespace OTK.ViewModels.Forms
 {
     internal class InControlViewModel : FormAbstract
     {
-        //private readonly RepositoryMSSQL<Jobs> _repo;
-
-        //public ObservableCollection<Jobs> ListJobs { get; set; }
-        //public Jobs SelectedJob { get; set; }
 
         //--------------------------------------------------------------------------------
         // Конструктор
@@ -33,36 +29,6 @@ namespace OTK.ViewModels.Forms
 
 
         //--------------------------------------------------------------------------------
-        // Загрузка работ
-        //--------------------------------------------------------------------------------
-        //public override void LoadJobs(EnumFilter filter)
-        //{
-        //    switch (filter)
-        //    {
-        //        case EnumFilter.Require:
-        //            ListJobs = new ObservableCollection<Jobs>(_repo.Items.Where(it => it.JobStatus == EnumStatusJob.ReqConfirm && it.JobType == FormType));
-        //            break;
-
-        //        case EnumFilter.Works:
-        //            ListJobs = new ObservableCollection<Jobs>(_repo.Items.Where(it =>
-        //                (it.JobStatus == EnumStatusJob.InWork
-        //                || it.JobStatus == EnumStatusJob.Complete
-        //                || it.JobStatus == EnumStatusJob.ReqConfirm)
-        //                && it.JobType == FormType));
-        //            break;
-
-        //        case EnumFilter.Closed:
-        //            ListJobs = new ObservableCollection<Jobs>(_repo.Items.Where(it => it.JobStatus != EnumStatusJob.Closed
-        //                && it.JobType == FormType));
-        //            break;
-
-        //    }
-
-        //    OnPropertyChanged(nameof(ListJobs));
-        //}
-
-
-        //--------------------------------------------------------------------------------
         // Создание формы
         //--------------------------------------------------------------------------------
         public override void CreateForm()
@@ -70,6 +36,7 @@ namespace OTK.ViewModels.Forms
             InControlDetailWindow win = new InControlDetailWindow();
             Jobs job = new Jobs();
             job.JobType = FormType;
+            job.JobDate = DateTime.Now;
             win.DataContext = new InControlDetailWindowViewModel(_repo, job);
             if(win.ShowDialog() == true)
             {
@@ -111,20 +78,6 @@ namespace OTK.ViewModels.Forms
 
 
         #region Команды
-
-
-        //--------------------------------------------------------------------------------
-        // Команда Создать
-        //--------------------------------------------------------------------------------
-        //private readonly ICommand _CreateCommand = null;
-        //public ICommand CreateCommand => _CreateCommand ?? new LambdaCommand(OnCreateCommandExecuted, CanCreateCommand);
-        //private bool CanCreateCommand(object p) => true;
-        //private void OnCreateCommandExecuted(object p)
-        //{
-
-
-        //}
-
         #endregion
 
 

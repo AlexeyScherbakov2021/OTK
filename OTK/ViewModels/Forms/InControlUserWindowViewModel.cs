@@ -1,12 +1,15 @@
-﻿using OTK.Commands;
+﻿using Microsoft.Win32;
+using OTK.Commands;
 using OTK.Infrastructure;
 using OTK.Models;
 using OTK.Repository;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace OTK.ViewModels.Forms
@@ -20,6 +23,8 @@ namespace OTK.ViewModels.Forms
 
         public ActionUser CurrentActor { get; set; }
 
+        public ObservableCollection<ActionFiles> ListActionFiles { get; set; }
+
         //--------------------------------------------------------------------------------
         // Конструктор
         //--------------------------------------------------------------------------------
@@ -28,6 +33,8 @@ namespace OTK.ViewModels.Forms
             _repoJob= repo;
             CurrentJob= job;
             CurrentActor = job.Action.FirstOrDefault(it => it.User.id == User.id);
+            ListActionFiles = new ObservableCollection<ActionFiles>(CurrentActor.ActionFiles);
+
         }
 
         public InControlUserWindowViewModel()
@@ -49,8 +56,64 @@ namespace OTK.ViewModels.Forms
         {
             CurrentActor.ActionStatus = EnumStatus.Checked;
             CurrentActor.Jobs.JobStatus = EnumStatusJob.ReqConfirm;
-            _repoJob.Save();
+            CurrentActor.ActionFiles = ListActionFiles;
+            //_repoJob.Save();
+
+            RepositoryFiles repoFiles = new RepositoryFiles();
+            repoFiles.AddFilesAsync(CurrentActor);
         }
+
+        //--------------------------------------------------------------------------------
+        // Команда Удалить файл
+        //--------------------------------------------------------------------------------
+        private readonly ICommand _DeleteFileCommand = null;
+        public ICommand DeleteFileCommand => _DeleteFileCommand ?? new LambdaCommand(OnDeleteFileCommandExecuted, CanDeleteFileCommand);
+        private bool CanDeleteFileCommand(object p) => true;
+        private void OnDeleteFileCommandExecuted(object p)
+        {
+            ActionFiles FileName = p as ActionFiles;
+
+            //MainWindowViewModel.repo.Delete<RouteAdding>(FileName);
+
+            ListActionFiles.Remove(FileName);
+
+        }
+
+
+
+
+        //--------------------------------------------------------------------------------
+        // Команда Обзор файлов
+        //--------------------------------------------------------------------------------
+        public ICommand BrowseCommand => new LambdaCommand(OnBrowseCommandExecuted, CanBrowseCommand);
+        private bool CanBrowseCommand(object p) => true; 
+        private void OnBrowseCommandExecuted(object p)
+        {
+            OpenFileDialog dlgOpen = new OpenFileDialog();
+            dlgOpen.Multiselect = true;
+
+            if (dlgOpen.ShowDialog() == true)
+            {
+                FilesFunction.AddFiles(dlgOpen.FileNames, ListActionFiles);
+            }
+        }
+
+        //--------------------------------------------------------------------------------
+        // Команда Drop
+        //--------------------------------------------------------------------------------
+
+        public void ItemsControl_Drop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+                FilesFunction.AddFiles(files, ListActionFiles);
+
+            }
+        }
+
+
 
         #endregion
 
