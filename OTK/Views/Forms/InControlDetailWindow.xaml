@@ -18,7 +18,7 @@
     </Window.DataContext>
 
     <DockPanel>
-        <ToolBarPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="4">
+        <ToolBarPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="4" Height="28">
             <Button Content="Оповестить" Margin="3,0" Visibility="{Binding IsEditVisible}" Command="{Binding SendCommand}"/>
             <Button Content="В архив"  Margin="3,0" Visibility="{Binding IsEditVisible}" Command="{Binding ArchiveCommand}"/>
             <Button Content="Закрыть"  Margin="3,0" Visibility="{Binding IsCloseVisible}"
@@ -67,7 +67,7 @@
                     <Button Content="Отказать" Margin="3" Command="{Binding RejectCommand}"  Visibility="{Binding IsEditVisible}"/>
                 </StackPanel>
 
-                <DataGrid ItemsSource="{Binding CurrentJob.Action}" Style="{DynamicResource DataGridStyle}" IsReadOnly="True" SelectedItem="{Binding SelectedAction}">
+                <DataGrid x:Name="dg" ItemsSource="{Binding CurrentJob.Action}" Style="{DynamicResource DataGridStyle}" IsReadOnly="True" SelectedItem="{Binding SelectedAction}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Действия" Binding="{Binding ActionName}"/>
                         <DataGridTextColumn Header="Ответственный" Binding="{Binding User.UserName}"/>
@@ -90,7 +90,28 @@
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                         <DataGridTextColumn Header="время оповещения." Binding="{Binding ActionTimeSend, StringFormat=G}"/>
-                        <DataGridTextColumn Header="Файлы" />
+                        <DataGridTemplateColumn Header="Файлы" >
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ItemsControl ItemsSource="{Binding ActionFiles}" ScrollViewer.VerticalScrollBarVisibility="Auto" >
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border BorderThickness="1" BorderBrush="Black" CornerRadius="3" Margin="0" Background="LightYellow">
+                                                    <TextBlock Foreground="Black" Text="{Binding af_FileName}" Margin="2,0" VerticalAlignment="Center" Cursor="Hand" >
+                                                        <TextBlock.InputBindings>
+                                                            <MouseBinding Gesture="LeftDoubleClick" 
+                                                                      Command="{Binding DataContext.OpenFileCommand, ElementName=dg}" 
+                                                                      CommandParameter="{Binding }"/>
+                                                        </TextBlock.InputBindings>
+
+                                                    </TextBlock>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
 

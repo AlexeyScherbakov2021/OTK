@@ -8,7 +8,7 @@ namespace OTK.Models
     using System.Data.Entity.Spatial;
 
     [Table("Action")]
-    public partial class ActionUser : IEntity
+    public partial class ActionUser : Observable, IEntity
     {
         public ActionUser()
         {

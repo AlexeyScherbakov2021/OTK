@@ -173,6 +173,7 @@ namespace OTK.ViewModels.Forms
             SelectedAction.ActionStatus = EnumStatus.Finish;
             SetStatusActionToJob();
             _repo.Save();
+            SelectedAction.OnPropertyChanged(nameof(SelectedAction.ActionStatus));
         }
 
         //--------------------------------------------------------------------------------
@@ -187,6 +188,9 @@ namespace OTK.ViewModels.Forms
             _repo.Save();
             SenderToEmail senderEmail = new SenderToEmail(SelectedAction.User);
             senderEmail.SendMail("Не принято.");
+
+            SelectedAction.OnPropertyChanged(nameof(SelectedAction.ActionStatus));
+
         }
 
         //--------------------------------------------------------------------------------
@@ -201,6 +205,17 @@ namespace OTK.ViewModels.Forms
                 CurrentJob.JobStatus = EnumStatusJob.Closed;
                 _repo.Save();
             }
+        }
+
+        //--------------------------------------------------------------------------------
+        // Команда Открыть файл двойным щелчком
+        //--------------------------------------------------------------------------------
+        public ICommand OpenFileCommand => new LambdaCommand(OnOpenFileCommandExecuted, CanOpenFileCommand);
+        private bool CanOpenFileCommand(object p) => true;
+        private void OnOpenFileCommandExecuted(object p)
+        {
+            RepositoryFiles repoFiles = new RepositoryFiles();
+            repoFiles.OpenActionFile(p as ActionFiles);
         }
 
 

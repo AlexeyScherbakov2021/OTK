@@ -3,6 +3,7 @@ using OTK.Commands;
 using OTK.Infrastructure;
 using OTK.Models;
 using OTK.Repository;
+using OTK.Views.Forms;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -23,6 +24,8 @@ namespace OTK.ViewModels.Forms
 
         public ActionUser CurrentActor { get; set; }
 
+        public bool IsEnabledButton { get; set; } = true;
+
         public ObservableCollection<ActionFiles> ListActionFiles { get; set; }
 
         //--------------------------------------------------------------------------------
@@ -35,14 +38,13 @@ namespace OTK.ViewModels.Forms
             CurrentActor = job.Action.FirstOrDefault(it => it.User.id == User.id);
             ListActionFiles = new ObservableCollection<ActionFiles>(CurrentActor.ActionFiles);
 
+            IsEnabledButton = CurrentActor.ActionStatus == EnumStatus.CheckedProcess;
         }
 
         public InControlUserWindowViewModel()
         {
 
         }
-
-
 
 
         #region Команды
@@ -57,10 +59,13 @@ namespace OTK.ViewModels.Forms
             CurrentActor.ActionStatus = EnumStatus.Checked;
             CurrentActor.Jobs.JobStatus = EnumStatusJob.ReqConfirm;
             CurrentActor.ActionFiles = ListActionFiles;
-            //_repoJob.Save();
+            _repoJob.Save();
 
             RepositoryFiles repoFiles = new RepositoryFiles();
             repoFiles.AddFilesAsync(CurrentActor);
+
+            App.Current.Windows.OfType<InControlUserWindow>().FirstOrDefault().Close();
+
         }
 
         //--------------------------------------------------------------------------------

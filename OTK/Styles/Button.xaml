@@ -42,7 +42,7 @@
             Background="{StaticResource NormalBrush}"
             BorderBrush="{StaticResource NormalBorderBrush}">
             <ContentPresenter 
-              Margin="2"
+              Margin="6,0"
               HorizontalAlignment="Center"
               VerticalAlignment="Center"
               RecognizesAccessKey="True"/>
