@@ -85,6 +85,7 @@
     <Compile Include="Infrastructure\FilesFunction.cs" />
     <Compile Include="Infrastructure\Observable.cs" />
     <Compile Include="Infrastructure\SenderToEmail.cs" />
+    <Compile Include="Models\ActFiles.cs" />
     <Compile Include="Models\ActionFiles.cs" />
     <Compile Include="Models\ActionUser.cs" />
     <Compile Include="Models\IEntity.cs" />

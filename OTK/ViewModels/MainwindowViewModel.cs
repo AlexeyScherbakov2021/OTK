@@ -40,6 +40,9 @@ namespace OTK.ViewModels
         }
 
 
+        //--------------------------------------------------------------------------------
+        // конструктор
+        //--------------------------------------------------------------------------------
         public MainwindowViewModel()
         {
             CheckDateEnd();
@@ -83,7 +86,6 @@ namespace OTK.ViewModels
                 form.LoadListJobs(_CurrentFilter);
 
         }
-
 
         #region Команды
 

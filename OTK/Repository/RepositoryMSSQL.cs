@@ -5,18 +5,25 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace OTK.Repository
 {
-    internal class RepositoryMSSQL<T> : IRepository<T> where T : class, IEntity, new()
+    internal class RepositoryMSSQL<T> : IDisposable,  IRepository<T> where T : class, IEntity, new()
 
     {
-        public static readonly ModelOTK db = ModelOTK.CreateDB();
+        //public static readonly ModelOTK db = ModelOTK.CreateDB();
+        protected ModelOTK db;
+
         protected readonly DbSet<T> _Set;
         public virtual IQueryable<T> Items => _Set;
 
-        public RepositoryMSSQL()
+        public ModelOTK GetDB() => db;
+
+
+        public RepositoryMSSQL(ModelOTK ctx = null)
         {
+            db = ctx is null ? ModelOTK.CreateDB() : ctx;
             _Set = db.Set<T>();
         }
 
@@ -31,8 +38,9 @@ namespace OTK.Repository
                     db.SaveChanges();
                 return true;
             }
-            catch
+            catch(Exception ex)
             {
+                MessageBox.Show( ex.Message,"Ошибка базы данных", MessageBoxButton.OK,  MessageBoxImage.Error);
                 return false;
             }
         }
@@ -61,8 +69,9 @@ namespace OTK.Repository
 
                 return true;
             }
-            catch
+            catch(Exception  ex)
             {
+                MessageBox.Show(ex.Message, "Ошибка базы данных", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
         }
@@ -78,7 +87,10 @@ namespace OTK.Repository
             {
                 db.SaveChanges();
             }
-            catch { }
+            catch(Exception ex) 
+            {
+                MessageBox.Show(ex.Message, "Ошибка базы данных", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         public bool Update(T item, bool Autosave = false)
@@ -92,10 +104,15 @@ namespace OTK.Repository
                     db.SaveChanges();
                 return true;
             }
-            catch
+            catch(Exception ex)
             {
+                MessageBox.Show(ex.Message, "Ошибка базы данных", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
+        }
+
+        public void Dispose()
+        {
         }
     }
 }

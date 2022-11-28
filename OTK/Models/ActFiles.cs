@@ -7,14 +7,15 @@ using System.Threading.Tasks;
 
 namespace OTK.Models
 {
-    public partial class ActionFiles : IEntity
+    public partial class ActFiles : IEntity
     {
         public int id { get; set; }
-        public int? af_ActionId { get; set; }
-        
+
+        public int? af_JobId { get;  set; }
+
         public string af_FileName { get; set; }
 
-        public virtual ActionUser ActionUser { get; set; }
+        public virtual Jobs ListJobs { get; set; }
 
         [NotMapped]
         public string FullName;

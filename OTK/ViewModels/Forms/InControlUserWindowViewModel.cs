@@ -31,13 +31,12 @@ namespace OTK.ViewModels.Forms
         //--------------------------------------------------------------------------------
         // Конструктор
         //--------------------------------------------------------------------------------
-        public InControlUserWindowViewModel(RepositoryMSSQL<Jobs> repo, Jobs job)
+        public InControlUserWindowViewModel(RepositoryMSSQL<Jobs> repo, int jobId)
         {
-            _repoJob= repo;
-            CurrentJob= job;
-            CurrentActor = job.Action.FirstOrDefault(it => it.User.id == User.id);
+            _repoJob = repo;
+            CurrentJob = _repoJob.Get(jobId);
+            CurrentActor = CurrentJob.Action.FirstOrDefault(it => it.User.id == User.id);
             ListActionFiles = new ObservableCollection<ActionFiles>(CurrentActor.ActionFiles);
-
             IsEnabledButton = CurrentActor.ActionStatus == EnumStatus.CheckedProcess;
         }
 
@@ -112,12 +111,20 @@ namespace OTK.ViewModels.Forms
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
                 string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-
                 FilesFunction.AddFiles(files, ListActionFiles);
-
             }
         }
 
+        //--------------------------------------------------------------------------------
+        // Команда Открыть файл двойным щелчком
+        //--------------------------------------------------------------------------------
+        public ICommand OpenFileCommand => new LambdaCommand(OnOpenFileCommandExecuted, CanOpenFileCommand);
+        private bool CanOpenFileCommand(object p) => true;
+        private void OnOpenFileCommandExecuted(object p)
+        {
+            RepositoryFiles repoFiles = new RepositoryFiles();
+            repoFiles.OpenActionFile(p as ActionFiles);
+        }
 
 
         #endregion

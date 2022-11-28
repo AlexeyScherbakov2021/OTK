@@ -1,10 +1,12 @@
-﻿using OTK.Commands;
+﻿using Microsoft.Win32;
+using OTK.Commands;
 using OTK.Infrastructure;
 using OTK.Models;
 using OTK.Repository;
 using OTK.Views;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Linq;
 using System.Text;
@@ -37,6 +39,10 @@ namespace OTK.ViewModels.Forms
 
         public bool IsReadOnlyField { get; set; }
 
+        public bool IsEnabledButton { get; set; } = true;
+        public ObservableCollection<ActFiles> ListActFiles { get; set; }
+
+
         //--------------------------------------------------------------------------------
         // конструктор для этапа разработки
         //--------------------------------------------------------------------------------
@@ -48,32 +54,34 @@ namespace OTK.ViewModels.Forms
         //--------------------------------------------------------------------------------
         // Конструктор
         //--------------------------------------------------------------------------------
-        public InControlDetailWindowViewModel(RepositoryMSSQL<Jobs> repo, Jobs job )
+        public InControlDetailWindowViewModel(RepositoryMSSQL<Jobs> repo, int jobId )
         {
             _repo = repo;
-            _repoUsers = new RepositoryMSSQL<Users>();
+            _repoUsers = new RepositoryMSSQL<Users>(_repo.GetDB());
             ListUsers = _repoUsers.Items.OrderBy(o => o.UserName).ToList();
 
-            if (job.id == 0)    // если это было создание
+            if (jobId == 0)    // если это было создание
             {
                 Title = "Создание формы Входной контроль";
                 IsEditVisible = Visibility.Collapsed;
                 IsCreateVisible = Visibility.Visible;
                 IsCloseVisible = Visibility.Collapsed;
                 IsReadOnlyField = false;
+                IsEnabledButton = true;
             }
             else
             {
+                CurrentJob = repo.Get(jobId);
                 IsReadOnlyField = true;
+                IsEnabledButton = false;
                 IsCloseVisible = Visibility.Visible;
                 IsCreateVisible = Visibility.Collapsed;
 
-                IsEditVisible = job.JobStatus == EnumStatusJob.Closed 
+                IsEditVisible = CurrentJob.JobStatus == EnumStatusJob.Closed 
                     ? IsEditVisible = Visibility.Collapsed 
                     : IsEditVisible = Visibility.Visible;
             }
 
-            CurrentJob = job;
         }
 
 
@@ -217,6 +225,65 @@ namespace OTK.ViewModels.Forms
             RepositoryFiles repoFiles = new RepositoryFiles();
             repoFiles.OpenActionFile(p as ActionFiles);
         }
+
+
+        //--------------------------------------------------------------------------------
+        // Команда Обзор файлов актов
+        //--------------------------------------------------------------------------------
+        public ICommand BrowseActsCommand => new LambdaCommand(OnBrowseActsCommandExecuted, CanBrowseActsCommand);
+        private bool CanBrowseActsCommand(object p) => true;
+        private void OnBrowseActsCommandExecuted(object p)
+        {
+            OpenFileDialog dlgOpen = new OpenFileDialog();
+            dlgOpen.Multiselect = true;
+
+            if (dlgOpen.ShowDialog() == true)
+            {
+                FilesFunction.AddFiles(dlgOpen.FileNames, ListActFiles);
+            }
+        }
+
+        //--------------------------------------------------------------------------------
+        // Команда Drop файлы актов
+        //--------------------------------------------------------------------------------
+
+        public void Acts_Drop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+                FilesFunction.AddFiles(files, ListActFiles);
+
+            }
+        }
+
+        //--------------------------------------------------------------------------------
+        // Команда Открыть файл акта двойным щелчком
+        //--------------------------------------------------------------------------------
+        public ICommand OpenActFileCommand => new LambdaCommand(OnOpenActFileCommandExecuted, CanOpenActFileCommand);
+        private bool CanOpenActFileCommand(object p) => true;
+        private void OnOpenActFileCommandExecuted(object p)
+        {
+            RepositoryFiles repoFiles = new RepositoryFiles();
+            repoFiles.OpenActionFile(p as ActionFiles);
+        }
+
+        //--------------------------------------------------------------------------------
+        // Команда Удалить файл акта
+        //--------------------------------------------------------------------------------
+        public ICommand DeleteActFileCommand => new LambdaCommand(OnDeleteActFileCommandExecuted, CanDeleteActFileCommand);
+        private bool CanDeleteActFileCommand(object p) => true;
+        private void OnDeleteActFileCommandExecuted(object p)
+        {
+            ActionFiles FileName = p as ActionFiles;
+
+            //MainWindowViewModel.repo.Delete<RouteAdding>(FileName);
+
+            //ListActionFiles.Remove(FileName);
+
+        }
+
 
 
         #endregion

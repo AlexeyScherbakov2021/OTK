@@ -155,11 +155,11 @@ namespace OTK.Repository
         //--------------------------------------------------------------------------------
         // Команда Открыть файл
         //--------------------------------------------------------------------------------
-        public void OpenActionFile(ActionFiles actionFiles)
+        public void OpenActionFile(ActionFiles actionFile)
         {
-            RepositoryFiles repoFiles = new RepositoryFiles();
+            //RepositoryFiles repoFiles = new RepositoryFiles();
 
-            string TempFileName = repoFiles.GetFile(actionFiles);
+            string TempFileName = GetFile(actionFile);
 
             if (TempFileName != null)
                 Process.Start(TempFileName);

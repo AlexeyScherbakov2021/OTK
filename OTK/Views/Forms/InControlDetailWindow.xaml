@@ -8,7 +8,7 @@
         xmlns:conv="clr-namespace:OTK.Converters"
         xmlns:local="clr-namespace:OTK.Views.Forms"
         mc:Ignorable="d"
-        Title="{Binding Title}" Height="700" Width="900" WindowStartupLocation="CenterScreen">
+        Title="{Binding Title}" Width="900" WindowStartupLocation="CenterScreen" Height="600">
     <Window.Resources>
         <conv:StatusToIconConverter x:Key="StatusToIconConverter"/>
         <conv:StatusToStringConverter x:Key="StatusToStringConverter"/>
@@ -53,7 +53,7 @@
             </Grid.Effect>
 
             <Grid.RowDefinitions>
-                <RowDefinition/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
@@ -67,7 +67,8 @@
                     <Button Content="Отказать" Margin="3" Command="{Binding RejectCommand}"  Visibility="{Binding IsEditVisible}"/>
                 </StackPanel>
 
-                <DataGrid x:Name="dg" ItemsSource="{Binding CurrentJob.Action}" Style="{DynamicResource DataGridStyle}" IsReadOnly="True" SelectedItem="{Binding SelectedAction}">
+                <DataGrid x:Name="dg" ItemsSource="{Binding CurrentJob.Action}" Style="{DynamicResource DataGridStyle}" IsReadOnly="True" 
+                          SelectedItem="{Binding SelectedAction}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Действия" Binding="{Binding ActionName}"/>
                         <DataGridTextColumn Header="Ответственный" Binding="{Binding User.UserName}"/>
@@ -78,8 +79,7 @@
                                 <DataTemplate>
                                     <DockPanel>
                                         <Image Source="{Binding ActionStatus, Converter={StaticResource StatusToIconConverter}}" 
-                                               DockPanel.Dock="Left" Width="16" Height="16" Margin="3,1" VerticalAlignment="Top"
-                                               >
+                                               DockPanel.Dock="Left" Width="16" Height="16" Margin="3,1" VerticalAlignment="Top">
                                             <Image.Effect>
                                                 <DropShadowEffect ShadowDepth="0" BlurRadius="2" Color="#FF999999"/>
                                             </Image.Effect>

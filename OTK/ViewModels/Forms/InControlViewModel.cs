@@ -37,18 +37,20 @@ namespace OTK.ViewModels.Forms
             Jobs job = new Jobs();
             job.JobType = FormType;
             job.JobDate = DateTime.Now;
-            win.DataContext = new InControlDetailWindowViewModel(_repo, job);
-            if(win.ShowDialog() == true)
+            using (RepositoryMSSQL<Jobs> repo = new RepositoryMSSQL<Jobs>())
             {
-                _repo.Add(job, true);
-                //_repo.Save();
-                ListJobs.Add(job);
-
-                // отправить оповещения для всех
-                foreach (var item in job.Action)
+                win.DataContext = new InControlDetailWindowViewModel(repo, job.id);
+                if (win.ShowDialog() == true)
                 {
-                    SenderToEmail senderEmail = new SenderToEmail(item.User);
-                    senderEmail.SendMail("Создана форма.");
+                    repo.Add(job, true);
+                    RefreshListJobs();
+
+                    // отправить оповещения для всех
+                    foreach (var item in job.Action)
+                    {
+                        SenderToEmail senderEmail = new SenderToEmail(item.User);
+                        senderEmail.SendMail("Создана форма.");
+                    }
                 }
             }
         }
@@ -60,19 +62,27 @@ namespace OTK.ViewModels.Forms
         public override void OpenForm()
         {
             Window win = new InControlDetailWindow();
-            if (User.UserRole == EnumRoles.Пользователь)
+
+            using (RepositoryMSSQL<Jobs> repo = new RepositoryMSSQL<Jobs>())
             {
-                win = new InControlUserWindow();
-                win.DataContext = new InControlUserWindowViewModel(_repo, SelectedJob);
-            }
-            else
-            {
-                win = new InControlDetailWindow();
-                win.DataContext = new InControlDetailWindowViewModel(_repo, SelectedJob);
-            }
-            if (win.ShowDialog() == true)
-            {
-                //_repo.Save();
+
+                if (User.UserRole == EnumRoles.Пользователь)
+                {
+                    win = new InControlUserWindow();
+                    win.DataContext = new InControlUserWindowViewModel(repo, SelectedJob.id);
+                }
+                else
+                {
+                    win = new InControlDetailWindow();
+                    win.DataContext = new InControlDetailWindowViewModel(repo, SelectedJob.id);
+                }
+                if (win.ShowDialog() == true)
+                {
+
+                    //_repo.Save();
+                }
+
+                RefreshListJobs();
             }
         }
 

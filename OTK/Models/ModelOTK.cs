@@ -13,11 +13,11 @@ namespace OTK.Models
         {
         }
 
-        public static ModelOTK BaseDB = null;
+        //public static ModelOTK BaseDB = null;
         public static ModelOTK CreateDB()
         {
-            if (BaseDB != null)
-                return BaseDB;
+            //if (BaseDB != null)
+            //    return BaseDB;
 
             string ConnectString;
 
@@ -28,7 +28,7 @@ namespace OTK.Models
             ConnectString = ConfigurationManager.ConnectionStrings["ModelOTK"].ConnectionString;
             ConnectString += ";user id=fpLoginName;password=ctcnhjt,s";
 #endif
-            BaseDB = new ModelOTK(ConnectString);
+            ModelOTK BaseDB = new ModelOTK(ConnectString);
 
             return BaseDB/* = new ModelOTK()*/;
         }
@@ -39,6 +39,7 @@ namespace OTK.Models
         public virtual DbSet<RnO> RnO { get; set; }
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<ActionFiles> ActionFiles { get; set; }
+        public virtual DbSet<ActFiles> ActFiles { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -50,6 +51,11 @@ namespace OTK.Models
                 .HasMany(e => e.ActionFiles)
                 .WithOptional(e => e.ActionUser)
                 .HasForeignKey(e => e.af_ActionId);
+
+            modelBuilder.Entity<Jobs>()
+                .HasMany(e => e.ActFiles)
+                .WithOptional(e => e.ListJobs)
+                .HasForeignKey(e => e.af_JobId);
 
             modelBuilder.Entity<Jobs>()
                 .Property(e => e.JobNameProduct)

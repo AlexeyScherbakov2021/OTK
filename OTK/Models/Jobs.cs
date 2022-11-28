@@ -14,6 +14,7 @@ namespace OTK.Models
         public Jobs()
         {
             Action = new ObservableCollection<ActionUser>();
+            ActFiles = new ObservableCollection<ActFiles>();
         }
 
         [Key]
@@ -55,6 +56,9 @@ namespace OTK.Models
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ObservableCollection<ActionUser> Action { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ObservableCollection<ActFiles> ActFiles { get; set; }
 
         public virtual RnO RnO { get; set; }
     }

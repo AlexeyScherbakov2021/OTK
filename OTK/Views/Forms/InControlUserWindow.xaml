@@ -9,7 +9,7 @@
         xmlns:fa="http://schemas.fontawesome.com/icons/"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
-        Title="InControlUserWindow" Height="630" Width="900" WindowStartupLocation="CenterScreen">
+        Title="InControlUserWindow" Width="900" WindowStartupLocation="CenterScreen">
     <Window.DataContext>
         <vm:InControlUserWindowViewModel/>
     </Window.DataContext>
@@ -36,7 +36,7 @@
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
             <local:InControlUC DataContext="{Binding}"/>
@@ -71,7 +71,7 @@
 
                 <ItemsControl x:Name="itCont" ItemsSource="{Binding ListActionFiles}" BorderBrush="Black" BorderThickness="1,1,1,1" 
                               Grid.Column="2" Grid.Row="2" 
-                                  AllowDrop="True" Background="White" Margin="10,0,0,0" ScrollViewer.VerticalScrollBarVisibility="Auto" >
+                                  AllowDrop="True" Background="White" Margin="10,0,0,6" ScrollViewer.VerticalScrollBarVisibility="Auto" >
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Drop">
                             <i:CallMethodAction MethodName="ItemsControl_Drop" TargetObject="{Binding}"/>
@@ -86,7 +86,13 @@
                                     <fa:ImageAwesome Icon="Regular_WindowClose" Width="16" Height="16" Foreground="DarkRed"/>
                                 </Button>
                                 <Border BorderThickness="1" BorderBrush="Black" CornerRadius="3" Margin="2" Background="White">
-                                    <TextBlock Text="{Binding af_FileName}" Margin="4, 0" VerticalAlignment="Center" TextWrapping="Wrap" Background="LightYellow"/>
+                                    <TextBlock Text="{Binding af_FileName}" Margin="4, 0" VerticalAlignment="Center" TextWrapping="Wrap" Background="LightYellow">
+                                        <TextBlock.InputBindings>
+                                            <MouseBinding Gesture="LeftDoubleClick" 
+                                                                      Command="{Binding DataContext.OpenFileCommand, ElementName=itCont}" 
+                                                                      CommandParameter="{Binding }"/>
+                                        </TextBlock.InputBindings>
+                                    </TextBlock>
                                 </Border>
                             </DockPanel>
                         </DataTemplate>
