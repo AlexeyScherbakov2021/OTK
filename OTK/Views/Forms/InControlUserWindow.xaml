@@ -69,7 +69,7 @@
                     </fa:ImageAwesome>
                 </Button>
 
-                <ItemsControl x:Name="itCont" ItemsSource="{Binding ListActionFiles}" BorderBrush="Black" BorderThickness="1,1,1,1" 
+                <ItemsControl x:Name="itCont" ItemsSource="{Binding FilesAction.ListFiles}" BorderBrush="Black" BorderThickness="1,1,1,1" 
                               Grid.Column="2" Grid.Row="2" 
                                   AllowDrop="True" Background="White" Margin="10,0,0,6" ScrollViewer.VerticalScrollBarVisibility="Auto" >
                     <i:Interaction.Triggers>
@@ -86,7 +86,7 @@
                                     <fa:ImageAwesome Icon="Regular_WindowClose" Width="16" Height="16" Foreground="DarkRed"/>
                                 </Button>
                                 <Border BorderThickness="1" BorderBrush="Black" CornerRadius="3" Margin="2" Background="White">
-                                    <TextBlock Text="{Binding af_FileName}" Margin="4, 0" VerticalAlignment="Center" TextWrapping="Wrap" Background="LightYellow">
+                                    <TextBlock Text="{Binding FileName}" Margin="4, 0" VerticalAlignment="Center" TextWrapping="Wrap" Background="LightYellow">
                                         <TextBlock.InputBindings>
                                             <MouseBinding Gesture="LeftDoubleClick" 
                                                                       Command="{Binding DataContext.OpenFileCommand, ElementName=itCont}" 

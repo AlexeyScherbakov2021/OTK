@@ -28,6 +28,8 @@ namespace OTK.ViewModels.Forms
 
         public ObservableCollection<ActionFiles> ListActionFiles { get; set; }
 
+        public AttachListFiles FilesAction { get; set; }
+
         //--------------------------------------------------------------------------------
         // Конструктор
         //--------------------------------------------------------------------------------
@@ -37,6 +39,11 @@ namespace OTK.ViewModels.Forms
             CurrentJob = _repoJob.Get(jobId);
             CurrentActor = CurrentJob.Action.FirstOrDefault(it => it.User.id == User.id);
             ListActionFiles = new ObservableCollection<ActionFiles>(CurrentActor.ActionFiles);
+
+            FilesAction = new AttachListFiles(CurrentJob.JobDate.Year, CurrentActor.id, "Action");
+            var files = ListActionFiles.Select(s => s.af_FileName);
+            FilesAction.AssignFiles(files);
+
             IsEnabledButton = CurrentActor.ActionStatus == EnumStatus.CheckedProcess;
         }
 
@@ -60,8 +67,11 @@ namespace OTK.ViewModels.Forms
             CurrentActor.ActionFiles = ListActionFiles;
             _repoJob.Save();
 
-            RepositoryFiles repoFiles = new RepositoryFiles();
-            repoFiles.AddFilesAsync(CurrentActor);
+            //AttachListFiles attach = new AttachListFiles(CurrentJob.JobDate.Year, CurrentActor.id, "Action");
+            FilesAction.AddFilesAsync();
+
+            //RepositoryFiles repoFiles = new RepositoryFiles();
+            //repoFiles.AddFilesAsync(CurrentActor);
 
             App.Current.Windows.OfType<InControlUserWindow>().FirstOrDefault().Close();
 
@@ -75,11 +85,15 @@ namespace OTK.ViewModels.Forms
         private bool CanDeleteFileCommand(object p) => true;
         private void OnDeleteFileCommandExecuted(object p)
         {
-            ActionFiles FileName = p as ActionFiles;
+            //ActionFiles FileName = p as ActionFiles;
+            AttachFiles FileName = p as AttachFiles;
+
+            FilesAction.ListFiles.Remove(FileName);
 
             //MainWindowViewModel.repo.Delete<RouteAdding>(FileName);
+            
 
-            ListActionFiles.Remove(FileName);
+            //ListActionFiles.Remove(FileName);
 
         }
 
@@ -98,7 +112,9 @@ namespace OTK.ViewModels.Forms
 
             if (dlgOpen.ShowDialog() == true)
             {
-                FilesFunction.AddFiles(dlgOpen.FileNames, ListActionFiles);
+                //AttachListFiles attach = new AttachListFiles(CurrentJob.JobDate.Year, CurrentActor.id, "Action");
+                FilesAction.AssignFiles(dlgOpen.FileNames);
+                //FilesFunction.AddFiles(dlgOpen.FileNames, ListActionFiles);
             }
         }
 
@@ -111,7 +127,9 @@ namespace OTK.ViewModels.Forms
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
                 string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-                FilesFunction.AddFiles(files, ListActionFiles);
+                AttachListFiles attach = new AttachListFiles(CurrentJob.JobDate.Year, CurrentActor.id, "Action");
+
+                //FilesFunction.AddFiles(files, ListActionFiles);
             }
         }
 
@@ -122,8 +140,13 @@ namespace OTK.ViewModels.Forms
         private bool CanOpenFileCommand(object p) => true;
         private void OnOpenFileCommandExecuted(object p)
         {
-            RepositoryFiles repoFiles = new RepositoryFiles();
-            repoFiles.OpenActionFile(p as ActionFiles);
+            if (p is ActionFiles af)
+            {
+                //AttachListFiles attach = new AttachListFiles(CurrentJob.JobDate.Year, CurrentActor.id, "Action");
+                FilesAction.StartFile(af.af_FileName);
+            }
+            //RepositoryFiles repoFiles = new RepositoryFiles();
+            //repoFiles.OpenActionFile(p as ActionFiles);
         }
 
 

@@ -81,6 +81,7 @@
     <Compile Include="Converters\StatusJobToStringConverter.cs" />
     <Compile Include="Converters\StatusToIconConverter.cs" />
     <Compile Include="Converters\StatusToStringConverter.cs" />
+    <Compile Include="Infrastructure\AttachFilesOperation.cs" />
     <Compile Include="Infrastructure\Enums.cs" />
     <Compile Include="Infrastructure\FilesFunction.cs" />
     <Compile Include="Infrastructure\Observable.cs" />
