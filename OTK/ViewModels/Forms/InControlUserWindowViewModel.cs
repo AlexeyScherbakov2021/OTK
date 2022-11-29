@@ -26,6 +26,8 @@ namespace OTK.ViewModels.Forms
 
         public bool IsEnabledButton { get; set; } = false;
         public bool IsEnabledButtonUser { get; set; } = false;
+        public bool IsReadOnlyField { get; set; } = true;
+
 
         public AttachListFiles<ActionFiles> FilesAction { get; set; }
 
@@ -62,7 +64,7 @@ namespace OTK.ViewModels.Forms
         // Команда Выполнено
         //--------------------------------------------------------------------------------
         public ICommand CommitCommand => new LambdaCommand(OnCommitCommandExecuted, CanCommitCommand);
-        private bool CanCommitCommand(object p) => true;
+        private bool CanCommitCommand(object p) => CurrentActor?.ActionStatus == EnumStatus.CheckedProcess;
         private void OnCommitCommandExecuted(object p)
         {
             CurrentActor.ActionStatus = EnumStatus.Checked;
@@ -102,8 +104,6 @@ namespace OTK.ViewModels.Forms
             ActionFiles FileName = p as ActionFiles;
             FilesAction.DeleteFile(FileName);
         }
-
-
 
 
         //--------------------------------------------------------------------------------
@@ -147,7 +147,6 @@ namespace OTK.ViewModels.Forms
                 FilesAction.StartFile(af);
             }
         }
-
 
         #endregion
 

@@ -37,22 +37,11 @@ namespace OTK.ViewModels.Forms
             Jobs job = new Jobs();
             job.JobType = FormType;
             job.JobDate = DateTime.Now;
-            //using (RepositoryMSSQL<Jobs> repo = new RepositoryMSSQL<Jobs>())
-            //{
-                win.DataContext = new InControlDetailWindowViewModel(job);
-                if (win.ShowDialog() == true)
-                {
-                    //repo.Add(job, true);
-                    RefreshListJobs();
-
-                    // отправить оповещения для всех
-                    //foreach (var item in job.Action)
-                    //{
-                    //    SenderToEmail senderEmail = new SenderToEmail(item.User);
-                    //    senderEmail.SendMail("Создана форма.");
-                    //}
-                }
-            //}
+            win.DataContext = new InControlDetailWindowViewModel(job);
+            if (win.ShowDialog() == true)
+            {
+                RefreshListJobs();
+            }
         }
 
 

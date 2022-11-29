@@ -214,13 +214,17 @@ namespace OTK.ViewModels.Forms
         // Команда В архив
         //--------------------------------------------------------------------------------
         public ICommand ArchiveCommand => new LambdaCommand(OnArchiveCommandExecuted, CanArchiveCommand);
-        private bool CanArchiveCommand(object p) => CurrentJob?.JobStatus == EnumStatusJob.Complete;
+        private bool CanArchiveCommand(object p) => CurrentJob?.JobStatus == EnumStatusJob.Complete && p is Window;
         private void OnArchiveCommandExecuted(object p)
         {
             if (MessageBox.Show($"Перевести форму в архив?", "Предупреждение", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
                 CurrentJob.JobStatus = EnumStatusJob.Closed;
                 _repo.Save();
+                //Window win = App.Current.Windows.OfType<InControlDetailWindow>().First();
+                
+                var win = (Window)p;
+                win.DialogResult = true;
             }
         }
 
@@ -300,7 +304,7 @@ namespace OTK.ViewModels.Forms
         // Команда ОК для создаия формы
         //--------------------------------------------------------------------------------
         public ICommand OKCommand => new LambdaCommand(OnOKCommandExecuted, CanOKCommand);
-        private bool CanOKCommand(object p) => true;
+        private bool CanOKCommand(object p) => p is Window;
         private void OnOKCommandExecuted(object p)
         {
             // удажяем отмеченные для удаления файлы
@@ -332,7 +336,8 @@ namespace OTK.ViewModels.Forms
                 }
             }
 
-            Window win = App.Current.Windows.OfType<InControlDetailWindow>().First();
+            var win = (Window)p;
+            //Window win = App.Current.Windows.OfType<InControlDetailWindow>().First();
             win.DialogResult = true;
         }
 
