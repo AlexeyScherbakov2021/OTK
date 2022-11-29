@@ -9,6 +9,7 @@
         xmlns:fa="http://schemas.fontawesome.com/icons/"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
+        x:Name="mainWindow" 
         Title="InControlUserWindow" Width="900" WindowStartupLocation="CenterScreen">
     <Window.DataContext>
         <vm:InControlUserWindowViewModel/>
@@ -69,7 +70,7 @@
                     </fa:ImageAwesome>
                 </Button>
 
-                <ItemsControl x:Name="itCont" ItemsSource="{Binding FilesAction.ListFiles}" BorderBrush="Black" BorderThickness="1,1,1,1" 
+                <ItemsControl ItemsSource="{Binding FilesAction.ListFiles}" BorderBrush="Black" BorderThickness="1,1,1,1" 
                               Grid.Column="2" Grid.Row="2" 
                                   AllowDrop="True" Background="White" Margin="10,0,0,6" ScrollViewer.VerticalScrollBarVisibility="Auto" >
                     <i:Interaction.Triggers>
@@ -81,15 +82,15 @@
                         <DataTemplate>
                             <DockPanel>
                                 <Button Width="30" DockPanel.Dock="Right" Margin="2,2,2,2" ToolTip="Удалить файл" 
-                                        IsEnabled="{Binding DataContext.IsEnabledButton, ElementName=itCont }"
-                                            Command="{Binding DataContext.DeleteFileCommand, ElementName=itCont }" CommandParameter="{Binding}">
+                                        IsEnabled="{Binding DataContext.IsEnabledButton, ElementName=mainWindow }"
+                                            Command="{Binding DataContext.DeleteFileCommand, ElementName=mainWindow }" CommandParameter="{Binding}">
                                     <fa:ImageAwesome Icon="Regular_WindowClose" Width="16" Height="16" Foreground="DarkRed"/>
                                 </Button>
                                 <Border BorderThickness="1" BorderBrush="Black" CornerRadius="3" Margin="2" Background="White">
                                     <TextBlock Text="{Binding FileName}" Margin="4, 0" VerticalAlignment="Center" TextWrapping="Wrap" Background="LightYellow">
                                         <TextBlock.InputBindings>
                                             <MouseBinding Gesture="LeftDoubleClick" 
-                                                                      Command="{Binding DataContext.OpenFileCommand, ElementName=itCont}" 
+                                                                      Command="{Binding DataContext.OpenFileCommand, ElementName=mainWindow}" 
                                                                       CommandParameter="{Binding }"/>
                                         </TextBlock.InputBindings>
                                     </TextBlock>

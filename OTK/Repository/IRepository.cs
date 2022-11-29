@@ -15,6 +15,6 @@ namespace OTK.Repository
         bool Delete(int id, bool Autosave = false);
         bool Delete(T item, bool Autosave = false);
         bool Update(T item, bool Autosave = false);
-        void Save();
+        bool Save();
     }
 }

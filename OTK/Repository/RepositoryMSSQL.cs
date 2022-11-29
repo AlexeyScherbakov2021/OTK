@@ -81,7 +81,7 @@ namespace OTK.Repository
             return Items.SingleOrDefault(it => it.id == id);
         }
 
-        public void Save()
+        public bool Save()
         {
             try
             {
@@ -90,7 +90,10 @@ namespace OTK.Repository
             catch(Exception ex) 
             {
                 MessageBox.Show(ex.Message, "Ошибка базы данных", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
             }
+
+            return true;
         }
 
         public bool Update(T item, bool Autosave = false)

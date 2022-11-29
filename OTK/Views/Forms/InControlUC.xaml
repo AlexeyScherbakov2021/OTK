@@ -7,6 +7,7 @@
              xmlns:local="clr-namespace:OTK.Views.Forms"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d" 
+             x:Name="mainUC" 
              d:DesignHeight="430" d:DesignWidth="800">
     <UserControl.Resources>
         <Style x:Key="DatePickerStyle1" TargetType="{x:Type DatePicker}">
@@ -250,7 +251,7 @@
             <fa:ImageAwesome Icon="Solid_Paperclip" Foreground="Blue" Stretch="Uniform" Width="18" Height="18" />
         </Button>
 
-        <ItemsControl x:Name="itCont" ItemsSource="{Binding ListActFiles}" BorderBrush="Black" BorderThickness="1,1,1,1" 
+        <ItemsControl ItemsSource="{Binding FilesAct.ListFiles}" BorderBrush="Black" BorderThickness="1,1,1,1" 
                               Grid.Row="5" Grid.Column="2" 
                                   AllowDrop="True" Background="White" Margin="41,1,0,1" ScrollViewer.VerticalScrollBarVisibility="Auto" Grid.ColumnSpan="3" MinHeight="24" >
             <i:Interaction.Triggers>
@@ -262,15 +263,15 @@
                 <DataTemplate>
                     <DockPanel>
                         <Button Width="30" DockPanel.Dock="Right" Margin="2,2,2,2" ToolTip="Удалить файл" 
-                                        IsEnabled="{Binding DataContext.IsEnabledButton, ElementName=itCont }"
-                                            Command="{Binding DataContext.DeleteActFileCommand, ElementName=itCont }" CommandParameter="{Binding}">
+                                        IsEnabled="{Binding DataContext.IsEnabledButton, ElementName=mainUC }"
+                                            Command="{Binding DataContext.DeleteActFileCommand, ElementName=mainUC }" CommandParameter="{Binding}">
                             <fa:ImageAwesome Icon="Regular_WindowClose" Width="16" Height="16" Foreground="DarkRed"/>
                         </Button>
                         <Border BorderThickness="1" BorderBrush="Black" CornerRadius="3" Margin="2" Background="White">
-                            <TextBlock Text="{Binding af_FileName}" Margin="4, 0" VerticalAlignment="Center" TextWrapping="Wrap" Background="LightYellow">
+                            <TextBlock Text="{Binding FileName}" Margin="4, 0" VerticalAlignment="Center" TextWrapping="Wrap" Background="LightYellow" Cursor="Hand">
                                 <TextBlock.InputBindings>
                                     <MouseBinding Gesture="LeftDoubleClick" 
-                                                                      Command="{Binding DataContext.OpenActFileCommand, ElementName=itCont}" 
+                                                                      Command="{Binding DataContext.OpenActFileCommand, ElementName=mainUC}" 
                                                                       CommandParameter="{Binding }"/>
                                 </TextBlock.InputBindings>
                             </TextBlock>

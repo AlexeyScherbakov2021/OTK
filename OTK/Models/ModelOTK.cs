@@ -50,12 +50,12 @@ namespace OTK.Models
             modelBuilder.Entity<ActionUser>()
                 .HasMany(e => e.ActionFiles)
                 .WithOptional(e => e.ActionUser)
-                .HasForeignKey(e => e.af_ActionId);
+                .HasForeignKey(e => e.idParent);
 
             modelBuilder.Entity<Jobs>()
                 .HasMany(e => e.ActFiles)
                 .WithOptional(e => e.ListJobs)
-                .HasForeignKey(e => e.af_JobId);
+                .HasForeignKey(e => e.idParent);
 
             modelBuilder.Entity<Jobs>()
                 .Property(e => e.JobNameProduct)

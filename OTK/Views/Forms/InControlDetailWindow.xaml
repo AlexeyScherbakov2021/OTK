@@ -28,12 +28,12 @@
                 </Button.Command>
             </Button>
 
-            <Button Content="ОК"  Margin="3,0" Visibility="{Binding IsCreateVisible}" 
-                    CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:InControlDetailWindow}}}">
+            <Button Content="ОК"  Margin="3,0" Visibility="{Binding IsCreateVisible}" Command="{Binding OKCommand}" />
+            <!--CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:InControlDetailWindow}}}">
                 <Button.Command>
                     <cmd:CloseDialogCommand DialogResult="True" />
                 </Button.Command>
-            </Button>
+            </Button>-->
 
             <Button Content="Отменить"  Margin="3,0" Visibility="{Binding IsCreateVisible}" CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:InControlDetailWindow}}}">
                 <Button.Command>
@@ -97,7 +97,7 @@
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
                                                 <Border BorderThickness="1" BorderBrush="Black" CornerRadius="3" Margin="0" Background="LightYellow">
-                                                    <TextBlock Foreground="Black" Text="{Binding af_FileName}" Margin="2,0" VerticalAlignment="Center" Cursor="Hand" >
+                                                    <TextBlock Foreground="Black" Text="{Binding FileName}" Margin="2,0" VerticalAlignment="Center" Cursor="Hand" >
                                                         <TextBlock.InputBindings>
                                                             <MouseBinding Gesture="LeftDoubleClick" 
                                                                       Command="{Binding DataContext.OpenFileCommand, ElementName=dg}" 

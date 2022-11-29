@@ -4,6 +4,7 @@ using OTK.Infrastructure;
 using OTK.Models;
 using OTK.Repository;
 using OTK.Views;
+using OTK.Views.Forms;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -40,7 +41,10 @@ namespace OTK.ViewModels.Forms
         public bool IsReadOnlyField { get; set; }
 
         public bool IsEnabledButton { get; set; } = true;
-        public ObservableCollection<ActFiles> ListActFiles { get; set; }
+        //public ObservableCollection<ActFiles> ListActFiles { get; set; }
+
+        public AttachListFiles<ActFiles> FilesAct { get; set; }
+
 
 
         //--------------------------------------------------------------------------------
@@ -48,19 +52,18 @@ namespace OTK.ViewModels.Forms
         //--------------------------------------------------------------------------------
         public InControlDetailWindowViewModel()
         {
-
         }
 
         //--------------------------------------------------------------------------------
         // Конструктор
         //--------------------------------------------------------------------------------
-        public InControlDetailWindowViewModel(RepositoryMSSQL<Jobs> repo, int jobId )
+        public InControlDetailWindowViewModel(/*RepositoryMSSQL<Jobs> repo,*/ Jobs job )
         {
-            _repo = repo;
+            _repo = new RepositoryMSSQL<Jobs>();
             _repoUsers = new RepositoryMSSQL<Users>(_repo.GetDB());
             ListUsers = _repoUsers.Items.OrderBy(o => o.UserName).ToList();
 
-            if (jobId == 0)    // если это было создание
+            if (job.id == 0)    // если это было создание
             {
                 Title = "Создание формы Входной контроль";
                 IsEditVisible = Visibility.Collapsed;
@@ -68,10 +71,11 @@ namespace OTK.ViewModels.Forms
                 IsCloseVisible = Visibility.Collapsed;
                 IsReadOnlyField = false;
                 IsEnabledButton = true;
+                CurrentJob = job;
             }
             else
             {
-                CurrentJob = repo.Get(jobId);
+                CurrentJob = _repo.Get(job.id);
                 IsReadOnlyField = true;
                 IsEnabledButton = false;
                 IsCloseVisible = Visibility.Visible;
@@ -81,6 +85,9 @@ namespace OTK.ViewModels.Forms
                     ? IsEditVisible = Visibility.Collapsed 
                     : IsEditVisible = Visibility.Visible;
             }
+
+            FilesAct = new AttachListFiles<ActFiles>(CurrentJob.JobDate.Year, /*CurrentJob.id,*/ "Job");
+            FilesAct.AssignFiles(CurrentJob.ActFiles);
 
         }
 
@@ -216,14 +223,19 @@ namespace OTK.ViewModels.Forms
         }
 
         //--------------------------------------------------------------------------------
-        // Команда Открыть файл двойным щелчком
+        // Команда Открыть файл пользователя двойным щелчком
         //--------------------------------------------------------------------------------
         public ICommand OpenFileCommand => new LambdaCommand(OnOpenFileCommandExecuted, CanOpenFileCommand);
         private bool CanOpenFileCommand(object p) => true;
         private void OnOpenFileCommandExecuted(object p)
         {
-            RepositoryFiles repoFiles = new RepositoryFiles();
-            repoFiles.OpenActionFile(p as ActionFiles);
+
+            if (p is ActionFiles af)
+            {
+                AttachListFiles<ActionFiles> FilesAction = new AttachListFiles<ActionFiles>(CurrentJob.JobDate.Year, /*af.idParent,*/ "Action");
+                FilesAction.StartFile(af);
+            }
+
         }
 
 
@@ -239,7 +251,7 @@ namespace OTK.ViewModels.Forms
 
             if (dlgOpen.ShowDialog() == true)
             {
-                FilesFunction.AddFiles(dlgOpen.FileNames, ListActFiles);
+                FilesAct.AddFiles(dlgOpen.FileNames);
             }
         }
 
@@ -252,9 +264,7 @@ namespace OTK.ViewModels.Forms
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
                 string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-
-                FilesFunction.AddFiles(files, ListActFiles);
-
+                FilesAct.AddFiles(files);
             }
         }
 
@@ -265,8 +275,11 @@ namespace OTK.ViewModels.Forms
         private bool CanOpenActFileCommand(object p) => true;
         private void OnOpenActFileCommandExecuted(object p)
         {
-            RepositoryFiles repoFiles = new RepositoryFiles();
-            repoFiles.OpenActionFile(p as ActionFiles);
+            if (p is ActFiles af)
+            {
+                FilesAct.StartFile(af);
+            }
+
         }
 
         //--------------------------------------------------------------------------------
@@ -276,14 +289,50 @@ namespace OTK.ViewModels.Forms
         private bool CanDeleteActFileCommand(object p) => true;
         private void OnDeleteActFileCommandExecuted(object p)
         {
-            ActionFiles FileName = p as ActionFiles;
-
-            //MainWindowViewModel.repo.Delete<RouteAdding>(FileName);
-
-            //ListActionFiles.Remove(FileName);
+            ActFiles FileName = p as ActFiles;
+            FilesAct.DeleteFile(FileName);
 
         }
 
+        //--------------------------------------------------------------------------------
+        // Команда ОК для создаия формы
+        //--------------------------------------------------------------------------------
+        public ICommand OKCommand => new LambdaCommand(OnOKCommandExecuted, CanOKCommand);
+        private bool CanOKCommand(object p) => true;
+        private void OnOKCommandExecuted(object p)
+        {
+            // удажяем отмеченные для удаления файлы
+            foreach (ActFiles item in FilesAct.DeleteItem)
+            {
+                CurrentJob.ActFiles.Remove(item);
+            }
+
+            // Добавляем файлы
+            foreach (ActFiles item in FilesAct.ListFiles)
+            {
+                if (item.FullName != null)
+                {
+                    //item.af_JobId = CurrentJob.id;
+                    CurrentJob.ActFiles.Add(item);
+                }
+            }
+
+
+            if (_repo.Add(CurrentJob, true))
+            {
+                FilesAct.CommitFilesAsync();
+
+                // отправить оповещения для всех
+                foreach (var item in CurrentJob.Action)
+                {
+                    SenderToEmail senderEmail = new SenderToEmail(item.User);
+                    senderEmail.SendMail("Создана форма.");
+                }
+            }
+
+            Window win = App.Current.Windows.OfType<InControlDetailWindow>().First();
+            win.DialogResult = true;
+        }
 
 
         #endregion

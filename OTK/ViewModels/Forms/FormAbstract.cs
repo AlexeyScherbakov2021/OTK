@@ -142,7 +142,7 @@ namespace OTK.ViewModels.Forms
         //--------------------------------------------------------------------------------
         private readonly ICommand _DblClickCommand = null;
         public ICommand DblClickCommand => _DblClickCommand ?? new LambdaCommand(OnDblClickCommandExecuted, CanDblClickCommand);
-        private bool CanDblClickCommand(object p) => true;
+        private bool CanDblClickCommand(object p) => SelectedJob != null;
         private void OnDblClickCommandExecuted(object p)
         {
             OpenForm();

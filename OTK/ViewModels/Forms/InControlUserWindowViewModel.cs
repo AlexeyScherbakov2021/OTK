@@ -26,23 +26,20 @@ namespace OTK.ViewModels.Forms
 
         public bool IsEnabledButton { get; set; } = true;
 
-        public ObservableCollection<ActionFiles> ListActionFiles { get; set; }
-
-        public AttachListFiles FilesAction { get; set; }
+        public AttachListFiles<ActionFiles> FilesAction { get; set; }
 
         //--------------------------------------------------------------------------------
         // Конструктор
         //--------------------------------------------------------------------------------
-        public InControlUserWindowViewModel(RepositoryMSSQL<Jobs> repo, int jobId)
+        public InControlUserWindowViewModel(/*RepositoryMSSQL<Jobs> repo,*/ int jobId)
         {
-            _repoJob = repo;
+            _repoJob = new RepositoryMSSQL<Jobs>();
             CurrentJob = _repoJob.Get(jobId);
             CurrentActor = CurrentJob.Action.FirstOrDefault(it => it.User.id == User.id);
-            ListActionFiles = new ObservableCollection<ActionFiles>(CurrentActor.ActionFiles);
 
-            FilesAction = new AttachListFiles(CurrentJob.JobDate.Year, CurrentActor.id, "Action");
-            var files = ListActionFiles.Select(s => s.af_FileName);
-            FilesAction.AssignFiles(files);
+            FilesAction = new AttachListFiles<ActionFiles>(CurrentJob.JobDate.Year,/* CurrentActor.id,*/ "Action");
+            
+            FilesAction.AssignFiles(CurrentActor.ActionFiles);
 
             IsEnabledButton = CurrentActor.ActionStatus == EnumStatus.CheckedProcess;
         }
@@ -64,14 +61,25 @@ namespace OTK.ViewModels.Forms
         {
             CurrentActor.ActionStatus = EnumStatus.Checked;
             CurrentActor.Jobs.JobStatus = EnumStatusJob.ReqConfirm;
-            CurrentActor.ActionFiles = ListActionFiles;
-            _repoJob.Save();
 
-            //AttachListFiles attach = new AttachListFiles(CurrentJob.JobDate.Year, CurrentActor.id, "Action");
-            FilesAction.AddFilesAsync();
+            // удажяем отмеченные для удаления файлы
+            foreach(ActionFiles item in FilesAction.DeleteItem)
+            {
+                CurrentActor.ActionFiles.Remove(item );
+            }
 
-            //RepositoryFiles repoFiles = new RepositoryFiles();
-            //repoFiles.AddFilesAsync(CurrentActor);
+            // Добавляем файлы
+            foreach(ActionFiles item in FilesAction.ListFiles)
+            {
+                if (item.FullName != null)
+                {
+                    item.idParent = CurrentActor.id;
+                    CurrentActor.ActionFiles.Add(item);
+                }
+            }
+
+            if(_repoJob.Save())
+                FilesAction.CommitFilesAsync();
 
             App.Current.Windows.OfType<InControlUserWindow>().FirstOrDefault().Close();
 
@@ -85,16 +93,8 @@ namespace OTK.ViewModels.Forms
         private bool CanDeleteFileCommand(object p) => true;
         private void OnDeleteFileCommandExecuted(object p)
         {
-            //ActionFiles FileName = p as ActionFiles;
-            AttachFiles FileName = p as AttachFiles;
-
-            FilesAction.ListFiles.Remove(FileName);
-
-            //MainWindowViewModel.repo.Delete<RouteAdding>(FileName);
-            
-
-            //ListActionFiles.Remove(FileName);
-
+            ActionFiles FileName = p as ActionFiles;
+            FilesAction.DeleteFile(FileName);
         }
 
 
@@ -112,9 +112,7 @@ namespace OTK.ViewModels.Forms
 
             if (dlgOpen.ShowDialog() == true)
             {
-                //AttachListFiles attach = new AttachListFiles(CurrentJob.JobDate.Year, CurrentActor.id, "Action");
-                FilesAction.AssignFiles(dlgOpen.FileNames);
-                //FilesFunction.AddFiles(dlgOpen.FileNames, ListActionFiles);
+                FilesAction.AddFiles(dlgOpen.FileNames);
             }
         }
 
@@ -127,9 +125,7 @@ namespace OTK.ViewModels.Forms
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
                 string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-                AttachListFiles attach = new AttachListFiles(CurrentJob.JobDate.Year, CurrentActor.id, "Action");
-
-                //FilesFunction.AddFiles(files, ListActionFiles);
+                FilesAction.AddFiles(files);
             }
         }
 
@@ -142,11 +138,8 @@ namespace OTK.ViewModels.Forms
         {
             if (p is ActionFiles af)
             {
-                //AttachListFiles attach = new AttachListFiles(CurrentJob.JobDate.Year, CurrentActor.id, "Action");
-                FilesAction.StartFile(af.af_FileName);
+                FilesAction.StartFile(af);
             }
-            //RepositoryFiles repoFiles = new RepositoryFiles();
-            //repoFiles.OpenActionFile(p as ActionFiles);
         }
 
 

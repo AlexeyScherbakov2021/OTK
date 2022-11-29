@@ -11,39 +11,57 @@ using System.Windows.Controls;
 
 namespace OTK.Infrastructure
 {
-    internal class AttachFiles
-    {
-        public string FileName { get; set; }
-        public string FullFileName;
-    }
 
-
-    internal class AttachListFiles
+    internal class AttachListFiles<T> where T : class, IAddFiles, new()
     {
-        int Year;
-        string SubFolder;
-        public ObservableCollection<AttachFiles> ListFiles { get; set; }
-        string NewPath;
-        public int id;
+        private int Year;
+        private string SubFolder;
+        public ObservableCollection<IAddFiles> ListFiles { get; set; }
+        //private string NewPath;
+        private int? NumberID;
+        public ICollection<IAddFiles> DeleteItem;
+
 #if DEBUG
-        static string FileStorage = @"\\ngk-dc-07\FileStore$\OTKD\";
+        private static string FileStorage = @"\\ngk-dc-07\FileStore$\OTKD\";
 #else
-        static string FileStorage = @"\\ngk-dc-07\FileStore$\OTK\";
+        private static string FileStorage = @"\\ngk-dc-07\FileStore$\OTK\";
 #endif
 
 
         //-----------------------------------------------------------------------------------------------------------
         // конструктор
         //-----------------------------------------------------------------------------------------------------------
-        public AttachListFiles(int year, int ID, string folder = null)
+        public AttachListFiles(int year, /*int ID,*/ string folder = null)
         {
             Year = year;
             SubFolder = folder;
-            ListFiles = new ObservableCollection<AttachFiles>();
-            id = ID;
+            ListFiles = new ObservableCollection<IAddFiles>();
+            DeleteItem = new List<IAddFiles>();
 
-            string NewFolder = FileStorage + Year.ToString() + "\\" + (string.IsNullOrEmpty(folder) ? null : folder + "\\");
-            NewPath = NewFolder + id.ToString() + ".";
+            //id = ID;
+
+            //string NewFolder = FileStorage + Year.ToString() + "\\" + (string.IsNullOrEmpty(folder) ? null : folder + "\\");
+            //NewPath = NewFolder + id.ToString() + ".";
+
+            //try
+            //{
+            //    if (!Directory.Exists(NewFolder))
+            //        Directory.CreateDirectory(NewFolder);
+            //}
+            //catch
+            //{
+            //}
+
+        }
+
+
+        //--------------------------------------------------------------------------------------------
+        // Получение пути файла и создание папки
+        //--------------------------------------------------------------------------------------------
+        private string GetPathFiles()
+        {
+            string NewFolder = FileStorage + Year.ToString() + "\\" + (string.IsNullOrEmpty(SubFolder) ? null : SubFolder + "\\");
+            //NewPath = NewFolder + id.ToString() + ".";
 
             try
             {
@@ -54,13 +72,32 @@ namespace OTK.Infrastructure
             {
             }
 
+            return NewFolder;
+
         }
 
 
+        //--------------------------------------------------------------------------------------------
+        // Добавление файла в список
+        //--------------------------------------------------------------------------------------------
+        public void AssignFiles(IEnumerable<IAddFiles> ListItems)
+        {
+            if (ListItems is null)
+                return;
+
+            foreach(var item in ListItems)
+            {
+                ListFiles.Add(item);
+                NumberID = item.idParent;
+            }
+        }
+
+
+
         //-----------------------------------------------------------------------------------------------------------
-        // Получение списка файлов
+        // Загрузка списка файлов
         //-----------------------------------------------------------------------------------------------------------
-        public void AssignFiles(IEnumerable<string> files)
+        public void AddFiles(IEnumerable<string> files)
         {
             if (files is null)
                 return;
@@ -68,126 +105,88 @@ namespace OTK.Infrastructure
             foreach (var file in files)
             {
                 FileInfo info = new FileInfo(file);
-                AttachFiles af = new AttachFiles();
-                af.FileName = info.Name;
+                T NewItem = new T();
+
+                NewItem.FileName = info.Name;
                 if(info.Exists)
-                    af.FullFileName = file;
-                ListFiles.Add(af);
+                    NewItem.FullName = file;
+                ListFiles.Add(NewItem);
             }
         }
 
 
         //--------------------------------------------------------------------------------------------
-        // получение нужного пути и созздание диреткории года
+        // Копировоние файлов на хранение
         //--------------------------------------------------------------------------------------------
-        //private string CurrentPath()
-        //{
-        //    string NewPath = FileStorage + Year.ToString() + "\\" + 
-        //        (string.IsNullOrEmpty(SubFolder) ? null : SubFolder + "\\") + 
-        //        id.ToString() + ".";
-
-        //    try
-        //    {
-        //        if (!Directory.Exists(NewPath))
-        //            Directory.CreateDirectory(NewPath);
-        //    }
-        //    catch
-        //    {
-        //        return null;
-        //    }
-        //    return NewPath;
-        //}
-
-
-        //-----------------------------------------------------------------------------------------------------------
-        // Копивароние файлов на хранение
-        //-----------------------------------------------------------------------------------------------------------
-        //public void SaveFiles()
-        //{
-        //    string NewName;
-
-        //    foreach (var item in ListFiles)
-        //    {
-        //        if (item.FullFileName != null)
-        //        {
-        //            NewName = NewPath +  item.FileName;
-        //            System.IO.File.Copy(item.FullFileName, NewName, true);
-
-        //            // записано, обнуляем
-        //            //item.FullFileName = null;
-        //        }
-        //    }
-
-        //}
-
-        //--------------------------------------------------------------------------------------------
-        // Копивароние файлов на хранение
-        //--------------------------------------------------------------------------------------------
-        public async void AddFilesAsync()
+        public async void CommitFilesAsync()
         {
-            await Task.Run(() => CopyFiles());
+            await Task.Run(() => CommitFiles());
         }
 
 
         //--------------------------------------------------------------------------------------------
-        // Копио=рование файлов
+        // Копирование файлов
         //--------------------------------------------------------------------------------------------
-        public Task<bool> CopyFiles()
+        public Task<bool> CommitFiles()
         {
             string NewName;
+            string NewPath = GetPathFiles();
 
-
+            // копирование добавленных файлов
             foreach (var item in ListFiles)
             {
-                if (item.FullFileName != null)
+                if (item.FullName != null)
                 {
-                    NewName = NewPath +  item.FileName;
-                     try
+                    NewName = NewPath + item.idParent.ToString() + "." + item.FileName;
+                    try
                     {
-                            File.Copy(item.FullFileName, NewName, true);
-                        }
-                        catch { };
-
-                        // записано, обнуляем
-                        item.FullFileName = null;
+                        File.Copy(item.FullName, NewName, true);
                     }
+                    catch { };
+
+                    // записано, обнуляем
+                    item.FullName = null;
                 }
-            return Task.FromResult(true);
-        }
+            }
 
-        //--------------------------------------------------------------------------------------------
-        // Удаление файлов
-        //--------------------------------------------------------------------------------------------
-        public void DeleteFiles()
-        {
-            string NewName;
-
-            //if (string.IsNullOrEmpty(NewPath))
-            //    return;
-
-            foreach (var item in ListFiles)
+            // удаление файлов
+            foreach(var item in DeleteItem)
             {
-                NewName = NewPath + item.FileName;
+                NewName = NewPath + NumberID.ToString() + "." + item.FileName;
                 try
                 {
                     File.Delete(NewName);
                 }
                 catch { }
             }
+
+            return Task.FromResult(true);
+        }
+
+
+        //--------------------------------------------------------------------------------------------
+        // Удаление файла из списка
+        //--------------------------------------------------------------------------------------------
+        public void DeleteFile(IAddFiles item)
+        {
+            DeleteItem.Add(item);
+            ListFiles.Remove(item);
         }
 
         //--------------------------------------------------------------------------------------------
         // Получение файла в TEMP папку
         //--------------------------------------------------------------------------------------------
-        public string GetFile(string FileName)
+        public string GetFile(IAddFiles file)
         {
 
-            if (string.IsNullOrEmpty(NewPath))
-                return null;
+            //if (string.IsNullOrEmpty(NewPath))
+            //    return null;
 
-            string NewName = NewPath + FileName;
+            string NewPath = GetPathFiles();
 
-            string TempFileName = Path.GetTempPath() + FileName;
+            string NewName = NewPath + file.idParent.ToString() + "." + file.FileName;
+
+            string TempFileName = Path.GetTempPath() + file.FileName;
 
             try
             {
@@ -205,13 +204,16 @@ namespace OTK.Infrastructure
         //--------------------------------------------------------------------------------
         // Команда Открыть файл
         //--------------------------------------------------------------------------------
-        public void StartFile(string FileName)
+        public void StartFile(IAddFiles file)
         {
 
-            string TempFileName = GetFile(FileName);
+            string TempFileName = GetFile(file);
 
             if (TempFileName != null)
                 Process.Start(TempFileName);
+            else if(file.FullName != null)
+                Process.Start(file.FullName);
+
 
         }
 

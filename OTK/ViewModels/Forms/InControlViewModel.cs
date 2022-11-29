@@ -37,22 +37,22 @@ namespace OTK.ViewModels.Forms
             Jobs job = new Jobs();
             job.JobType = FormType;
             job.JobDate = DateTime.Now;
-            using (RepositoryMSSQL<Jobs> repo = new RepositoryMSSQL<Jobs>())
-            {
-                win.DataContext = new InControlDetailWindowViewModel(repo, job.id);
+            //using (RepositoryMSSQL<Jobs> repo = new RepositoryMSSQL<Jobs>())
+            //{
+                win.DataContext = new InControlDetailWindowViewModel(job);
                 if (win.ShowDialog() == true)
                 {
-                    repo.Add(job, true);
+                    //repo.Add(job, true);
                     RefreshListJobs();
 
                     // отправить оповещения для всех
-                    foreach (var item in job.Action)
-                    {
-                        SenderToEmail senderEmail = new SenderToEmail(item.User);
-                        senderEmail.SendMail("Создана форма.");
-                    }
+                    //foreach (var item in job.Action)
+                    //{
+                    //    SenderToEmail senderEmail = new SenderToEmail(item.User);
+                    //    senderEmail.SendMail("Создана форма.");
+                    //}
                 }
-            }
+            //}
         }
 
 
@@ -63,18 +63,18 @@ namespace OTK.ViewModels.Forms
         {
             Window win = new InControlDetailWindow();
 
-            using (RepositoryMSSQL<Jobs> repo = new RepositoryMSSQL<Jobs>())
-            {
+            //using (RepositoryMSSQL<Jobs> repo = new RepositoryMSSQL<Jobs>())
+            //{
 
                 if (User.UserRole == EnumRoles.Пользователь)
                 {
                     win = new InControlUserWindow();
-                    win.DataContext = new InControlUserWindowViewModel(repo, SelectedJob.id);
+                    win.DataContext = new InControlUserWindowViewModel(SelectedJob.id);
                 }
                 else
                 {
                     win = new InControlDetailWindow();
-                    win.DataContext = new InControlDetailWindowViewModel(repo, SelectedJob.id);
+                    win.DataContext = new InControlDetailWindowViewModel( SelectedJob);
                 }
                 if (win.ShowDialog() == true)
                 {
@@ -83,7 +83,7 @@ namespace OTK.ViewModels.Forms
                 }
 
                 RefreshListJobs();
-            }
+            //}
         }
 
 

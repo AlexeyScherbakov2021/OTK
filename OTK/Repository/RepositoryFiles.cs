@@ -51,8 +51,8 @@ namespace OTK.Repository
             {
                 if (item.FullName != null)
                 {
-                    NewName = NewPath + CurrentAction.id.ToString() + "." + item.af_FileName;
-                    File.Copy(item.FullName, NewName, true);
+                    //NewName = NewPath + CurrentAction.id.ToString() + "." + item.af_FileName;
+                    //File.Copy(item.FullName, NewName, true);
 
                     // записано, обнуляем
                     item.FullName = null;
@@ -84,7 +84,7 @@ namespace OTK.Repository
                 {
                     if (item.FullName != null)
                     {
-                        NewName = NewPath + CurrentAction.id.ToString() + "." + item.af_FileName;
+                        NewName = NewPath + CurrentAction.id.ToString() + "." + item.FileName;
                         try
                         {
                             File.Copy(item.FullName, NewName, true);
@@ -114,7 +114,7 @@ namespace OTK.Repository
             {
                 foreach (ActionFiles item in CurrentAction.ActionFiles)
                 {
-                    NewName = NewPath + CurrentAction.id.ToString() + "." + item.af_FileName;
+                    NewName = NewPath + CurrentAction.id.ToString() + "." + item.FileName;
                     try
                     {
                         File.Delete(NewName);
@@ -135,9 +135,9 @@ namespace OTK.Repository
                 return null;
 
             //string NewPath = FileStorage + raFile.RouteOrder.Order.o_date_created.Year.ToString() + "\\";
-            string NewName = NewPath + raFile.ActionUser.id.ToString() + "." + raFile.af_FileName;
+            string NewName = NewPath + raFile.ActionUser.id.ToString() + "." + raFile.FileName;
 
-            string TempFileName = Path.GetTempPath() + raFile.af_FileName;
+            string TempFileName = Path.GetTempPath() + raFile.FileName;
 
             try
             {
