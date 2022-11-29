@@ -24,9 +24,12 @@ namespace OTK.ViewModels.Forms
 
         public ActionUser CurrentActor { get; set; }
 
-        public bool IsEnabledButton { get; set; } = true;
+        public bool IsEnabledButton { get; set; } = false;
+        public bool IsEnabledButtonUser { get; set; } = false;
 
         public AttachListFiles<ActionFiles> FilesAction { get; set; }
+
+        public AttachListFiles<ActFiles> FilesAct { get; set; }
 
         //--------------------------------------------------------------------------------
         // Конструктор
@@ -38,10 +41,13 @@ namespace OTK.ViewModels.Forms
             CurrentActor = CurrentJob.Action.FirstOrDefault(it => it.User.id == User.id);
 
             FilesAction = new AttachListFiles<ActionFiles>(CurrentJob.JobDate.Year,/* CurrentActor.id,*/ "Action");
-            
             FilesAction.AssignFiles(CurrentActor.ActionFiles);
 
-            IsEnabledButton = CurrentActor.ActionStatus == EnumStatus.CheckedProcess;
+            IsEnabledButtonUser = CurrentActor.ActionStatus == EnumStatus.CheckedProcess;
+
+            FilesAct = new AttachListFiles<ActFiles>(CurrentJob.JobDate.Year, /*CurrentJob.id,*/ "Job");
+            FilesAct.AssignFiles(CurrentJob.ActFiles);
+
         }
 
         public InControlUserWindowViewModel()
