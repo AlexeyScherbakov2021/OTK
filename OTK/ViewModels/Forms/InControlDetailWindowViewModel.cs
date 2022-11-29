@@ -26,6 +26,7 @@ namespace OTK.ViewModels.Forms
         public string Title { get; set; } = "форма Входной контроль";
 
         public List<Users> ListUsers { get; set; }
+        public IEnumerable<Users> ListUsersRestrict { get; set; }
 
         public List<string> Status => ClassStatus.NameStatus;
 
@@ -121,6 +122,7 @@ namespace OTK.ViewModels.Forms
         private void OnAddCommandExecuted(object p)
         {
             RespUserWindow win = new RespUserWindow();
+            ListUsersRestrict = ListUsers.Where(it => it.UserRole == EnumRoles.Пользователь);
             win.DataContext = this;
             NewAction = new ActionUser();
             if(win.ShowDialog() == true)

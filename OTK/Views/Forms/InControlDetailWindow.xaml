@@ -6,9 +6,11 @@
         xmlns:vm="clr-namespace:OTK.ViewModels.Forms"
         xmlns:cmd="clr-namespace:OTK.Commands"
         xmlns:conv="clr-namespace:OTK.Converters"
+        xmlns:fa="http://schemas.fontawesome.com/icons/"
         xmlns:local="clr-namespace:OTK.Views.Forms"
+        Background="LightGray"
         mc:Ignorable="d"
-        Title="{Binding Title}" Width="900" WindowStartupLocation="CenterScreen" Height="600">
+        Title="{Binding Title}" Width="800" WindowStartupLocation="CenterScreen" Height="700" >
     <Window.Resources>
         <conv:StatusToIconConverter x:Key="StatusToIconConverter"/>
         <conv:StatusToStringConverter x:Key="StatusToStringConverter"/>
@@ -18,27 +20,56 @@
     </Window.DataContext>
 
     <DockPanel>
-        <ToolBarPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="4" Height="28">
-            <Button Content="Оповестить" Margin="3,0" Visibility="{Binding IsEditVisible}" Command="{Binding SendCommand}"/>
-            <Button Content="В архив"  Margin="3,0" Visibility="{Binding IsEditVisible}" Command="{Binding ArchiveCommand}"/>
-            <Button Content="Закрыть"  Margin="3,0" Visibility="{Binding IsCloseVisible}"
+        <ToolBarPanel DockPanel.Dock="Top" Orientation="Horizontal" Height="42">
+            <Button Margin="5" Visibility="{Binding IsEditVisible}" Command="{Binding SendCommand}">
+                <DockPanel Margin="4,0">
+                    <fa:ImageAwesome Icon="Solid_Bell" Foreground="Blue" Stretch="Uniform" Width="20" Margin="0,0,10,0" 
+                                     HorizontalAlignment="Left" Height="20" DockPanel.Dock="Left" />
+                    <TextBlock Text="Оповестить" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14"/>
+                </DockPanel>
+            </Button>
+            <Button Margin="5" Visibility="{Binding IsEditVisible}" Command="{Binding ArchiveCommand}">
+                <DockPanel Margin="4,0">
+                    <fa:ImageAwesome Icon="Solid_Store" Foreground="Blue" Stretch="Uniform" Width="20" Margin="0,0,10,0" 
+                                     HorizontalAlignment="Left" Height="20" DockPanel.Dock="Left" />
+                    <TextBlock Text="В архив" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14"/>
+                </DockPanel>
+            </Button>
+
+            <Button Margin="5" Visibility="{Binding IsCloseVisible}"
                     CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:InControlDetailWindow}}}">
                 <Button.Command>
                     <cmd:CloseDialogCommand/>
                 </Button.Command>
+                <DockPanel Margin="4,0">
+                    <fa:ImageAwesome Icon="Solid_DoorClosed" Foreground="Blue" Stretch="Uniform" Width="20" Margin="0,0,10,0" 
+                                     HorizontalAlignment="Left" Height="20" DockPanel.Dock="Left" />
+                    <TextBlock Text="Закрыть" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14"/>
+                </DockPanel>
             </Button>
 
-            <Button Content="ОК"  Margin="3,0" Visibility="{Binding IsCreateVisible}" Command="{Binding OKCommand}" />
+            <Button Margin="5" Visibility="{Binding IsCreateVisible}" Command="{Binding OKCommand}">
+                <DockPanel Margin="4,0">
+                    <fa:ImageAwesome Icon="Solid_Check" Foreground="Blue" Stretch="Uniform" Width="20" Margin="0,0,10,0" 
+                                     HorizontalAlignment="Left" Height="20" DockPanel.Dock="Left" />
+                    <TextBlock Text="ОК" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14"/>
+                </DockPanel>
+            </Button>
             <!--CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:InControlDetailWindow}}}">
                 <Button.Command>
                     <cmd:CloseDialogCommand DialogResult="True" />
                 </Button.Command>
             </Button>-->
 
-            <Button Content="Отменить"  Margin="3,0" Visibility="{Binding IsCreateVisible}" CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:InControlDetailWindow}}}">
+            <Button Margin="5" Visibility="{Binding IsCreateVisible}" CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:InControlDetailWindow}}}">
                 <Button.Command>
                     <cmd:CloseDialogCommand />
                 </Button.Command>
+                <DockPanel Margin="4,0">
+                    <fa:ImageAwesome Icon="Solid_Times" Foreground="Blue" Stretch="Uniform" Width="20" Margin="0,0,10,0" 
+                                     HorizontalAlignment="Left" Height="20" DockPanel.Dock="Left" />
+                    <TextBlock Text="Отменить" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14"/>
+                </DockPanel>
             </Button>
         </ToolBarPanel>
 
@@ -47,7 +78,9 @@
             <StatusBarItem Content="{Binding User.UserName}"/>
         </StatusBar>
 
-        <Grid Background="Gainsboro" Margin="8" >
+        <Border BorderThickness="0.5" Padding="3" BorderBrush="Gray" Margin="6" CornerRadius="3">
+            
+            <Grid Background="Gainsboro" Margin="0" >
             <Grid.Effect>
                 <DropShadowEffect ShadowDepth="0" Opacity="0.3" BlurRadius="15"/>
             </Grid.Effect>
@@ -61,10 +94,37 @@
             
             <DockPanel Margin="10,10,10,10" Grid.Row="1">
                 <StackPanel DockPanel.Dock="Top" Background="Silver" Orientation="Horizontal">
-                    <Button Content="Добавить" Margin="3" Command="{Binding AddCommand}" Visibility="{Binding IsCreateVisible}"/>
-                    <Button Content="Удалить" Margin="3" Command="{Binding DelCommand}" Visibility="{Binding IsCreateVisible}"/>
-                    <Button Content="Проверено" Margin="3" Command="{Binding AcceptCommand}"  Visibility="{Binding IsEditVisible}"/>
-                    <Button Content="Отказать" Margin="3" Command="{Binding RejectCommand}"  Visibility="{Binding IsEditVisible}"/>
+                        <Button Margin="3" Command="{Binding AddCommand}" Visibility="{Binding IsCreateVisible}">
+                            <DockPanel Margin="4,0">
+                                <fa:ImageAwesome Icon="Solid_UserPlus" Foreground="Blue" Stretch="Uniform" Width="20" Margin="0,0,10,0" 
+                                     HorizontalAlignment="Left" Height="20" DockPanel.Dock="Left" />
+                                <TextBlock Text="Добавить" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14"/>
+                            </DockPanel>
+                        </Button>
+                        
+                    <Button  Margin="3" Command="{Binding DelCommand}" Visibility="{Binding IsCreateVisible}">
+                            <DockPanel Margin="4,0">
+                                <fa:ImageAwesome Icon="Solid_UserMinus" Foreground="Blue" Stretch="Uniform" Width="20" Margin="0,0,10,0" 
+                                     HorizontalAlignment="Left" Height="20" DockPanel.Dock="Left" />
+                                <TextBlock Text="Удалить" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14"/>
+                            </DockPanel>
+                        </Button>
+
+                        <Button Margin="3" Command="{Binding AcceptCommand}"  Visibility="{Binding IsEditVisible}">
+                            <DockPanel Margin="4,0">
+                                <fa:ImageAwesome Icon="Regular_CheckCircle" Foreground="Blue" Stretch="Uniform" Width="20" Margin="0,0,10,0" 
+                                     HorizontalAlignment="Left" Height="18" DockPanel.Dock="Left" />
+                                <TextBlock Text="Проверено" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14"/>
+                            </DockPanel>
+                        </Button>
+
+                        <Button Margin="3" Command="{Binding RejectCommand}"  Visibility="{Binding IsEditVisible}">
+                            <DockPanel Margin="4,0">
+                                <fa:ImageAwesome Icon="Solid_Ban" Foreground="Blue" Stretch="Uniform" Width="20" Margin="0,0,10,0" 
+                                     HorizontalAlignment="Left" Height="18" DockPanel.Dock="Left" />
+                                <TextBlock Text="Отказать" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14"/>
+                            </DockPanel>
+                        </Button>
                 </StackPanel>
 
                 <DataGrid x:Name="dg" ItemsSource="{Binding CurrentJob.Action}" Style="{DynamicResource DataGridStyle}" IsReadOnly="True" 
@@ -118,5 +178,7 @@
             </DockPanel>
 
         </Grid>
+        </Border>
+
     </DockPanel>
 </Window>

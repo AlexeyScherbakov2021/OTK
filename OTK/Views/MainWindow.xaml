@@ -10,7 +10,8 @@
         xmlns:fvm="clr-namespace:OTK.ViewModels.Forms"
         xmlns:local="clr-namespace:OTK"
         mc:Ignorable="d"
-        Title="{Binding Title}" Height="800" Width="1000" WindowStartupLocation="CenterScreen">
+        Background="LightGray"
+        Title="{Binding Title}" Height="800" Width="1000" WindowStartupLocation="CenterScreen"  >
     <Window.Resources>
         <conv:StatusJobToIconConverter x:Key="StatusJobToIconConverter"/>
         <conv:StatusJobToStringConverter x:Key="StatusJobToStringConverter"/>
@@ -72,25 +73,25 @@
                 </DockPanel>
             </Button>
         </ToolBarPanel>
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch" Margin="10,0" Grid.Row="1" Background="Gainsboro" >
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch" Margin="10,0" Grid.Row="1" Background="#FFEDEDED" >
             <!--<RadioButton Content="Созданные здесь" IsChecked="{Binding CheckCreated, Mode=TwoWay}" Margin="15,0" Command="{Binding FilterCommand}" VerticalContentAlignment="Top" VerticalAlignment="Center" FontWeight="Bold" />-->
-            <RadioButton Content="Требующие рассмотрения" Margin="5,0" Command="{Binding FilterNeedCommand}" IsChecked="True" VerticalAlignment="Center" FontWeight="Bold" />
-            <RadioButton Content="В работе" Margin="5,0" Command="{Binding FilterWorkCommand}" VerticalAlignment="Center" FontWeight="Bold" />
-            <RadioButton Content="Архивные" Margin="5,0" Command="{Binding FilterClosedCommand}" VerticalAlignment="Center" FontWeight="Bold" />
+            <RadioButton Content="Требующие рассмотрения" Margin="5,0" Command="{Binding FilterNeedCommand}" IsChecked="True" VerticalAlignment="Center" FontWeight="Normal" />
+            <RadioButton Content="В работе" Margin="5,0" Command="{Binding FilterWorkCommand}" VerticalAlignment="Center" FontWeight="Normal" />
+            <RadioButton Content="Архивные" Margin="5,0" Command="{Binding FilterClosedCommand}" VerticalAlignment="Center" FontWeight="Normal" />
         </StackPanel>
 
-        <Border Grid.Row="2" Margin="10,10,10,10" Background="#FFEDEDED">
+        <Border Grid.Row="2" Margin="8,8,8,0" Padding="2" Background="#FFEDEDED" BorderBrush="Black" BorderThickness="0.5" CornerRadius="3">
             <Border.Effect>
                 <DropShadowEffect Color="#FFBDBDBD" ShadowDepth="0" BlurRadius="20"/>
             </Border.Effect>
 
-            <TabControl SelectedItem="{Binding SelectedTab}">
+            <TabControl SelectedItem="{Binding SelectedTab}" FontWeight="Bold">
                 <TabItem Header="Входной контроль">
                     <TabItem.DataContext>
                         <fvm:InControlViewModel/>
                     </TabItem.DataContext>
                     <DataGrid ItemsSource="{Binding ListJobs}" IsReadOnly="True"  SelectedItem="{Binding SelectedJob}" 
-                          Style="{StaticResource DataGridStyle}" Margin="2" FontSize="12" FontWeight="Normal">
+                          Style="{StaticResource DataGridStyle}" Margin="8" FontSize="12" FontWeight="Normal">
                     <DataGrid.ColumnHeaderStyle>
                         <Style TargetType="{x:Type DataGridColumnHeader}">
                             <Setter Property="FontWeight" Value="Bold"/>
@@ -135,7 +136,7 @@
                 
             </TabControl>
         </Border>
-        <StatusBar Grid.Row="3" Margin="3,3,3,3" Background="#FFE8E8E8" BorderBrush="#FF777777" BorderThickness="1,1,1,1">
+        <StatusBar Grid.Row="3" Margin="8,3" Background="#FFE8E8E8" BorderBrush="#FF777777" BorderThickness="1,1,1,1">
             <StatusBarItem Margin="10,0" Content="Пользователь:"/>
             <StatusBarItem Content="{Binding User.UserName}"/>
         </StatusBar>

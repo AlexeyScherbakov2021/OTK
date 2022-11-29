@@ -5,19 +5,31 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:cmd="clr-namespace:OTK.Commands"
         xmlns:local="clr-namespace:OTK.Views"
+        xmlns:fa="http://schemas.fontawesome.com/icons/"
         mc:Ignorable="d"
+        Background="LightGray"
         Title="RespUserWindow" Height="280" Width="510" WindowStartupLocation="CenterScreen">
     <DockPanel>
-        <UniformGrid DockPanel.Dock="Bottom" Margin="30,0,30,8" Columns="2">
-            <Button Content="ОК" Margin="8, 4" CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:RespUserWindow}}}">
+        <UniformGrid DockPanel.Dock="Bottom" Margin="30,0,30,8" Columns="2" Height="38">
+            <Button Margin="8, 4" CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:RespUserWindow}}}">
                 <Button.Command>
                     <cmd:CloseDialogCommand DialogResult="True" />
                 </Button.Command>
+                <DockPanel Margin="4,0">
+                    <fa:ImageAwesome Icon="Solid_Check" Foreground="Blue" Stretch="Uniform" Width="20" Margin="0,0,10,0" 
+                                     HorizontalAlignment="Left" Height="20" DockPanel.Dock="Left" />
+                    <TextBlock Text="ОК" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14"/>
+                </DockPanel>
             </Button>
-            <Button Content="Отменить" Margin="8,4" CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:RespUserWindow}}}">
+            <Button Margin="8,4" CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:RespUserWindow}}}">
                 <Button.Command>
                     <cmd:CloseDialogCommand/>
                 </Button.Command>
+                <DockPanel Margin="4,0">
+                    <fa:ImageAwesome Icon="Solid_Times" Foreground="Blue" Stretch="Uniform" Width="20" Margin="0,0,10,0" 
+                                     HorizontalAlignment="Left" Height="20" DockPanel.Dock="Left" />
+                    <TextBlock Text="Отменить" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14"/>
+                </DockPanel>
             </Button>
         </UniformGrid>
 
@@ -42,7 +54,7 @@
             <TextBlock Text="Срок выполнения" HorizontalAlignment="Right" Grid.Row="2" VerticalAlignment="Center"/>
 
             <TextBox Text="{Binding NewAction.ActionName}" TextWrapping="Wrap" AcceptsReturn="True" Grid.Column="1" Margin="4,1" Grid.ColumnSpan="2"/>
-            <ComboBox ItemsSource="{Binding ListUsers}" Grid.Row="1" DisplayMemberPath="UserName"
+            <ComboBox ItemsSource="{Binding ListUsersRestrict}" Grid.Row="1" DisplayMemberPath="UserName"
                       SelectedItem="{Binding NewAction.User}"
                       Grid.Column="1" Margin="4,1" VerticalAlignment="Center"/>
             <DatePicker SelectedDate="{Binding NewAction.ActionDateEnd}" Grid.Row="2" Grid.Column="1" Margin="4,1" VerticalAlignment="Center"/>
