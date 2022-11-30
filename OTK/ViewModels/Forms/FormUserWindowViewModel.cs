@@ -72,7 +72,9 @@ namespace OTK.ViewModels.Forms
         // Команда Выполнено
         //--------------------------------------------------------------------------------
         public ICommand CommitCommand => new LambdaCommand(OnCommitCommandExecuted, CanCommitCommand);
-        private bool CanCommitCommand(object p) => CurrentActor?.ActionStatus == EnumStatus.CheckedProcess;
+        private bool CanCommitCommand(object p) => CurrentActor?.ActionStatus == EnumStatus.CheckedProcess 
+            || CurrentActor?.ActionStatus == EnumStatus.OverTime;
+
         private void OnCommitCommandExecuted(object p)
         {
             CurrentActor.ActionStatus = EnumStatus.Checked;

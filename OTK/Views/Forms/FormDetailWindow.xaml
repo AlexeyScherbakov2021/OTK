@@ -77,7 +77,7 @@
 
         <Border BorderThickness="0.5" Padding="3" BorderBrush="Gray" Margin="6" CornerRadius="3" SnapsToDevicePixels="True">
 
-            <Grid Background="Gainsboro" Margin="0" >
+            <Grid Background="Gainsboro" Margin="0" TextOptions.TextFormattingMode="Display">
                 <Grid.Effect>
                     <DropShadowEffect ShadowDepth="0" Opacity="0.3" BlurRadius="15"/>
                 </Grid.Effect>
@@ -125,7 +125,7 @@
                     </StackPanel>
 
                     <DataGrid x:Name="dg" ItemsSource="{Binding CurrentJob.Action}" Style="{DynamicResource DataGridStyle}" IsReadOnly="True" 
-                          SelectedItem="{Binding SelectedAction}" SnapsToDevicePixels="True">
+                          SelectedItem="{Binding SelectedAction}" SnapsToDevicePixels="True" TextOptions.TextFormattingMode="Display">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Действия" Binding="{Binding ActionName}"/>
                             <DataGridTextColumn Header="Ответственный" Binding="{Binding User.UserName}"/>

@@ -22,8 +22,7 @@ namespace OTK.Models
             string ConnectString;
 
 #if DEBUG
-            ConnectString = ConfigurationManager.ConnectionStrings["ModelOTK"].ConnectionString;
-            ConnectString += ";user id=fpLoginName;password=ctcnhjt,s";
+            ConnectString = ConfigurationManager.ConnectionStrings["localModelOTK"].ConnectionString;
 #else
             ConnectString = ConfigurationManager.ConnectionStrings["ModelOTK"].ConnectionString;
             ConnectString += ";user id=fpLoginName;password=ctcnhjt,s";

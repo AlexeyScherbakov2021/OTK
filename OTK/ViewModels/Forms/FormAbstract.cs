@@ -109,7 +109,9 @@ namespace OTK.ViewModels.Forms
                     case EnumFilter.Require:
                         ListJobs = new ObservableCollection<Jobs>(repo.Items
                             .Where(it => it.JobType == FormType
-                                && it.Action.Where(a => a.User.id == UserId && a.ActionStatus == EnumStatus.CheckedProcess).Any())
+                                && it.Action.Where(a => a.User.id == UserId 
+                                    && (a.ActionStatus == EnumStatus.CheckedProcess
+                                    || a.ActionStatus == EnumStatus.OverTime)).Any())
                             );
                         break;
 

@@ -94,7 +94,7 @@
         </ItemsControl>
 
         <TextBox  Text="{Binding CurrentJob.JobNameProduct}" IsReadOnly="{Binding IsReadOnlyField}" Grid.Row="7" Grid.Column="2" TextWrapping="Wrap" Margin="10,1,0,1" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Grid.ColumnSpan="3" Grid.RowSpan="2"/>
-        <TextBox  Text="{Binding CurrentJob.JobDescript}" IsReadOnly="{Binding IsReadOnlyField}" Grid.Row="9" Grid.Column="2" Margin="10,1,0,1" Grid.ColumnSpan="3" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Grid.RowSpan="3"/>
-        <TextBox  Text="{Binding CurrentJob.JobSolution}" IsReadOnly="{Binding IsReadOnlyField}" Grid.Row="12" Grid.Column="2" Margin="10,1,0,1" Grid.ColumnSpan="3" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Grid.RowSpan="3"/>
+        <TextBox  Text="{Binding CurrentJob.JobDescript}" SnapsToDevicePixels="True" IsReadOnly="{Binding IsReadOnlyField}" Grid.Row="9" Grid.Column="2" Margin="10,1,0,1" Grid.ColumnSpan="3" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Grid.RowSpan="3"/>
+        <TextBox  Text="{Binding CurrentJob.JobSolution}" SnapsToDevicePixels="True" IsReadOnly="{Binding IsReadOnlyField}" Grid.Row="12" Grid.Column="2" Margin="10,1,0,1" Grid.ColumnSpan="3" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Grid.RowSpan="3"/>
     </Grid>
 </UserControl>
