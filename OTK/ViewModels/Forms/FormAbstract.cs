@@ -23,6 +23,7 @@ namespace OTK.ViewModels.Forms
 
         private EnumFilter _LastFilter;
 
+        protected string NameForm;
 
         //--------------------------------------------------------------------------------
         // Конструктор

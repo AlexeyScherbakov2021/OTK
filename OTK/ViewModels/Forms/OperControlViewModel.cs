@@ -1,33 +1,29 @@
-﻿using OTK.Commands;
-using OTK.Infrastructure;
+﻿using OTK.Infrastructure;
 using OTK.Models;
-using OTK.Repository;
-using OTK.Views;
 using OTK.Views.Forms;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Input;
 
 namespace OTK.ViewModels.Forms
 {
-    internal class InControlViewModel : FormAbstract
+    internal class OperControlViewModel : FormAbstract
     {
+
+
 
         //--------------------------------------------------------------------------------
         // Конструктор
         //--------------------------------------------------------------------------------
-        public InControlViewModel() : base()
+        public OperControlViewModel() : base()
         {
-            NameForm = "Входной контроль";
-            FormType = EnumFormType.VK;
+            NameForm = "Операционный контроль";
+            FormType = EnumFormType.OK;
             LoadListJobs(EnumFilter.Require);
         }
-
 
         //--------------------------------------------------------------------------------
         // Создание формы
@@ -38,13 +34,12 @@ namespace OTK.ViewModels.Forms
             Jobs job = new Jobs();
             job.JobType = FormType;
             job.JobDate = DateTime.Now;
-            win.DataContext = new FormDetailWindowViewModel(job, NameForm, new InControlUC());
+            win.DataContext = new FormDetailWindowViewModel(job, NameForm, new OperControlUC());
             if (win.ShowDialog() == true)
             {
                 RefreshListJobs();
             }
         }
-
 
         //--------------------------------------------------------------------------------
         // Открытие формы
@@ -56,23 +51,20 @@ namespace OTK.ViewModels.Forms
             if (User.UserRole == EnumRoles.Пользователь)
             {
                 win = new FormUserWindow();
-                win.DataContext = new FormUserWindowViewModel(SelectedJob.id, NameForm, new InControlUC());
+                win.DataContext = new FormUserWindowViewModel(SelectedJob.id, NameForm, new OperControlUC());
             }
             else
             {
                 win = new FormDetailWindow();
-                win.DataContext = new FormDetailWindowViewModel(SelectedJob, NameForm, new InControlUC());
+                win.DataContext = new FormDetailWindowViewModel(SelectedJob, NameForm, new OperControlUC());
             }
             if (win.ShowDialog() == true)
             {
+
             }
 
             RefreshListJobs();
         }
-
-
-        #region Команды
-        #endregion
 
 
     }

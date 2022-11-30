@@ -13,7 +13,7 @@
         Background="LightGray"
         Title="Входной контроль" Width="800" Height="660" WindowStartupLocation="CenterScreen">
     <Window.DataContext>
-        <vm:InControlUserWindowViewModel/>
+        <vm:FormUserWindowViewModel/>
     </Window.DataContext>
     <DockPanel >
         <ToolBarPanel DockPanel.Dock="Top" Orientation="Horizontal" Height="42">

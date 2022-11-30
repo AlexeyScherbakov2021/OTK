@@ -97,21 +97,29 @@
     <Compile Include="Repository\IRepository.cs" />
     <Compile Include="Repository\RepositoryMSSQL.cs" />
     <Compile Include="ViewModels\Forms\FormAbstract.cs" />
-    <Compile Include="ViewModels\Forms\InControlDetailWindowViewModel.cs" />
-    <Compile Include="ViewModels\Forms\InControlUserWindowViewModel.cs" />
+    <Compile Include="ViewModels\Forms\FormDetailWindowViewModel.cs" />
+    <Compile Include="ViewModels\Forms\FormUserWindowViewModel.cs" />
     <Compile Include="ViewModels\Forms\InControlViewModel.cs" />
+    <Compile Include="ViewModels\Forms\OperControlViewModel.cs" />
+    <Compile Include="ViewModels\Forms\PSIViewModel.cs" />
     <Compile Include="ViewModels\LoginWindowViewModel.cs" />
     <Compile Include="ViewModels\MainwindowViewModel.cs" />
     <Compile Include="ViewModels\SettingWindowViewModel.cs" />
     <Compile Include="ViewModels\Setting\UsersControlViewModel.cs" />
+    <Compile Include="Views\Forms\FormDetailWindow.xaml.cs">
+      <DependentUpon>FormDetailWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Forms\FormUserWindow.xaml.cs">
+      <DependentUpon>FormUserWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Forms\InControlUC.xaml.cs">
       <DependentUpon>InControlUC.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Forms\InControlDetailWindow.xaml.cs">
-      <DependentUpon>InControlDetailWindow.xaml</DependentUpon>
+    <Compile Include="Views\Forms\OperControlUC.xaml.cs">
+      <DependentUpon>OperControlUC.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Forms\InControlUserWindow.xaml.cs">
-      <DependentUpon>InControlUserWindow.xaml</DependentUpon>
+    <Compile Include="Views\Forms\PSIUC.xaml.cs">
+      <DependentUpon>PSIUC.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
@@ -129,15 +137,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Forms\FormDetailWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Forms\FormUserWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Forms\InControlUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Forms\InControlDetailWindow.xaml">
+    <Page Include="Views\Forms\OperControlUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Forms\InControlUserWindow.xaml">
+    <Page Include="Views\Forms\PSIUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

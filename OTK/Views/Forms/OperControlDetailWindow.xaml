@@ -1,17 +1,16 @@
-﻿<Window x:Class="OTK.Views.Forms.InControlDetailWindow"
+﻿<Window x:Class="OTK.Views.Forms.OperControlDetailWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:vm="clr-namespace:OTK.ViewModels.Forms"
         xmlns:cmd="clr-namespace:OTK.Commands"
         xmlns:conv="clr-namespace:OTK.Converters"
+        xmlns:vm="clr-namespace:OTK.ViewModels.Forms"
         xmlns:fa="http://schemas.fontawesome.com/icons/"
         xmlns:local="clr-namespace:OTK.Views.Forms"
         Background="LightGray"
         mc:Ignorable="d"
-        SnapsToDevicePixels="True"
-        Title="{Binding Title}" Width="800" WindowStartupLocation="CenterScreen" Height="700" >
+        Title="{Binding Title}"  WindowStartupLocation="CenterScreen" Width="780" Height="662">
     <Window.Resources>
         <conv:StatusToIconConverter x:Key="StatusToIconConverter"/>
         <conv:StatusToStringConverter x:Key="StatusToStringConverter"/>
@@ -19,7 +18,6 @@
     <Window.DataContext>
         <vm:FormDetailWindowViewModel/>
     </Window.DataContext>
-
     <DockPanel SnapsToDevicePixels="True">
         <ToolBarPanel DockPanel.Dock="Top" Orientation="Horizontal" Height="42">
             <Button Margin="5" Visibility="{Binding IsEditVisible}" Command="{Binding SendCommand}">
@@ -30,7 +28,7 @@
                 </DockPanel>
             </Button>
             <Button Margin="5" Visibility="{Binding IsEditVisible}" Command="{Binding ArchiveCommand}"
-                    CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:InControlDetailWindow}}}">
+                    CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:OperControlDetailWindow}}}">
                 <DockPanel Margin="4,0">
                     <fa:ImageAwesome Icon="Solid_Store" Foreground="Blue" Stretch="Uniform" Width="20" Margin="0,0,10,0" 
                                      HorizontalAlignment="Left" Height="20" DockPanel.Dock="Left" />
@@ -39,7 +37,7 @@
             </Button>
 
             <Button Margin="5" Visibility="{Binding IsCloseVisible}"
-                    CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:InControlDetailWindow}}}">
+                    CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:OperControlDetailWindow}}}">
                 <Button.Command>
                     <cmd:CloseDialogCommand/>
                 </Button.Command>
@@ -51,7 +49,7 @@
             </Button>
 
             <Button Margin="5" Visibility="{Binding IsCreateVisible}" Command="{Binding OKCommand}"
-                    CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:InControlDetailWindow}}}">
+                    CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:OperControlDetailWindow}}}">
                 <DockPanel Margin="4,0">
                     <fa:ImageAwesome Icon="Solid_Check" Foreground="Blue" Stretch="Uniform" Width="20" Margin="0,0,10,0" 
                                      HorizontalAlignment="Left" Height="20" DockPanel.Dock="Left" />
@@ -59,7 +57,7 @@
                 </DockPanel>
             </Button>
 
-            <Button Margin="5" Visibility="{Binding IsCreateVisible}" CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:InControlDetailWindow}}}">
+            <Button Margin="5" Visibility="{Binding IsCreateVisible}" CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:OperControlDetailWindow}}}">
                 <Button.Command>
                     <cmd:CloseDialogCommand />
                 </Button.Command>
@@ -77,21 +75,21 @@
         </StatusBar>
 
         <Border BorderThickness="0.5" Padding="3" BorderBrush="Gray" Margin="6" CornerRadius="3" SnapsToDevicePixels="True">
-            
+
             <Grid Background="Gainsboro" Margin="0" >
-            <Grid.Effect>
-                <DropShadowEffect ShadowDepth="0" Opacity="0.3" BlurRadius="15"/>
-            </Grid.Effect>
+                <Grid.Effect>
+                    <DropShadowEffect ShadowDepth="0" Opacity="0.3" BlurRadius="15"/>
+                </Grid.Effect>
 
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
 
-             <local:InControlUC DataContext="{Binding}"/>
+                <local:OperControlUC DataContext="{Binding}"/>
 
                 <DockPanel Margin="10,10,10,10" Grid.Row="1" SnapsToDevicePixels="True">
-                <StackPanel DockPanel.Dock="Top" Background="Silver" Orientation="Horizontal">
+                    <StackPanel DockPanel.Dock="Top" Background="Silver" Orientation="Horizontal">
                         <Button Margin="3" Command="{Binding AddCommand}" Visibility="{Binding IsCreateVisible}">
                             <DockPanel Margin="4,0">
                                 <fa:ImageAwesome Icon="Solid_UserPlus" Foreground="Blue" Stretch="Uniform" Width="20" Margin="0,0,10,0" 
@@ -99,8 +97,8 @@
                                 <TextBlock Text="Добавить" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14"/>
                             </DockPanel>
                         </Button>
-                        
-                    <Button  Margin="3" Command="{Binding DelCommand}" Visibility="{Binding IsCreateVisible}">
+
+                        <Button  Margin="3" Command="{Binding DelCommand}" Visibility="{Binding IsCreateVisible}">
                             <DockPanel Margin="4,0">
                                 <fa:ImageAwesome Icon="Solid_UserMinus" Foreground="Blue" Stretch="Uniform" Width="20" Margin="0,0,10,0" 
                                      HorizontalAlignment="Left" Height="20" DockPanel.Dock="Left" />
@@ -123,58 +121,59 @@
                                 <TextBlock Text="Отказать" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14"/>
                             </DockPanel>
                         </Button>
-                </StackPanel>
+                    </StackPanel>
 
-                <DataGrid x:Name="dg" ItemsSource="{Binding CurrentJob.Action}" Style="{DynamicResource DataGridStyle}" IsReadOnly="True" 
+                    <DataGrid x:Name="dg" ItemsSource="{Binding CurrentJob.Action}" Style="{DynamicResource DataGridStyle}" IsReadOnly="True" 
                           SelectedItem="{Binding SelectedAction}">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Действия" Binding="{Binding ActionName}"/>
-                        <DataGridTextColumn Header="Ответственный" Binding="{Binding User.UserName}"/>
-                        <DataGridTextColumn Header="Срок исп." Binding="{Binding ActionDateEnd, StringFormat=d}"/>
-                        <DataGridTemplateColumn Header="Статус">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <DockPanel>
-                                        <Image Source="{Binding ActionStatus, Converter={StaticResource StatusToIconConverter}}" 
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Действия" Binding="{Binding ActionName}"/>
+                            <DataGridTextColumn Header="Ответственный" Binding="{Binding User.UserName}"/>
+                            <DataGridTextColumn Header="Срок исп." Binding="{Binding ActionDateEnd, StringFormat=d}"/>
+                            <!--<DataGridTextColumn Header="Статус" Binding="{Binding ActionStatus, Converter={StaticResource StatusToIconConverter}}"/>-->
+                            <DataGridTemplateColumn Header="Статус">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DockPanel>
+                                            <Image Source="{Binding ActionStatus, Converter={StaticResource StatusToIconConverter}}" 
                                                DockPanel.Dock="Left" Width="16" Height="16" Margin="3,1" VerticalAlignment="Top">
-                                            <Image.Effect>
-                                                <DropShadowEffect ShadowDepth="0" BlurRadius="2" Color="#FF999999"/>
-                                            </Image.Effect>
-                                        </Image>
-                                        <TextBlock Margin="2,0" Text="{Binding ActionStatus, Converter={StaticResource StatusToStringConverter}}"/>
-                                    </DockPanel>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTextColumn Header="время оповещения." Binding="{Binding ActionTimeSend, StringFormat=G}"/>
-                        <DataGridTemplateColumn Header="Файлы" >
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <ItemsControl ItemsSource="{Binding ActionFiles}" ScrollViewer.VerticalScrollBarVisibility="Auto" >
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <Border BorderThickness="1" BorderBrush="Black" CornerRadius="3" Margin="0" Background="LightYellow">
-                                                    <TextBlock Foreground="Black" Text="{Binding FileName}" Margin="2,0" VerticalAlignment="Center" Cursor="Hand" >
-                                                        <TextBlock.InputBindings>
-                                                            <MouseBinding Gesture="LeftDoubleClick" 
+                                                <Image.Effect>
+                                                    <DropShadowEffect ShadowDepth="0" BlurRadius="2" Color="#FF999999"/>
+                                                </Image.Effect>
+                                            </Image>
+                                            <TextBlock Margin="2,0" Text="{Binding ActionStatus, Converter={StaticResource StatusToStringConverter}}"/>
+                                        </DockPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="время оповещения." Binding="{Binding ActionTimeSend, StringFormat=G}"/>
+                            <DataGridTemplateColumn Header="Файлы" >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ItemsControl ItemsSource="{Binding ActionFiles}" ScrollViewer.VerticalScrollBarVisibility="Auto" >
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Border BorderThickness="1" BorderBrush="Black" CornerRadius="3" Margin="0" Background="LightYellow">
+                                                        <TextBlock Foreground="Black" Text="{Binding FileName}" Margin="2,0" VerticalAlignment="Center" Cursor="Hand" >
+                                                            <TextBlock.InputBindings>
+                                                                <MouseBinding Gesture="LeftDoubleClick" 
                                                                       Command="{Binding DataContext.OpenFileCommand, ElementName=dg}" 
                                                                       CommandParameter="{Binding }"/>
-                                                        </TextBlock.InputBindings>
+                                                            </TextBlock.InputBindings>
 
-                                                    </TextBlock>
-                                                </Border>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
+                                                        </TextBlock>
+                                                    </Border>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
 
-            </DockPanel>
+                </DockPanel>
 
-        </Grid>
+            </Grid>
         </Border>
 
     </DockPanel>

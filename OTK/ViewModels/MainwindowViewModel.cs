@@ -98,13 +98,6 @@ namespace OTK.ViewModels
         {
             _CurrentFilter = EnumFilter.Require;
             LoadListJobs();
-
-            //if (SelectedTab.DataContext is FormAbstract form)
-            //    form.LoadJobs(_CurrentFilter);
-
-            //if (SelectedTab.DataContext != null)
-            //    (SelectedTab.DataContext as FormAbstract).LoadJobs(EnumStatusJob.ReqConfirm);
-
         }
 
         //--------------------------------------------------------------------------------
@@ -116,12 +109,6 @@ namespace OTK.ViewModels
         {
             _CurrentFilter = EnumFilter.Closed;
             LoadListJobs();
-            //if (SelectedTab.DataContext is FormAbstract form)
-            //    form.LoadJobs(_CurrentFilter);
-
-            //if (SelectedTab.DataContext != null)
-            //    (SelectedTab.DataContext as FormAbstract).LoadJobs(EnumStatusJob.Closed);
-
         }
 
         //--------------------------------------------------------------------------------
@@ -134,44 +121,9 @@ namespace OTK.ViewModels
             _CurrentFilter = EnumFilter.Works;
             LoadListJobs();
 
-            //if ( SelectedTab.DataContext is FormAbstract form)
-            //    form.LoadJobs(_CurrentFilter);
         }
 
 
-        //--------------------------------------------------------------------------------
-        // Команда Удалить заказ
-        //--------------------------------------------------------------------------------
-        //private readonly ICommand _DeleteCommand = null;
-        //public ICommand DeleteCommand => _DeleteCommand ?? new LambdaCommand(OnDeleteCommandExecuted, CanDeleteCommand);
-        //private bool CanDeleteCommand(object p) => true;
-        //private void OnDeleteCommandExecuted(object p)
-        //{
-
-        //}
-
-        //--------------------------------------------------------------------------------
-        // Команда Отчет
-        //--------------------------------------------------------------------------------
-        //private readonly ICommand _ReportCommand = null;
-        //public ICommand ReportCommand => _ReportCommand ?? new LambdaCommand(OnReportCommandExecuted, CaReportCommand);
-        //private bool CaReportCommand(object p) => true;
-        //private void OnReportCommandExecuted(object p)
-        //{
-        //}
-
-
-        //--------------------------------------------------------------------------------
-        // Команда Двойной щелчок
-        //--------------------------------------------------------------------------------
-        //private readonly ICommand _DblClickCommand = null;
-        //public ICommand DblClickCommand => _DblClickCommand ?? new LambdaCommand(OnDblClickCommandExecuted, CanDblClickCommand);
-        //private bool CanDblClickCommand(object p) => true;
-        //private void OnDblClickCommandExecuted(object p)
-        //{
-        //    //SelectedTab.DataContext = new InControlViewModel();
-        //    (SelectedTab.DataContext as InControlViewModel).OpenForm();
-        //}
 
         //--------------------------------------------------------------------------------
         // Команда Создать

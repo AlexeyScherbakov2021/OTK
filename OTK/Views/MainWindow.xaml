@@ -46,13 +46,6 @@
                     <TextBlock Text="Удалить" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14"/>
                 </DockPanel>
             </Button>
-            <!--<Button Margin="5" Command="{Binding ReportCommand}" >
-                <DockPanel Margin="4,0">
-                    <fa:ImageAwesome Foreground="Blue" Stretch="Uniform" Width="20" Margin="0,0,10,0" 
-                                     HorizontalAlignment="Left" Height="20" DockPanel.Dock="Left" Icon="Solid_FileInvoice" />
-                    <TextBlock Text="Отчет по заказам" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14"/>
-                </DockPanel>
-            </Button>-->
             <Button Margin="5" Command="{Binding ReportCommand}" Visibility="Collapsed">
                 <DockPanel Margin="4,0">
                     <fa:ImageAwesome Icon="Solid_AddressCard" Foreground="Blue" Stretch="Uniform" Width="20" Margin="0,0,10,0" 
@@ -124,13 +117,89 @@
                         </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
-
-
                 </TabItem>
+
                 <TabItem Header="Операционный контроль">
+                    <TabItem.DataContext>
+                        <fvm:OperControlViewModel/>
+                    </TabItem.DataContext>
+                    <DataGrid ItemsSource="{Binding ListJobs}" IsReadOnly="True"  SelectedItem="{Binding SelectedJob}" 
+                          Style="{StaticResource DataGridStyle}" Margin="8" FontSize="12" FontWeight="Normal">
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="FontWeight" Value="Bold"/>
+                            </Style>
+                        </DataGrid.ColumnHeaderStyle>
+
+                        <DataGrid.InputBindings>
+                            <MouseBinding Gesture="LeftDoubleClick" Command="{Binding DblClickCommand}" />
+                        </DataGrid.InputBindings>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Дата" Binding="{Binding JobDate, StringFormat=d}"/>
+                            <DataGridTextColumn Header="Наименование" Binding="{Binding JobNameProduct}"/>
+                            <DataGridTextColumn Header="№ акта" Binding="{Binding JobKD}"/>
+                            <DataGridTextColumn Header="Срок выполнения" Binding="{Binding JobDate, StringFormat=d}"/>
+                            <DataGridTextColumn Header="Выявлено" Binding="{Binding JobDescript}" />
+
+                            <DataGridTemplateColumn  Header="Статус" >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Margin="6,0" Height="18" Width="18" Source="{Binding JobStatus, Converter={StaticResource StatusJobToIconConverter}}">
+                                                <Image.Effect>
+                                                    <DropShadowEffect ShadowDepth="0" BlurRadius="2" Color="#FF999999"/>
+                                                </Image.Effect>
+                                            </Image>
+                                            <TextBlock Margin="2,0" Text="{Binding JobStatus, Converter={StaticResource StatusJobToStringConverter}}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
                 </TabItem>
+                
                 <TabItem Header="Приёмо-сдаточные испытания">
+                    <TabItem.DataContext>
+                        <fvm:PSIViewModel/>
+                    </TabItem.DataContext>
+                    <DataGrid ItemsSource="{Binding ListJobs}" IsReadOnly="True"  SelectedItem="{Binding SelectedJob}" 
+                          Style="{StaticResource DataGridStyle}" Margin="8" FontSize="12" FontWeight="Normal">
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="FontWeight" Value="Bold"/>
+                            </Style>
+                        </DataGrid.ColumnHeaderStyle>
+
+                        <DataGrid.InputBindings>
+                            <MouseBinding Gesture="LeftDoubleClick" Command="{Binding DblClickCommand}" />
+                        </DataGrid.InputBindings>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Дата" Binding="{Binding JobDate, StringFormat=d}"/>
+                            <DataGridTextColumn Header="Наименование" Binding="{Binding JobNameProduct}"/>
+                            <DataGridTextColumn Header="№ акта" Binding="{Binding JobKD}"/>
+                            <DataGridTextColumn Header="Срок выполнения" Binding="{Binding JobDate, StringFormat=d}"/>
+                            <DataGridTextColumn Header="Выявлено" Binding="{Binding JobDescript}" />
+
+                            <DataGridTemplateColumn  Header="Статус" >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Margin="6,0" Height="18" Width="18" Source="{Binding JobStatus, Converter={StaticResource StatusJobToIconConverter}}">
+                                                <Image.Effect>
+                                                    <DropShadowEffect ShadowDepth="0" BlurRadius="2" Color="#FF999999"/>
+                                                </Image.Effect>
+                                            </Image>
+                                            <TextBlock Margin="2,0" Text="{Binding JobStatus, Converter={StaticResource StatusJobToStringConverter}}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
                 </TabItem>
+                
                 <TabItem Header="Реестр несоответствий">
                 </TabItem>
                 

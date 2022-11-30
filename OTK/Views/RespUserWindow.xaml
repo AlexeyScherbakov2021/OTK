@@ -8,7 +8,7 @@
         xmlns:fa="http://schemas.fontawesome.com/icons/"
         mc:Ignorable="d"
         Background="LightGray"
-        Title="RespUserWindow" Height="280" Width="510" WindowStartupLocation="CenterScreen">
+        Title="Ответственный" Height="280" Width="510" WindowStartupLocation="CenterScreen">
     <DockPanel>
         <UniformGrid DockPanel.Dock="Bottom" Margin="30,0,30,8" Columns="2" Height="38">
             <Button Margin="8, 4" CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:RespUserWindow}}}">

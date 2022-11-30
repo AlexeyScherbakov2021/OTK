@@ -169,38 +169,8 @@
         </Style>
 
     </UserControl.Resources>
-        <!--<StackPanel >
-            <Label>
-                <StackPanel Orientation="Horizontal" >
-                    <TextBlock Width="220" Text="Дата выявления" VerticalAlignment="Center" TextAlignment="Right"/>
-                    <DatePicker SelectedDate="{Binding CurrentJob.JobDate}" Margin="10,0,0,1" FirstDayOfWeek="Monday" Padding="0,0,2,0" HorizontalContentAlignment="Stretch" VerticalAlignment="Center" VerticalContentAlignment="Stretch"/>
-                </StackPanel>
-            </Label>
-        <Label>
-            <StackPanel Orientation="Horizontal"  >
-                <TextBlock Width="220"  Text="Наименование продукции" TextAlignment="Right" VerticalAlignment="Center"/>
-                <TextBox  Text="{Binding CurrentJob.JobKD}"  IsReadOnly="{Binding IsReadOnlyField}" Margin="10,1,0,1"/>
-            </StackPanel>
-        </Label>
-        <Label>
-            <StackPanel Orientation="Horizontal" Grid.IsSharedSizeScope="True" >
-            </StackPanel>
-        </Label>
-        <Label>
-            <StackPanel Orientation="Horizontal" Grid.IsSharedSizeScope="True" >
-            </StackPanel>
-        </Label>
-        <Label>
-            <StackPanel Orientation="Horizontal" Grid.IsSharedSizeScope="True" >
-            </StackPanel>
-        </Label>
-    </StackPanel>-->
-
 
     <Grid SnapsToDevicePixels="True">
-        <!--<Grid.Effect>
-            <DropShadowEffect ShadowDepth="0" Opacity="0.4" BlurRadius="15"/>
-        </Grid.Effect>-->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0"/>
             <ColumnDefinition Width="220"/>
