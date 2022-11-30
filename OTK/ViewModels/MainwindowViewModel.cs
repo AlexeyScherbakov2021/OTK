@@ -45,8 +45,6 @@ namespace OTK.ViewModels
         //--------------------------------------------------------------------------------
         public MainwindowViewModel()
         {
-            CheckDateEnd();
-
             vmInControl = new InControlViewModel();
         }
 
@@ -54,27 +52,36 @@ namespace OTK.ViewModels
         //--------------------------------------------------------------------------------
         // Проверка сроков ответов
         //--------------------------------------------------------------------------------
-        private void CheckDateEnd()
-        {
-            DateTime NowDate = DateTime.Now;
-            RepositoryMSSQL<Jobs> repoJobs = new RepositoryMSSQL<Jobs>();
-            List<Jobs> ListJobs = repoJobs.Items.ToList();
 
-            foreach(Jobs job in ListJobs)
+        private async void CheckDateEndAsync()
+        {
+            await Task.Run(() =>
             {
-                foreach(var item in job.Action)
+                DateTime NowDate = DateTime.Now;
+                using (RepositoryMSSQL<Jobs> repoJobs = new RepositoryMSSQL<Jobs>())
                 {
-                    if(item.ActionStatus == EnumStatus.CheckedProcess)
+                    List<Jobs> ListJobs = repoJobs.Items.ToList();
+                    foreach (Jobs job in ListJobs)
                     {
-                        if(NowDate > item.ActionDateEnd )
+                        foreach (var item in job.Action)
                         {
-                            item.ActionStatus = EnumStatus.CheckedNone;
+                            if (item.ActionStatus == EnumStatus.CheckedProcess)
+                            {
+                                if (NowDate > item.ActionDateEnd)
+                                {
+                                    item.ActionStatus = EnumStatus.OverTime;
+                                }
+                            }
                         }
                     }
+                    repoJobs.Save();
+
                 }
-            }
-            repoJobs.Save();
+                return Task.FromResult(true);
+
+            });
         }
+
 
 
         //--------------------------------------------------------------------------------
@@ -88,6 +95,18 @@ namespace OTK.ViewModels
         }
 
         #region Команды
+
+        //--------------------------------------------------------------------------------
+        // Команда Создать
+        //--------------------------------------------------------------------------------
+        public ICommand LoadedCommand =>  new LambdaCommand(OnLoadedCommandExecuted, CanLoadedCommand);
+        private bool CanLoadedCommand(object p) => true;
+        private void OnLoadedCommandExecuted(object p)
+        {
+            CheckDateEndAsync();
+
+        }
+
 
         //--------------------------------------------------------------------------------
         // Команда Фильтровать Требующие рассмотрения

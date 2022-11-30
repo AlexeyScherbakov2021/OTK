@@ -154,7 +154,7 @@ namespace OTK.ViewModels.Forms
 
 
         //--------------------------------------------------------------------------------
-        // Команда Отправить
+        // Команда Оповестить
         //--------------------------------------------------------------------------------
         public ICommand SendCommand => new LambdaCommand(OnSendCommandExecuted, CanSendCommand);
         private bool CanSendCommand(object p) => true;
@@ -165,12 +165,12 @@ namespace OTK.ViewModels.Forms
             foreach (var item in CurrentJob.Action)
             {
                 // прошло часов после последней отправки
-                var times = CurrentTime - item.ActionTimeSend;
+                TimeSpan times = (CurrentTime - item.ActionTimeSend) ?? new TimeSpan(0);
 
                 // осталось часов до выполнения
                 var left = item.ActionDateEnd - CurrentTime;
 
-                bool IsSend = (left.Value.TotalHours < 24 && times.Value.TotalHours > 24);
+                bool IsSend = (left.Value.TotalHours < 24 &&  times.TotalHours > 24);
 
                 // если оповещения еще не было или было более суток назад 
                 if (item.ActionTimeSend is null || IsSend)
@@ -328,7 +328,6 @@ namespace OTK.ViewModels.Forms
                     CurrentJob.ActFiles.Add(item);
                 }
             }
-
 
             if (_repo.Add(CurrentJob, true))
             {

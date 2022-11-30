@@ -7,7 +7,7 @@
   </ResourceDictionary.MergedDictionaries>
   
   <!-- SimpleStyles: TabControl -->
-  <Style  TargetType="{x:Type TabControl}">
+  <Style TargetType="{x:Type TabControl}">
     <Setter Property="OverridesDefaultStyle" Value="True" />
     <Setter Property="SnapsToDevicePixels" Value="True" />
     <Setter Property="Template">
@@ -53,6 +53,7 @@
     </Setter>
   </Style>
   <!-- SimpleStyles: TabItem -->
+    
   <Style TargetType="{x:Type TabItem}">
     <Setter Property="Template">
       <Setter.Value>

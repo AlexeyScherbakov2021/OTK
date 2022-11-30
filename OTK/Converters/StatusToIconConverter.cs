@@ -21,7 +21,7 @@ namespace OTK.Converters
 
                 switch (status)
                 {
-                    case EnumStatus.CheckedNone:
+                    case EnumStatus.OverTime:
                         Source = new BitmapImage(new Uri("/OTK;component/Resource/не выполнен.png", UriKind.Relative));
                         break;
 

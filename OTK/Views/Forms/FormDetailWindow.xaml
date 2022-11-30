@@ -125,7 +125,7 @@
                     </StackPanel>
 
                     <DataGrid x:Name="dg" ItemsSource="{Binding CurrentJob.Action}" Style="{DynamicResource DataGridStyle}" IsReadOnly="True" 
-                          SelectedItem="{Binding SelectedAction}">
+                          SelectedItem="{Binding SelectedAction}" SnapsToDevicePixels="True">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Действия" Binding="{Binding ActionName}"/>
                             <DataGridTextColumn Header="Ответственный" Binding="{Binding User.UserName}"/>

@@ -20,7 +20,7 @@
     </i:Interaction.Triggers>
 
     <Grid>
-        <TabControl>
+        <TabControl Margin="6">
 
             <TabItem Header="Пользователи" >
                 <sview:UsersControl DataContext="{Binding UserViewModel}" Margin="8" />

@@ -8,9 +8,10 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Styles/Button.xaml"/>
                 <ResourceDictionary Source="/Styles/DataGrid.xaml"/>
-                <ResourceDictionary Source="/Styles/TabControl.xaml"/>
                 <ResourceDictionary Source="/Styles/CheckBox.xaml"/>
                 <ResourceDictionary Source="/Styles/RadioButton.xaml"/>
+                <ResourceDictionary Source="/Styles/TabControl.xaml"/>
+
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
 

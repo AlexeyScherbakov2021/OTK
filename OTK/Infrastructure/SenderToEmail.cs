@@ -22,7 +22,7 @@ namespace OTK.Infrastructure
 
         public async void SendMail(string Text)
         {
-            //if (string.IsNullOrEmpty(_Email))
+            if (string.IsNullOrEmpty(_Email))
                 return;
 
             string Message =
@@ -39,7 +39,7 @@ namespace OTK.Infrastructure
                 "</html>";
 
 
-            MailAddress from = new MailAddress("otk@ngk-ehz.ru", "OTK PO");
+            MailAddress from = new MailAddress("otk@ngk-ehz.ru", "ПО ОТК");
             MailAddress to = new MailAddress(_Email);
             MailMessage m = new MailMessage(from, to);
             m.Subject = "Оповещение";

@@ -7,11 +7,19 @@
         xmlns:conv="clr-namespace:OTK.Converters"
         xmlns:fa="http://schemas.fontawesome.com/icons/"
         xmlns:vm="clr-namespace:OTK.ViewModels"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:fvm="clr-namespace:OTK.ViewModels.Forms"
         xmlns:local="clr-namespace:OTK"
         mc:Ignorable="d"
         Background="LightGray"
-        Title="{Binding Title}" Height="800" Width="1000" WindowStartupLocation="CenterScreen"  >
+        Title="{Binding Title}" Height="800" Width="1200" WindowStartupLocation="CenterScreen"  >
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    
     <Window.Resources>
         <conv:StatusJobToIconConverter x:Key="StatusJobToIconConverter"/>
         <conv:StatusJobToStringConverter x:Key="StatusJobToStringConverter"/>
@@ -29,6 +37,7 @@
             <RowDefinition/>
             <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
+        
         <ToolBarPanel Orientation="Horizontal" Grid.Row="0" >
             <Button Margin="5" Command="{Binding CreateCommand}" >
                 <DockPanel Margin="4,0">
@@ -78,7 +87,22 @@
                 <DropShadowEffect Color="#FFBDBDBD" ShadowDepth="0" BlurRadius="20"/>
             </Border.Effect>
 
-            <TabControl SelectedItem="{Binding SelectedTab}" FontWeight="Bold">
+            <TabControl SelectedItem="{Binding SelectedTab}" >
+                
+                <TabControl.ItemContainerStyle>
+                    <Style TargetType="TabItem" BasedOn="{StaticResource {x:Type TabItem}}">
+                        <Setter Property="FontSize" Value="16"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsOverTimeAction}" Value="True">
+                                <Setter Property="Foreground" Value="Red"/>
+                                <Setter Property="ToolTip" Value="Есть просроченные"/>
+                            </DataTrigger>
+                           
+                         </Style.Triggers>
+                    </Style>
+                </TabControl.ItemContainerStyle>
+                
+                
                 <TabItem Header="Входной контроль">
                     <TabItem.DataContext>
                         <fvm:InControlViewModel/>
@@ -105,7 +129,7 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Margin="6,0" Height="18" Width="18" Source="{Binding JobStatus, Converter={StaticResource StatusJobToIconConverter}}">
+                                        <Image Margin="6,1" Height="18" Width="18" Source="{Binding JobStatus, Converter={StaticResource StatusJobToIconConverter}}">
                                         <Image.Effect>
                                             <DropShadowEffect ShadowDepth="0" BlurRadius="2" Color="#FF999999"/>
                                         </Image.Effect>
@@ -145,7 +169,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <Image Margin="6,0" Height="18" Width="18" Source="{Binding JobStatus, Converter={StaticResource StatusJobToIconConverter}}">
+                                            <Image Margin="6,1" Height="18" Width="18" Source="{Binding JobStatus, Converter={StaticResource StatusJobToIconConverter}}">
                                                 <Image.Effect>
                                                     <DropShadowEffect ShadowDepth="0" BlurRadius="2" Color="#FF999999"/>
                                                 </Image.Effect>
@@ -186,7 +210,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <Image Margin="6,0" Height="18" Width="18" Source="{Binding JobStatus, Converter={StaticResource StatusJobToIconConverter}}">
+                                            <Image Margin="6,1" Height="18" Width="18" Source="{Binding JobStatus, Converter={StaticResource StatusJobToIconConverter}}">
                                                 <Image.Effect>
                                                     <DropShadowEffect ShadowDepth="0" BlurRadius="2" Color="#FF999999"/>
                                                 </Image.Effect>

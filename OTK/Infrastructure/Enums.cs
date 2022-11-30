@@ -33,7 +33,7 @@ namespace OTK.Infrastructure
         CheckedProcess = 0,     // в ожидании выполнения
         Checked,                // предварительно выполнен
         Finish,                 // подтверждено выполнение
-        CheckedNone             // не выполнен в срок
+        OverTime                // не выполнен в срок
     };
 
     public static class ClassStatus

@@ -25,13 +25,14 @@ namespace OTK.ViewModels.Forms
 
         protected string NameForm;
 
+        public bool IsOverTimeAction { get; set; }
+
         //--------------------------------------------------------------------------------
         // Конструктор
         //--------------------------------------------------------------------------------
         public FormAbstract()
         {
             User = App.CurrentUser;
-            //LoadJobs(EnumStatusJob.ReqConfirm);
         }
 
 
@@ -84,6 +85,13 @@ namespace OTK.ViewModels.Forms
                         break;
 
                 }
+
+            }
+
+            // получение просроченных форм
+            using (RepositoryMSSQL<ActionUser> repo = new RepositoryMSSQL<ActionUser>())
+            {
+                IsOverTimeAction = repo.Items.Any(it => it.Jobs.JobType == FormType && it.ActionStatus == EnumStatus.OverTime);
             }
 
             OnPropertyChanged(nameof(ListJobs));
@@ -121,6 +129,16 @@ namespace OTK.ViewModels.Forms
                             );
                         break;
                 }
+
+            }
+
+            // получение просроченных форм
+            using (RepositoryMSSQL<ActionUser> repo = new RepositoryMSSQL<ActionUser>())
+            {
+                IsOverTimeAction = repo.Items.Any(it => 
+                        it.Jobs.JobType == FormType 
+                        && it.ActionStatus == EnumStatus.OverTime
+                        && it.User.id == UserId);
             }
 
             OnPropertyChanged(nameof(ListJobs));
