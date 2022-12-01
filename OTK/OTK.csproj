@@ -94,6 +94,7 @@
     <Compile Include="Models\ModelOTK.cs" />
     <Compile Include="Models\RnO.cs" />
     <Compile Include="Models\Users.cs" />
+    <Compile Include="Models\Vendor.cs" />
     <Compile Include="Repository\IRepository.cs" />
     <Compile Include="Repository\RepositoryMSSQL.cs" />
     <Compile Include="ViewModels\Forms\FormAbstract.cs" />
@@ -107,7 +108,9 @@
     <Compile Include="ViewModels\LoginWindowViewModel.cs" />
     <Compile Include="ViewModels\MainwindowViewModel.cs" />
     <Compile Include="ViewModels\SettingWindowViewModel.cs" />
+    <Compile Include="ViewModels\Setting\ISettings.cs" />
     <Compile Include="ViewModels\Setting\UsersControlViewModel.cs" />
+    <Compile Include="ViewModels\Setting\VendorsUCViewModel.cs" />
     <Compile Include="Views\Forms\FormDetailWindow.xaml.cs">
       <DependentUpon>FormDetailWindow.xaml</DependentUpon>
     </Compile>
@@ -137,6 +140,9 @@
     </Compile>
     <Compile Include="Views\Setting\UsersControl.xaml.cs">
       <DependentUpon>UsersControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Setting\VendorsUC.xaml.cs">
+      <DependentUpon>VendorsUC.xaml</DependentUpon>
     </Compile>
     <Page Include="Styles\WindowStyle.xaml">
       <SubType>Designer</SubType>
@@ -219,6 +225,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Setting\UsersControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Setting\VendorsUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

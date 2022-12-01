@@ -39,6 +39,7 @@ namespace OTK.Models
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<ActionFiles> ActionFiles { get; set; }
         public virtual DbSet<ActFiles> ActFiles { get; set; }
+        public virtual DbSet<Vendor> Vendor { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -148,6 +149,11 @@ namespace OTK.Models
                 .HasMany(e => e.RnO)
                 .WithOptional(e => e.User)
                 .HasForeignKey(e => e.RnoUserID);
+
+            modelBuilder.Entity<Vendor>()
+                .HasMany(e => e.ListJob)
+                .WithOptional(e => e.vendor)
+                .HasForeignKey(e => e.JobVendorId);
         }
     }
 }

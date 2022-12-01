@@ -17,10 +17,12 @@ namespace OTK.ViewModels
         public static RepositoryMSSQL<Users> repo = new RepositoryMSSQL<Users>();
 
         public UsersControlViewModel UserViewModel { get; set; }
+        public VendorsUCViewModel VendorsViewModel { get; set; }
 
         public SettingWindowViewModel()
         {
             UserViewModel = new UsersControlViewModel();
+            VendorsViewModel = new VendorsUCViewModel();
 
         }
 
@@ -33,6 +35,7 @@ namespace OTK.ViewModels
         private void OnClosingCommandExecuted(object p)
         {
             UserViewModel.SaveUsers();
+            VendorsViewModel.SaveUsers();
         }
         #endregion
 

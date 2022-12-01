@@ -48,6 +48,7 @@ namespace OTK.ViewModels.Forms
 
         public AttachListFiles<ActFiles> FilesAct { get; set; }
 
+        public List<Vendor> ListVendor { get; set; }
 
 
         //--------------------------------------------------------------------------------
@@ -67,7 +68,10 @@ namespace OTK.ViewModels.Forms
 
             _repo = new RepositoryMSSQL<Jobs>();
             _repoUsers = new RepositoryMSSQL<Users>(_repo.GetDB());
+            RepositoryMSSQL<Vendor> repoVendor = new RepositoryMSSQL<Vendor>(_repo.GetDB());
             ListUsers = _repoUsers.Items.OrderBy(o => o.UserName).ToList();
+            ListVendor = repoVendor.Items.OrderBy(o => o.VendName).ToList();
+
 
             if (job.id == 0)    // если это было создание
             {

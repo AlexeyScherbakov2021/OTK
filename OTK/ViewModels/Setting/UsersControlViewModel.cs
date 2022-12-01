@@ -15,9 +15,9 @@ using System.Windows.Data;
 
 namespace OTK.ViewModels.Setting
 {
-    internal class UsersControlViewModel : Observable
+    internal class UsersControlViewModel : Observable, ISettings
     {
-        RepositoryMSSQL<Users> repo;
+        private readonly RepositoryMSSQL<Users> repo;
 
         public Users SelectedUser { get; set; }
         public ObservableCollection<Users> ListUser { get; set; }

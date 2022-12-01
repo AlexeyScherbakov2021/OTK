@@ -47,22 +47,22 @@
                     <TextBlock Text="Создать" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14"/>
                 </DockPanel>
             </Button>
-            <Button Margin="5" Command="{Binding DeleteCommand}" >
+            <!--<Button Margin="5" Command="{Binding DeleteCommand}" >
                 <DockPanel Margin="4,0">
                     <fa:ImageAwesome Icon="Solid_Trash" Foreground="Blue" Stretch="Uniform" Width="20" Margin="0,0,10,0" 
                                      HorizontalAlignment="Left" Height="20" DockPanel.Dock="Left" >
                     </fa:ImageAwesome>
                     <TextBlock Text="Удалить" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14"/>
                 </DockPanel>
-            </Button>
-            <Button Margin="5" Command="{Binding ReportCommand}" Visibility="Collapsed">
+            </Button>-->
+            <!--<Button Margin="5" Command="{Binding ReportCommand}" Visibility="Collapsed">
                 <DockPanel Margin="4,0">
                     <fa:ImageAwesome Icon="Solid_AddressCard" Foreground="Blue" Stretch="Uniform" Width="20" Margin="0,0,10,0" 
                                      HorizontalAlignment="Left" Height="20" DockPanel.Dock="Left" >
                     </fa:ImageAwesome>
                     <TextBlock Text="Отчет" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14"/>
                 </DockPanel>
-            </Button>
+            </Button>-->
             <Button Margin="5"  
                     CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}">
                 <Button.Command>
@@ -121,9 +121,10 @@
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Дата" Binding="{Binding JobDate, StringFormat=d}"/>
                         <DataGridTextColumn Header="Наименование" Binding="{Binding JobNameProduct}"/>
-                            <DataGridTextColumn Header="№ акта" Binding="{Binding JobKD}"/>
-                            <DataGridTextColumn Header="Срок выполнения" Binding="{Binding JobDate, StringFormat=d}"/>
-                            <DataGridTextColumn Header="Выявлено" Binding="{Binding JobDescript}" />
+                        <DataGridTextColumn Header="№ акта" Binding="{Binding JobKD}"/>
+                        <DataGridTextColumn Header="Срок выполнения" Binding="{Binding JobDate, StringFormat=d}"/>
+                        <DataGridTextColumn Header="Выявлено" Binding="{Binding JobDescript}" />
+                        <DataGridTextColumn Header="Поставщик" Binding="{Binding vendor.VendName}" />
                         
                         <DataGridTemplateColumn  Header="Статус" >
                             <DataGridTemplateColumn.CellTemplate>
@@ -173,6 +174,7 @@
                             <DataGridTextColumn Header="№ акта" Binding="{Binding JobKD}"/>
                             <DataGridTextColumn Header="Срок выполнения" Binding="{Binding JobDate, StringFormat=d}"/>
                             <DataGridTextColumn Header="Выявлено" Binding="{Binding JobDescript}" />
+                            <DataGridTextColumn Header="Поставщик" Binding="{Binding vendor.VendName}" />
 
                             <DataGridTemplateColumn  Header="Статус" >
                                 <DataGridTemplateColumn.CellTemplate>

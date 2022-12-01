@@ -26,6 +26,9 @@
                 <sview:UsersControl DataContext="{Binding UserViewModel}" Margin="8" />
                 <!--<local:RouteControl DataContext="{Binding RouteViewModel}" Margin="8"/>-->
             </TabItem>
+            <TabItem Header="Поставщики">
+                <sview:VendorsUC DataContext="{Binding VendorsViewModel}" Margin="8"/>
+            </TabItem>
         </TabControl>
 
     </Grid>
