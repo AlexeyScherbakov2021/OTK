@@ -102,6 +102,8 @@
     <Compile Include="ViewModels\Forms\InControlViewModel.cs" />
     <Compile Include="ViewModels\Forms\OperControlViewModel.cs" />
     <Compile Include="ViewModels\Forms\PSIViewModel.cs" />
+    <Compile Include="ViewModels\Forms\RnOViewModel.cs" />
+    <Compile Include="ViewModels\Forms\RnOWindowViewModel.cs" />
     <Compile Include="ViewModels\LoginWindowViewModel.cs" />
     <Compile Include="ViewModels\MainwindowViewModel.cs" />
     <Compile Include="ViewModels\SettingWindowViewModel.cs" />
@@ -120,6 +122,9 @@
     </Compile>
     <Compile Include="Views\Forms\PSIUC.xaml.cs">
       <DependentUpon>PSIUC.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Forms\RnOWindow.xaml.cs">
+      <DependentUpon>RnOWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
@@ -154,6 +159,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Forms\PSIUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Forms\RnOWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

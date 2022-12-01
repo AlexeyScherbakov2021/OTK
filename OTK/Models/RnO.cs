@@ -20,12 +20,14 @@ namespace OTK.Models
         //[Column("RnoID")]
         public int id { get; set; }
 
-        public DateTime? RnoDate { get; set; }
+        public DateTime RnoDate { get; set; }
 
         public int? RnoUserID { get; set; }
 
         [StringLength(50)]
         public string RnoStage { get; set; }
+
+        public string RnoItem { get; set; }
 
         public string RnoFakt { get; set; }
 

@@ -7,6 +7,8 @@ namespace OTK.Models
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
+    using System.Linq;
+    using System.Windows;
 
     public partial class Jobs : IEntity
     {
@@ -61,5 +63,9 @@ namespace OTK.Models
         public virtual ObservableCollection<ActFiles> ActFiles { get; set; }
 
         public virtual RnO RnO { get; set; }
+
+        [NotMapped]
+        public Visibility IsOverTimeVisiblity => Action.Any(it => it.ActionStatus == EnumStatus.OverTime) ? Visibility.Visible : Visibility.Collapsed;
+
     }
 }

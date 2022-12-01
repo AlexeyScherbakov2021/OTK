@@ -1,0 +1,150 @@
+﻿<Window x:Class="OTK.Views.Forms.RnOWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:OTK.ViewModels.Forms"
+        xmlns:fa="http://schemas.fontawesome.com/icons/"
+        xmlns:cmd="clr-namespace:OTK.Commands"
+        xmlns:local="clr-namespace:OTK.Views.Forms"
+        Name="mainUC"
+        mc:Ignorable="d"
+        Background="LightGray"
+        Title="{Binding Title}" Height="450" Width="800" WindowStartupLocation="CenterScreen">
+    <Window.DataContext>
+        <vm:RnOWindowViewModel/>
+    </Window.DataContext>
+    <DockPanel>
+        <ToolBarPanel DockPanel.Dock="Top" Orientation="Horizontal" Height="42">
+            <Button Margin="5" Visibility="{Binding IsEditVisible}" Command="{Binding ArchiveCommand}"
+                    CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}">
+                <DockPanel Margin="4,0">
+                    <fa:ImageAwesome Icon="Solid_Store" Foreground="Blue" Stretch="Uniform" Width="20" Margin="0,0,10,0" 
+                                     HorizontalAlignment="Left" Height="20" DockPanel.Dock="Left" />
+                    <TextBlock Text="В архив" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14"/>
+                </DockPanel>
+            </Button>
+
+            <Button Margin="5" Visibility="{Binding IsCloseVisible}"
+                    CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}">
+                <Button.Command>
+                    <cmd:CloseDialogCommand/>
+                </Button.Command>
+                <DockPanel Margin="4,0">
+                    <fa:ImageAwesome Icon="Solid_DoorClosed" Foreground="Blue" Stretch="Uniform" Width="20" Margin="0,0,10,0" 
+                                     HorizontalAlignment="Left" Height="20" DockPanel.Dock="Left" />
+                    <TextBlock Text="Закрыть" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14"/>
+                </DockPanel>
+            </Button>
+
+            <Button Margin="5" Visibility="{Binding IsCreateVisible}" Command="{Binding OKCommand}"
+                    CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}">
+                <DockPanel Margin="4,0">
+                    <fa:ImageAwesome Icon="Solid_Check" Foreground="Blue" Stretch="Uniform" Width="20" Margin="0,0,10,0" 
+                                     HorizontalAlignment="Left" Height="20" DockPanel.Dock="Left" />
+                    <TextBlock Text="ОК" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14"/>
+                </DockPanel>
+            </Button>
+
+            <Button Margin="5" Visibility="{Binding IsCreateVisible}" CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}">
+                <Button.Command>
+                    <cmd:CloseDialogCommand />
+                </Button.Command>
+                <DockPanel Margin="4,0">
+                    <fa:ImageAwesome Icon="Solid_Times" Foreground="Blue" Stretch="Uniform" Width="20" Margin="0,0,10,0" 
+                                     HorizontalAlignment="Left" Height="20" DockPanel.Dock="Left" />
+                    <TextBlock Text="Отменить" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14"/>
+                </DockPanel>
+            </Button>
+        </ToolBarPanel>
+        
+        <Border Margin="10" CornerRadius="3">
+            <Border.Effect>
+                <DropShadowEffect ShadowDepth="0" BlurRadius="10" Opacity="0.2"/>
+            </Border.Effect>
+            <Grid TextOptions.TextFormattingMode="Display" Background="Gainsboro" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0"/>
+                    <ColumnDefinition Width="220"/>
+                    <ColumnDefinition Width="220"/>
+                    <ColumnDefinition Width="130"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="50"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="26"/>
+                    <RowDefinition Height="26"/>
+                    <RowDefinition Height="26"/>
+                    <RowDefinition Height="26"/>
+                    <RowDefinition Height="26"/>
+                    <RowDefinition Height="26"/>
+                    <RowDefinition Height="26"/>
+                    <RowDefinition Height="26"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="26"/>
+                    <RowDefinition Height="26"/>
+                    <RowDefinition Height="26"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Дата выявления" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBlock Text="Ответственный" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBlock Text="Этап обнаружения" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBlock Text="Кол-во" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBlock Text="Наименование продукции" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBlock Text="Факт" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBlock Text="Норма" Grid.Row="8" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBlock Text="Номер разрешения" Grid.Row="10" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,5,0,0"/>
+                <TextBlock Text="Срок исп. продукции" Grid.Row="11" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+
+                <DatePicker SelectedDate="{Binding CurrentRnO.RnoDate}" Grid.Row="1" Grid.Column="2" Margin="10,0,0,2" 
+                    FirstDayOfWeek="Monday" Padding="0,0,0,0" HorizontalContentAlignment="Stretch" VerticalAlignment="Center" 
+                    VerticalContentAlignment="Center"/>
+                <TextBox  Text="{Binding CurrentRnO.User.UserName}"  IsReadOnly="{Binding IsReadOnlyField}" Grid.Row="2" Grid.Column="2" Margin="10,2,0,2"/>
+                <TextBox  Text="{Binding CurrentRnO.RnoStage}" IsReadOnly="{Binding IsReadOnlyField}" Grid.Row="3" Grid.Column="2" Margin="10,2,0,2" Grid.ColumnSpan="1"/>
+                <TextBox  Text="{Binding CurrentRnO.RnoCountProd}" IsReadOnly="{Binding IsReadOnlyField}" Grid.Row="4" Grid.Column="2" Margin="10,2,0,2" Grid.ColumnSpan="1"/>
+                <TextBox  Text="{Binding CurrentRnO.RnoItem}" IsReadOnly="{Binding IsReadOnlyField}" Grid.Row="5" Grid.Column="2" Margin="10,2,0,2" Grid.ColumnSpan="3"/>
+
+
+                <TextBox  Text="{Binding CurrentRnO.RnoFakt}" IsReadOnly="{Binding IsReadOnlyField}" Grid.Row="6" Grid.Column="2" TextWrapping="Wrap" Margin="10,2,0,2" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Grid.ColumnSpan="3" Grid.RowSpan="2"/>
+                <TextBox  Text="{Binding CurrentRnO.RnoNorma}" IsReadOnly="{Binding IsReadOnlyField}" Grid.Row="8" Grid.Column="2" Margin="10,2,0,2" Grid.ColumnSpan="3" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Grid.RowSpan="2"/>
+
+                <Button Grid.Row="10" Grid.Column="2" Width="30" HorizontalAlignment="Left" Margin="10,1,0,1" 
+                    IsEnabled="{Binding IsEnabledButton}"
+                    Command="{Binding BrowseActsCommand}" Height="25" VerticalAlignment="Top">
+                    <fa:ImageAwesome Icon="Solid_Paperclip" Foreground="Blue" Stretch="Uniform" Width="18" Height="18" />
+                </Button>
+                <ItemsControl ItemsSource="{Binding FilesAct.ListFiles}" BorderBrush="Gray" BorderThickness="1" 
+                    Grid.Row="10" Grid.Column="2" SnapsToDevicePixels="True"
+                    AllowDrop="True" Background="White" Margin="41,2,0,2" ScrollViewer.VerticalScrollBarVisibility="Auto" Grid.ColumnSpan="3" MinHeight="24" >
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <DockPanel>
+                                <Button Width="30" DockPanel.Dock="Right" Margin="2,2,2,2" ToolTip="Удалить файл"
+                                    IsEnabled="{Binding DataContext.IsEnabledButton, ElementName=mainUC}"
+                                    Command="{Binding DataContext.DeleteActFileCommand, ElementName=mainUC}" CommandParameter="{Binding}">
+                                    <fa:ImageAwesome Icon="Regular_WindowClose" Width="16" Height="16" Foreground="DarkRed"/>
+                                </Button>
+                                <Border BorderThickness="1" BorderBrush="Black" CornerRadius="3" Margin="2" Background="White">
+                                    <TextBlock Text="{Binding FileName}" Margin="4, 0" VerticalAlignment="Center" TextWrapping="Wrap" Background="LightYellow" Cursor="Hand">
+                                        <TextBlock.InputBindings>
+                                            <MouseBinding Gesture="LeftDoubleClick" 
+                                                Command="{Binding DataContext.OpenActFileCommand, ElementName=mainUC}" 
+                                                CommandParameter="{Binding ''}"/>
+                                        </TextBlock.InputBindings>
+                                    </TextBlock>
+                                </Border>
+                            </DockPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <TextBox  Text="{Binding CurrentRnO.RnoTerm}" IsReadOnly="{Binding IsReadOnlyField}" Grid.Row="11" Grid.Column="2" 
+                    Margin="10,2,0,2" Grid.ColumnSpan="3" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" 
+                    Grid.RowSpan="2" />
+
+            </Grid>
+        </Border>
+    </DockPanel>
+</Window>

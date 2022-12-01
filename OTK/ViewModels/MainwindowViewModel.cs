@@ -67,7 +67,7 @@ namespace OTK.ViewModels
                         {
                             if (item.ActionStatus == EnumStatus.CheckedProcess)
                             {
-                                if (NowDate > item.ActionDateEnd)
+                                if (NowDate > item.ActionDateEnd.Value.AddDays(1))
                                 {
                                     item.ActionStatus = EnumStatus.OverTime;
                                 }
@@ -92,12 +92,15 @@ namespace OTK.ViewModels
             if (SelectedTab.DataContext is FormAbstract form)
                 form.LoadListJobs(_CurrentFilter);
 
+            if (SelectedTab.DataContext is RnOViewModel rno)
+                rno.LoadRnO(_CurrentFilter);
+
         }
 
         #region Команды
 
         //--------------------------------------------------------------------------------
-        // Команда Создать
+        // Событие загрузки формы
         //--------------------------------------------------------------------------------
         public ICommand LoadedCommand =>  new LambdaCommand(OnLoadedCommandExecuted, CanLoadedCommand);
         private bool CanLoadedCommand(object p) => true;
@@ -142,8 +145,6 @@ namespace OTK.ViewModels
 
         }
 
-
-
         //--------------------------------------------------------------------------------
         // Команда Создать
         //--------------------------------------------------------------------------------
@@ -152,7 +153,16 @@ namespace OTK.ViewModels
         private bool CanCreateCommand(object p) => true;
         private void OnCreateCommandExecuted(object p)
         {
-            (SelectedTab.DataContext as FormAbstract).CreateForm();
+            if(SelectedTab.DataContext is FormAbstract form)
+            {
+                form.CreateForm();
+            }
+
+            if (SelectedTab.DataContext is RnOViewModel FormRno)
+            {
+                FormRno.CreateForm();
+            }
+
         }
 
 

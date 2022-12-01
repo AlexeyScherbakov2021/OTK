@@ -7,6 +7,7 @@
              mc:Ignorable="d" 
              xmlns:fa="http://schemas.fontawesome.com/icons/"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             x:Name="mainUC" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid SnapsToDevicePixels="True">
         <Grid.ColumnDefinitions>
@@ -41,7 +42,7 @@
         <TextBlock Text="Ед.изм.продукции" Grid.Row="3" Grid.Column="3" HorizontalAlignment="Right" VerticalAlignment="Center"/>
         <TextBlock Text="Наим. компл., вышедшего из строя" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center"/>
         <TextBlock Text="Заводской № готовой продукции" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-        <TextBlock Text="Номер акта НП / № РнО" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,3,0,0"/>
+        <TextBlock Text="Номер акта НП / № РнО" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,4,0,0"/>
         <TextBlock Text="Наименование оборудования" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center"/>
         <TextBlock Text="Характер выявленных несоответствий" Grid.Row="8" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center"/>
         <TextBlock Text="Принятые решения по НП" Grid.Row="11" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center"/>

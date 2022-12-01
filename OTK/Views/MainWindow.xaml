@@ -33,7 +33,7 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="44"/>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="50"/>
             <RowDefinition/>
             <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
@@ -77,9 +77,9 @@
         </ToolBarPanel>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch" Margin="10,0" Grid.Row="1" Background="#FFEDEDED" >
             <!--<RadioButton Content="Созданные здесь" IsChecked="{Binding CheckCreated, Mode=TwoWay}" Margin="15,0" Command="{Binding FilterCommand}" VerticalContentAlignment="Top" VerticalAlignment="Center" FontWeight="Bold" />-->
-            <RadioButton Content="Требующие рассмотрения" Margin="5,0" Command="{Binding FilterNeedCommand}" IsChecked="True" VerticalAlignment="Center" FontWeight="Normal" />
-            <RadioButton Content="В работе" Margin="5,0" Command="{Binding FilterWorkCommand}" VerticalAlignment="Center" FontWeight="Normal" />
-            <RadioButton Content="Архивные" Margin="5,0" Command="{Binding FilterClosedCommand}" VerticalAlignment="Center" FontWeight="Normal" />
+            <RadioButton Content="Требующие рассмотрения" FontSize="16" Margin="20,0,15,0" Command="{Binding FilterNeedCommand}" IsChecked="True" VerticalAlignment="Center" FontWeight="Normal" />
+            <RadioButton Content="В работе" Margin="15,0" FontSize="16" Command="{Binding FilterWorkCommand}" VerticalAlignment="Center" FontWeight="Normal" />
+            <RadioButton Content="Архивные" Margin="15,0" FontSize="16" Command="{Binding FilterClosedCommand}" VerticalAlignment="Center" FontWeight="Normal" />
         </StackPanel>
 
         <Border Grid.Row="2" Margin="8,8,8,0" Padding="2" Background="#FFEDEDED" BorderBrush="Black" BorderThickness="0.5" CornerRadius="3">
@@ -95,7 +95,7 @@
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding IsOverTimeAction}" Value="True">
                                 <Setter Property="Foreground" Value="Red"/>
-                                <Setter Property="ToolTip" Value="Есть просроченные"/>
+                                <!--<Setter Property="ToolTip" Value="Есть просроченные"/>-->
                             </DataTrigger>
                            
                          </Style.Triggers>
@@ -135,7 +135,16 @@
                                         </Image.Effect>
                                         </Image>
                                         <TextBlock Margin="2,0" Text="{Binding JobStatus, Converter={StaticResource StatusJobToStringConverter}}"/>
-                                    </StackPanel>
+                                            
+                                        <DockPanel HorizontalAlignment="Center"  Visibility="{Binding IsOverTimeVisiblity}" Margin="2,0" >
+                                            <Border Background="Red" CornerRadius="8" Width="16" Height="16" DockPanel.Dock="Top"
+                                                ToolTip="Есть просроченные"
+                                                ToolTipService.InitialShowDelay="0" VerticalAlignment="Center">
+                                                <TextBlock Text="!" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                        </DockPanel>
+
+                                        </StackPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
@@ -175,6 +184,13 @@
                                                 </Image.Effect>
                                             </Image>
                                             <TextBlock Margin="2,0" Text="{Binding JobStatus, Converter={StaticResource StatusJobToStringConverter}}"/>
+                                            <DockPanel HorizontalAlignment="Center"  Visibility="{Binding IsOverTimeVisiblity}" Margin="2,0" >
+                                                <Border Background="Red" CornerRadius="8" Width="16" Height="16" DockPanel.Dock="Top"
+                                                ToolTip="Есть просроченные"
+                                                ToolTipService.InitialShowDelay="0" VerticalAlignment="Center">
+                                                    <TextBlock Text="!" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Border>
+                                            </DockPanel>
                                         </StackPanel>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -216,6 +232,13 @@
                                                 </Image.Effect>
                                             </Image>
                                             <TextBlock Margin="2,0" Text="{Binding JobStatus, Converter={StaticResource StatusJobToStringConverter}}"/>
+                                            <DockPanel HorizontalAlignment="Center"  Visibility="{Binding IsOverTimeVisiblity}" Margin="2,0" >
+                                                <Border Background="Red" CornerRadius="8" Width="16" Height="16" DockPanel.Dock="Top"
+                                                ToolTip="Есть просроченные"
+                                                ToolTipService.InitialShowDelay="0" VerticalAlignment="Center">
+                                                    <TextBlock Text="!" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Border>
+                                            </DockPanel>
                                         </StackPanel>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -223,9 +246,42 @@
                         </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>
-                
+
+                <TabItem Header="РнО">
+                    <TabItem.DataContext>
+                        <fvm:RnOViewModel/>
+                    </TabItem.DataContext>
+
+                    <DataGrid ItemsSource="{Binding ListRnO}" IsReadOnly="True"  SelectedItem="{Binding SelectedRnO}" 
+                          Style="{StaticResource DataGridStyle}" Margin="8" FontSize="12" FontWeight="Normal">
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="FontWeight" Value="Bold"/>
+                            </Style>
+                        </DataGrid.ColumnHeaderStyle>
+
+                        <DataGrid.InputBindings>
+                            <MouseBinding Gesture="LeftDoubleClick" Command="{Binding DblClickCommand}" />
+                        </DataGrid.InputBindings>
+                        
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Дата" Binding="{Binding RnoDate, StringFormat=d}"/>
+                            <DataGridTextColumn Header="Ответственный" Binding="{Binding User.UserName}"/>
+                            <DataGridTextColumn Header="Этап обнаружения" Binding="{Binding RnoStage}"/>
+                            <DataGridTextColumn Header="Оборудование" Binding="{Binding RnoItem}"/>
+                            <DataGridTextColumn Header="Факт" Binding="{Binding RnoFakt}" />
+                            <DataGridTextColumn Header="Норма" Binding="{Binding RnoNorma}" />
+                            <DataGridTextColumn Header="№ разрешения" Binding="{Binding RnoNumberPermiss}" />
+                            <DataGridTextColumn Header="Кол-во продукции" Binding="{Binding RnoCountProd}" />
+                            <DataGridTextColumn Header="Срок использования" Binding="{Binding RnoTerm}" />
+                        </DataGrid.Columns>
+
+                    </DataGrid>
+                </TabItem>
+
                 <TabItem Header="Реестр несоответствий">
                 </TabItem>
+
                 
             </TabControl>
         </Border>
