@@ -215,7 +215,7 @@
         <TextBox  Text="{Binding CurrentJob.JobCountNP}" IsReadOnly="{Binding IsReadOnlyField}" Grid.Row="2" Grid.Column="4" Margin="10,1,0,1"/>
         <TextBox  Text="{Binding CurrentJob.JobUnitName}" IsReadOnly="{Binding IsReadOnlyField}" Grid.Row="3" Grid.Column="4" Margin="10,1,0,1"/>
 
-        <ComboBox  ItemsSource="{Binding ListVendor}" IsReadOnly="{Binding IsReadOnlyField}" 
+        <ComboBox  ItemsSource="{Binding ListVendor}" IsEnabled="{Binding IsEnabledButton}" 
                    DisplayMemberPath="VendName" SelectedValuePath="id" Text="{Binding CurrentJob.vendor.VendName}"
                    SelectedValue="{Binding CurrentJob.JobVendorId}"
                    Grid.Row="4" Grid.Column="2" Margin="10,1,0,1" Grid.ColumnSpan="3"/>
