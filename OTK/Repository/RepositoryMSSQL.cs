@@ -27,6 +27,27 @@ namespace OTK.Repository
             _Set = db.Set<T>();
         }
 
+
+        public bool AddRange(IEnumerable<T> reange, bool Autosave = false)
+        {
+            if (reange is null) throw new ArgumentNullException(nameof(reange));
+
+            try
+            {
+                db.Set<T>().AddRange(reange);
+                if (Autosave)
+                    db.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка базы данных", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+
+        }
+
+
         public bool Add(T item, bool Autosave = false)
         {
             if (item is null) throw new ArgumentNullException(nameof(item));
@@ -57,7 +78,7 @@ namespace OTK.Repository
         public bool Delete(T item, bool Autosave = false)
         {
 
-            if (item is null || item.id <= 0)
+            if (item is null /*|| item.id <= 0*/)
                 return false;
 
             try

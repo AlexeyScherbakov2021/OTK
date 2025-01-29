@@ -36,6 +36,7 @@ namespace OTK.Models
 
         [StringLength(100)]
         public string JobVendor { get; set; }
+        public int? JobVendorId { get; set; }
 
         public int JobCountPropduct { get; set; }
 
@@ -63,6 +64,8 @@ namespace OTK.Models
         public virtual ObservableCollection<ActFiles> ActFiles { get; set; }
 
         public virtual RnO RnO { get; set; }
+
+        public virtual Vendor vendor { get; set; }
 
         [NotMapped]
         public Visibility IsOverTimeVisiblity => Action.Any(it => it.ActionStatus == EnumStatus.OverTime) ? Visibility.Visible : Visibility.Collapsed;

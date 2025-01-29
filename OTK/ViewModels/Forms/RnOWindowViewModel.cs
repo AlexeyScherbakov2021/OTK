@@ -30,7 +30,7 @@ namespace OTK.ViewModels.Forms
 
         public List<Users> ListUsers { get; set; }
 
-        public readonly string NameForm;
+        public readonly string NameForm = "РнО";
         public string Title { get; set; }
 
         public RnO CurrentRnO { get; set; }
